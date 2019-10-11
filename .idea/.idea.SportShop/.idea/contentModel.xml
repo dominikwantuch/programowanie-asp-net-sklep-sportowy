@@ -10,6 +10,14 @@
         <e p="appsettings.Development.json" t="Include" />
         <e p="appsettings.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Controllers" t="Include">
+          <e p="ProductController.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="FakeProductRepository.cs" t="Include" />
+          <e p="IProductRepository.cs" t="Include" />
+          <e p="Product.cs" t="Include" />
+        </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp2.2" t="Include">
@@ -23,6 +31,16 @@
         </e>
         <e p="SportShop.csproj" t="IncludeRecursive" />
         <e p="Startup.cs" t="Include" />
+        <e p="Views" t="Include">
+          <e p="_ViewImports.cshtml" t="Include" />
+          <e p="_ViewStart.cshtml" t="Include" />
+          <e p="Product" t="Include">
+            <e p="List.cshtml" t="Include" />
+          </e>
+          <e p="Shared" t="Include">
+            <e p="_Layout.cshtml" t="Include" />
+          </e>
+        </e>
       </e>
       <e p="SportShop.sln" t="IncludeFlat" />
     </e>

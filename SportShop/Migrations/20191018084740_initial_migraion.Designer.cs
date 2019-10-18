@@ -9,8 +9,8 @@ using SportShop.Models;
 namespace SportShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191011095104_initial_migration")]
-    partial class initial_migration
+    [Migration("20191018084740_initial_migraion")]
+    partial class initial_migraion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,6 +19,21 @@ namespace SportShop.Migrations
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("SportShop.Models.Manufacturer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Country");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Manufacturers");
+                });
 
             modelBuilder.Entity("SportShop.Models.Product", b =>
                 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,9 +40,13 @@ namespace SportShop
 
             app.UseStatusCodePages();
             app.UseStaticFiles();
+//            app.UseMvc(routes => routes.MapRoute(
+//                name: "default",
+//                template: "{controller=Product}/{action=List}/{name?}"
+//            ));
             app.UseMvc(routes => routes.MapRoute(
                 name: "default",
-                template: "{controller=Product}/{action=List}/{id?}"
+                template: "{controller=Admin}/{action=Index}"
             ));
         }
     }

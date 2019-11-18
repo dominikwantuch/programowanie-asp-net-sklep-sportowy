@@ -1,0 +1,77 @@
+﻿@model Product
+
+@{
+    Layout = "_Layout";
+}
+<div>
+    <form asp-action="Save" method="post" enctype="application/x-www-form-urlencoded">
+        <div style="display: none">
+            <label>
+                ProductId
+            </label>
+        </div>
+        <div style="display: none">
+            <input name="ProductId" type="text" value="@Model.ProductId"/>
+        </div>
+        
+        <div>
+            <label>
+                ManufacturerId
+            </label>
+        </div>
+        <div>
+            <input name="ManufacturerId" type="text" value="@Model.ManufacturerId"/>
+        </div>
+
+        <div>
+            <label>
+                Name
+            </label>
+        </div>
+        <div>
+            <input name="Name" type="text" value="@Model.Name"/>
+        </div>
+
+        <div>
+            <label>
+                Description
+            </label>
+        </div>
+        <div>
+            <input name="Description" type="text" value="@Model.Description"/>
+        </div>
+
+        <div>
+            <label>
+                Price
+            </label>
+        </div>
+        <div>
+            <input name="Price" type="text" value="@Model.Price"/>
+        </div>
+
+        <div>
+            <label>
+                Category
+            </label>
+        </div>
+        <div>
+            <input name="Category" type="text" value="@Model.Category"/>
+        </div>
+
+        <div>
+            <input type="submit" value="Submit"/>
+        </div>
+    </form>
+
+</div>
+<div>
+    <h3>
+        @Model.Name
+    </h3>
+    @Model.Description
+    <h4>
+        @Model.Price
+    </h4>
+</div>
+<hr/>

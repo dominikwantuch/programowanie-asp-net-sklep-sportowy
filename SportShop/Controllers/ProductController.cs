@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using SportShop.Models;
+using SportShop.Repositories;
 
 namespace SportShop.Controllers
 {
@@ -11,7 +14,14 @@ namespace SportShop.Controllers
         {
             _productRepository = productRepository;
         }
-        
-        public ViewResult List() => View(_productRepository.Products);
+
+        public ViewResult List(string name)
+        {
+            Console.WriteLine(name);
+            if (string.IsNullOrWhiteSpace(name))
+                return View(_productRepository.Products);
+            else
+                return View(_productRepository.Products.Where(x => x.Category == name));
+        }
     }
 }

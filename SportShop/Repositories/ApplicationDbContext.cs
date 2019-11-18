@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SportShop.Models;
 
-namespace SportShop.Models
+namespace SportShop.Repositories
 {
     public class ApplicationDbContext : DbContext
     {

@@ -26,7 +26,9 @@ namespace SportShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DatabaseConnectionString"]));
-            services.AddTransient<IProductRepository, EfProductRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IManufacturerRepository, ManufacturerRepository>();
+
             services.AddMvc();
         }
 

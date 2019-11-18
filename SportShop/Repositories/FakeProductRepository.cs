@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SportShop.Models;
+
 // ReSharper disable All
 
-namespace SportShop.Models
+namespace SportShop.Repositories
 {
     public class FakeProductRepository : IProductRepository
     {
@@ -12,5 +14,15 @@ namespace SportShop.Models
             new Product() {Name = "Deska surfingowa", Price = 179},
             new Product() {Name = "Buty do biegania", Price = 95}
         }.AsQueryable<Product>();
+
+        public bool DeleteProduct(int id)
+        {
+            return false;
+        }
+
+        public bool SaveProduct(Product entity)
+        {
+            return false;
+        }
     }
 }

@@ -4,39 +4,32 @@
     Layout = "_Layout";
 }
 
-<!DOCTYPE html>
+<div class="row">
+    @foreach (var p in Model)
+    {
+        <div class="col-sm-12 col-md-6 col-lg-4 p-1">
+            <div class="product-tile border-radius p-3">
+            <h4>
+                @p.Name
+            </h4>
+            @p.Description
+            <h5>
+                @p.Price
+            </h5>
 
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
+            <a asp-controller="Admin"
+               asp-action="Edit"
+               asp-route-id="@p.ProductId">
+                <button type="button" class="btn btn-outline-warning">Edit</button>
+            </a>
 
-@foreach (var p in Model)
-{
-    <div>
-        <h3>
-            @p.Name
-        </h3>
-        @p.Description
-        <h4>
-            @p.Price
-        </h4>
+            <a asp-controller="Admin"
+               asp-action="Delete"
+               asp-route-id="@p.ProductId">
+                <button type="button" class="btn btn-outline-danger">Delete</button>
+            </a>
 
-        <a asp-controller="Admin"
-           asp-action="Edit"
-           asp-route-id="@p.ProductId">
-            <button>Edit</button>
-        </a>
-
-        <a asp-controller="Admin"
-           asp-action="Delete"
-           asp-route-id="@p.ProductId">
-            <button>Delete</button>
-        </a>
-
-    </div>
-    <hr/>
-}
-</body>
-</html>
+        </div>
+        </div>
+    }
+</div>

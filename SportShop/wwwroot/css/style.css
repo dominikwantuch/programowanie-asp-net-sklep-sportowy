@@ -1,0 +1,36 @@
+﻿body {
+    font-family: 'Roboto', sans-serif;
+    color: #ecf0f1;
+    background-color: #bdc3c7;
+    margin: 5px;
+}
+
+.font-white {
+    color: #ecf0f1; 
+}
+
+.bg-gray {
+    background-color: #303234;
+}
+
+.bg-light-gray {
+    background-color: #3d3f41;
+}
+
+.bg-black {
+    background-color: #1e2021;
+}
+
+.bg-dark {
+    background-color: #34495e;
+}
+
+.product-tile {
+    background-color: #34495e;
+}
+
+.border-radius {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}

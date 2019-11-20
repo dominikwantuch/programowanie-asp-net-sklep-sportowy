@@ -8,11 +8,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navigationBar">
         <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link active" asp-controller="Admin"
+            <a class="nav-item nav-link @(ViewBag.CurrentPage == "Main" ? "active" : "")" asp-controller="Product"
                asp-action="Index">
                 Main Page
             </a>
-            <a class="nav-item nav-link active" asp-controller="Admin"
+            <a class="nav-item nav-link @(ViewBag.CurrentPage == "Create" ? "active" : "")" asp-controller="Admin"
                asp-action="Create">
                 New Product
             </a>

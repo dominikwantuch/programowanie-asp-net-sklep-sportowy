@@ -25,9 +25,9 @@
     <link rel="stylesheet" href="~/css/style.css"/>
 </head>
 <body>
+    @await Component.InvokeAsync("MainMenu")
 <div class="container-fluid">
     @* @await Component.InvokeAsync("Categories") *@
-    @await Component.InvokeAsync("MainMenu")
     @RenderBody()
 </div>
 

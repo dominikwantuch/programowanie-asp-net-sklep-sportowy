@@ -4,7 +4,7 @@
     Layout = "_Layout";
 }
 <div class="row">
-    <div class="col-sm-4 offset-4 bg-dark p-3 border-radius">
+    <div class="col-sm-12 col-md-8 offset-md-2  col-lg-4 offset-lg-4 p-3 border-radius" style="background: #34495e">
         <form asp-action="Save" method="post" enctype="application/x-www-form-urlencoded">
             
             <div class="form-group" style="display: none">
@@ -56,13 +56,13 @@
 
     </div>
 </div>
-<div>
-    <h3>
-        @Model.Name
-    </h3>
-    @Model.Description
-    <h4>
-        @Model.Price
-    </h4>
-</div>
-<hr/>
+@* <div> *@
+@*     <h3> *@
+@*         @Model.Name *@
+@*     </h3> *@
+@*     @Model.Description *@
+@*     <h4> *@
+@*         @Model.Price *@
+@*     </h4> *@
+@* </div> *@
+@* <hr/> *@

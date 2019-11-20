@@ -44,14 +44,14 @@ namespace SportShop
 
             app.UseStatusCodePages();
             app.UseStaticFiles();
-//            app.UseMvc(routes => routes.MapRoute(
-//                name: "default",
-//                template: "{controller=Product}/{action=List}/{name?}"
-//            ));
             app.UseMvc(routes => routes.MapRoute(
                 name: "default",
-                template: "{controller=Admin}/{action=Index}"
+                template: "{controller=Product}/{action=Index}/{name?}"
             ));
+//            app.UseMvc(routes => routes.MapRoute(
+//                name: "default",
+//                template: "{controller=Admin}/{action=Index}"
+//            ));
         }
     }
 }

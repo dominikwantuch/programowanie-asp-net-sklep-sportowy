@@ -15,13 +15,18 @@ namespace SportShop.Controllers
             _productRepository = productRepository;
         }
 
-        public ViewResult List(string name)
+        public ViewResult Index(string name)
         {
-            Console.WriteLine(name);
             if (string.IsNullOrWhiteSpace(name))
+            {
+                this.ViewBag.CurrentPage = "Main";
                 return View(_productRepository.Products);
+            }
             else
+            {
+                this.ViewBag.CurrentPage = "Categories";
                 return View(_productRepository.Products.Where(x => x.Category == name));
+            }
         }
     }
 }

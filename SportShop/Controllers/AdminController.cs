@@ -18,6 +18,7 @@ namespace SportShop.Controllers
 
         public IActionResult Index()
         {
+            this.ViewBag.CurrentPage = "Index";
             return View(_productRepository.Products);
         }
 
@@ -28,6 +29,7 @@ namespace SportShop.Controllers
 
         public IActionResult Create()
         {
+            this.ViewBag.CurrentPage = "Create";
             return View("Edit", new Product());
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SportShop.Models;
 using SportShop.Repositories;
@@ -24,7 +25,13 @@ namespace SportShop.Controllers
 
         public IActionResult Edit(int id)
         {
-            return View(_productRepository.Products.FirstOrDefault(x => x.ProductId == id));
+            var product = _productRepository.Products.FirstOrDefault(x => x.ProductId == id);
+            if (product == null)
+            {
+                TempData["Message"] = "Product with given id does not exist!";
+            }
+
+            return View(product);
         }
 
         public IActionResult Create()
@@ -35,9 +42,22 @@ namespace SportShop.Controllers
 
         public IActionResult Save(Product product)
         {
-            if (ModelState.IsValid && product != null)
+            if (!ModelState.IsValid || product == null)
             {
-                var result = _productRepository.SaveProduct(product);
+                TempData["Message"] = "Given data is not valid!";
+                return View("Index", _productRepository.Products);
+            }
+            else
+            {
+                try
+                {
+                    var result = _productRepository.SaveProduct(product);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    TempData["Message"] = "Product could not be added to the database.";
+                }
             }
 
             return View("Index", _productRepository.Products);
@@ -45,7 +65,15 @@ namespace SportShop.Controllers
 
         public IActionResult Delete(int id)
         {
-            var result = _productRepository.DeleteProduct(id);
+            try
+            {
+                var result = _productRepository.DeleteProduct(id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                TempData["Message"] = "An unexpected error has occured while trying to delete product.";
+            }
 
             return View("Index", _productRepository.Products);
         }

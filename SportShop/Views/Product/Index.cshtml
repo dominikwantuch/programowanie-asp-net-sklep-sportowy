@@ -5,18 +5,21 @@
 }
 
 <div class="row">
-    @foreach (var p in Model)
+    @if (Model != null && Model.Any())
     {
-        <div class="col-sm-12 col-lg-6 col-xl-4 pt-1">
-            <div class="product-tile border-radius p-3">
-            <h4>
-                @p.Name
-            </h4>
-            @p.Description
-            <h5>
-                @p.Price
-            </h5>
-        </div>
-        </div>
+        @foreach (var p in Model)
+        {
+            <div class="col-sm-12 col-lg-6 col-xl-4 pt-1">
+                <div class="product-tile border-radius p-3">
+                    <h4>
+                        @p.Name
+                    </h4>
+                    @p.Description
+                    <h5>
+                        @p.Price
+                    </h5>
+                </div>
+            </div>
+        }
     }
 </div>

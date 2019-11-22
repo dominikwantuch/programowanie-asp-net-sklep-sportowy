@@ -27,6 +27,15 @@
 <body>
     @await Component.InvokeAsync("MainMenu")
 <div class="container-fluid">
+    @if (@TempData["Message"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["Message"] <a asp-controller="Admin" asp-action="Index">Take me home!</a>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
     @* @await Component.InvokeAsync("Categories") *@
     @RenderBody()
 </div>

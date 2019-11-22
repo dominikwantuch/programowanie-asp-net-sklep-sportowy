@@ -27,6 +27,12 @@
 <body>
 @await Component.InvokeAsync("Categories")
 <div class="container-fluid">
+        @if (@TempData["Message"] != null)
+        {
+            <div class="alert alert-warning">
+                @TempData["Message"] <a asp-controller="Product" asp-action="Index">Take me home!</a>
+            </div>
+        }
     @RenderBody()
 </div>
 

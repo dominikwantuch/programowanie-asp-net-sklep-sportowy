@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using SportShop.Models;
 using SportShop.Repositories;
 
 namespace SportShop.Controllers
 {
+    [Route("products")]
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
@@ -14,7 +13,8 @@ namespace SportShop.Controllers
         {
             _productRepository = productRepository;
         }
-
+        [HttpGet]
+        [HttpGet("/")]
         public ViewResult Index(string name)
         {
             if (string.IsNullOrWhiteSpace(name))

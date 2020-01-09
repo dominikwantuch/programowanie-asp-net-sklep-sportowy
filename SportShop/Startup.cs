@@ -29,7 +29,19 @@ namespace SportShop
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DatabaseConnectionString"]));
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IManufacturerRepository, ManufacturerRepository>();
-
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SportShop API", Version = "v1" });
+                c.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}SportShop.XML");
+            });
+            services.AddIdentity<IdentityUser, IdentityRole>(x =>
+                {
+                    x.Password.RequiredLength = 6;
+                    x.Password.RequireNonAlphanumeric = false;
+                    x.Password.RequireUppercase = false;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
             services.AddMvc();
         }
 

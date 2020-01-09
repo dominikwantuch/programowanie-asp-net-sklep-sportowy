@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,7 +41,16 @@ namespace SportShop
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseSwagger();
 
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SportShop API V1");
+            });
+            
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseMvc(routes => routes.MapRoute(

@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Pages\Components\Categories\Default.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Manufacturer\List.cshtml" />
     </ItemGroup>
 
 </Project>

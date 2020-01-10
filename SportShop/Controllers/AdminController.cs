@@ -20,14 +20,14 @@ namespace SportShop.Controllers
             _productRepository = productRepository;
         }
         
-        [Microsoft.AspNetCore.Mvc.HttpGet("index")]
+        [HttpGet("index")]
         public IActionResult Index()
         {
-            this.ViewBag.CurrentPage = "Index";
+            ViewBag.CurrentPage = "Index";
             return View(_productRepository.Products);
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpGet("edit")]
+        [HttpGet("edit")]
         public IActionResult Edit(int id)
         {
             var product = _productRepository.Products.FirstOrDefault(x => x.ProductId == id);
@@ -39,14 +39,14 @@ namespace SportShop.Controllers
             return View(product);
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpGet("create")]
+        [HttpGet("create")]
         public IActionResult Create()
         {
-            this.ViewBag.CurrentPage = "Create";
+            ViewBag.CurrentPage = "Create";
             return View("Edit", new Product());
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpPost("save")]
+        [HttpPost("save")]
         public IActionResult Save(Product product)
         {
             if (!ModelState.IsValid || product == null)
@@ -70,7 +70,7 @@ namespace SportShop.Controllers
             return RedirectToAction("Index", _productRepository.Products);
         }
 
-        [Microsoft.AspNetCore.Mvc.HttpGet("delete")]
+        [HttpGet("delete")]
         public IActionResult Delete(int id)
         {
             Console.WriteLine(id);

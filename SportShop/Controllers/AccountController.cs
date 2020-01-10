@@ -41,7 +41,6 @@ namespace SportShop.Controllers
             });
         }
 
-        
         /// <summary>
         /// 
         /// </summary>

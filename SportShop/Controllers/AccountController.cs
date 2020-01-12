@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -50,20 +50,27 @@ namespace SportShop.Controllers
         [ValidateAntiForgeryToken]        
         public async Task<IActionResult> Login(Login loginModel)
         {
-            var user = await _userManager.FindByNameAsync(loginModel.Name);
-
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                await _signInManager.SignOutAsync();
-                var signInResult = await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
-                if (signInResult.Succeeded)
+                var user = await _userManager.FindByNameAsync(loginModel.Name);
+
+                if (user != null)
                 {
-                    return Redirect(loginModel?.ReturnUrl ?? "/Admin/Index");
+                    await _signInManager.SignOutAsync();
+                    var signInResult =
+                        await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+                    if (signInResult.Succeeded)
+                    {
+                        return Redirect(loginModel?.ReturnUrl ?? "/admin/products");
+                    }
                 }
+                TempData["Message"] = "Username or password is invalid!";
+                return View(loginModel);
             }
-            ModelState.AddModelError("", "Username or password is invalid!");
-            return View(loginModel);
-        }
+            else
+            {
+                return View(loginModel);
+            }
 
         /// <summary>
         /// 

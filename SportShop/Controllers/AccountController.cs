@@ -1,3 +1,4 @@
+﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,18 +8,18 @@ using SportShop.Models;
 
 namespace SportShop.Controllers
 {
-    
     /// <summary>
-    /// 
+    /// Controller which manages user session.
     /// </summary>
     [Authorize]
     [Route("account")]
     public class AccountController : Controller
     {
-        private UserManager<IdentityUser> _userManager;
-        private SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+
         /// <summary>
-        /// 
+        /// Default constructor.
         /// </summary>
         public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
@@ -26,15 +27,15 @@ namespace SportShop.Controllers
             _signInManager = signInManager;
         }
 
-        
         /// <summary>
-        /// 
+        /// Method which redirect user to login page.
         /// </summary>
         /// <param name="returnUrl"></param>
         [AllowAnonymous]
         [HttpGet("login")]
         public IActionResult Login(string returnUrl)
         {
+            ViewBag.CurrentPage = "Login";
             return View(new Login()
             {
                 ReturnUrl = returnUrl
@@ -42,12 +43,11 @@ namespace SportShop.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Method which allows user to login.
         /// </summary>
-        /// <param name="loginModel"></param>
         [HttpPost("login")]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]        
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Login loginModel)
         {
             if (ModelState.IsValid)
@@ -72,10 +72,11 @@ namespace SportShop.Controllers
                 return View(loginModel);
             }
 
+        }
+
         /// <summary>
-        /// 
+        /// Method which logs user out and redirects to given returnUrl.
         /// </summary>
-        /// <param name="returnUrl"></param>
         [HttpGet("logout")]
         public async Task<IActionResult> Logout(string returnUrl = "/")
         {

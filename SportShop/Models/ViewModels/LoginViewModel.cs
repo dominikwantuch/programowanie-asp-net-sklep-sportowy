@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SportShop.Models
+namespace SportShop.Models.ViewModels
 {
-    public class Login
+    public class LoginViewModel
     {
         [Required]
         public string Name { get; set; }

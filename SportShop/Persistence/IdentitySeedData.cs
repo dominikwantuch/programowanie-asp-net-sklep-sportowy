@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace SportShop.Models
+namespace SportShop.Persistence
 {
     /// <summary>
     /// Class for seeding users

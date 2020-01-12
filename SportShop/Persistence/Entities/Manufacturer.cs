@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SportShop.Models;
 
-namespace SportShop.Models
+namespace SportShop.Persistence.Entities
 {
     public class Manufacturer
     {

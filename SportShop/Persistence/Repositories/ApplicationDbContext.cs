@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SportShop.Models;
+using SportShop.Persistence.Entities;
 
-namespace SportShop.Repositories
+namespace SportShop.Persistence.Repositories
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {

@@ -3,6 +3,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SportShop.Models;
+using SportShop.Persistence.Entities;
+using SportShop.Persistence.Repositories;
 using SportShop.Repositories;
 
 namespace SportShop.Controllers
@@ -14,15 +16,13 @@ namespace SportShop.Controllers
     [Route("admin/products")]
     public class AdminController : Controller
     {
-        private readonly IManufacturerRepository _manufacturerRepository;
         private readonly IProductRepository _productRepository;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public AdminController(IManufacturerRepository manufacturerRepository, IProductRepository productRepository)
+        public AdminController(IProductRepository productRepository)
         {
-            _manufacturerRepository = manufacturerRepository;
             _productRepository = productRepository;
         }
         

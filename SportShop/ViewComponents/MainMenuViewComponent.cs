@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SportShop.Persistence.Repositories;
 using SportShop.Repositories;
 
 namespace SportShop.ViewComponents

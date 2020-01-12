@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
-using SportShop.Repositories;
+using SportShop.Persistence.Entities;
+using SportShop.Persistence.Repositories;
 
-namespace SportShop.Models
+namespace SportShop.Persistence
 {
     public class SeedData
     {

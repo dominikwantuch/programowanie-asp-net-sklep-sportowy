@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportShop.Models;
-using SportShop.Repositories;
+using SportShop.Persistence.Entities;
+using SportShop.Persistence.Repositories;
 
 namespace SportShop.Controllers
 {
@@ -10,7 +12,7 @@ namespace SportShop.Controllers
     /// Controller responsible for product entity management.
     /// </summary>
     [Route("api/products")]
-    public class ProductsApiController : Controller
+    public class ProductsApiController : CustomControllerBase
     {
         private readonly IProductRepository _productRepository;
 
@@ -32,13 +34,13 @@ namespace SportShop.Controllers
             try
             {
                 if (!string.IsNullOrWhiteSpace(category))
-                    return Ok(_productRepository.Products.Where(x => x.Category == category));
+                    return StatusCode(200, _productRepository.Products.Where(x => x.Category == category).ToList().Select(ProductModel.ToModel));
                 else
-                    return Ok(_productRepository.Products.ToList());
+                    return StatusCode(200, _productRepository.Products.ToList().Select(ProductModel.ToModel));
             }
             catch (Exception e)
             {
-                return StatusCode(500, "Unexpected internal server error.");
+                return InternalServerError();
             }
         }
 
@@ -51,16 +53,17 @@ namespace SportShop.Controllers
         {
             try
             {
-                var prod = _productRepository.Products.FirstOrDefault(x => x.ProductId == id);
+                var getProductResponse = _productRepository.GetById(id);
 
-                if (prod == null)
-                    return NotFound("Product with given ID does not exist!");
+                if (getProductResponse.isStatusCodeSuccess() && getProductResponse.Data != null)
+                    return StatusCode(getProductResponse.StatusCode, ProductModel.ToModel(getProductResponse.Data));
                 else
-                    return Ok(prod);
+                    return StatusCode(getProductResponse.StatusCode);
+                
             }
             catch (Exception e)
             {
-                return StatusCode(500, "Unexpected internal server error.");
+                return InternalServerError();
             }
         }
 
@@ -69,52 +72,47 @@ namespace SportShop.Controllers
         /// </summary>
         /// <param name="model"><see cref="Product"/></param>
         [HttpPost]
-        public IActionResult CreateProduct([FromBody] Product model)
+        public IActionResult CreateProduct([FromBody] CreateProductModel model)
         {
             try
             {
-                var prod = _productRepository.Products.FirstOrDefault(x => x.ProductId == model.ProductId);
+                var createResult = _productRepository.Create(model.ToEntity());
 
-                if (prod != null)
-                    return Conflict("Product with given ID exists already.");
-
-                var res = _productRepository.SaveProduct(model);
-
-                if (res)
-                    return CreatedAtAction(nameof(CreateProduct), new {id = model.ProductId}, model);
+                if (createResult.isStatusCodeSuccess() && createResult.Data != null)
+                    return StatusCode(createResult.StatusCode, ProductModel.ToModel(createResult.Data));
                 else
-                    return BadRequest();
+                    return StatusCode(createResult.StatusCode);
             }
             catch (Exception e)
             {
-                return StatusCode(500, "Unexpected internal server error.");
+                return InternalServerError();
             }
         }
 
         /// <summary>
         /// Updates existing product.
         /// </summary>
-        /// <param name="model"><see cref="Product"/></param>
+        /// <param name="model"><see cref="UpdateProductModel"/></param>
         [HttpPut]
-        public IActionResult EditProduct([FromBody] Product model)
+        public IActionResult UpdateProduct([FromBody] UpdateProductModel model)
         {
             try
             {
-                var prod = _productRepository.Products.FirstOrDefault(x => x.ProductId == model.ProductId);
+                var getProductResponse = _productRepository.GetById(model.ProductId);
 
-                if (prod == null)
-                    return NotFound("Product with given ID does not exist!");
+                if (!getProductResponse.isStatusCodeSuccess() || getProductResponse.Data == null)
+                    return NotFound();
 
-                var res = _productRepository.SaveProduct(model);
+                var updateResponse = _productRepository.Update(model.ToEntity(getProductResponse.Data));
 
-                if (res)
-                    return Ok(model);
+                if (updateResponse.isStatusCodeSuccess() && updateResponse.Data != null)
+                    return StatusCode(updateResponse.StatusCode, ProductModel.ToModel(updateResponse.Data));
                 else
-                    return BadRequest();
+                    return StatusCode(updateResponse.StatusCode);
             }
             catch (Exception e)
             {
-                return StatusCode(500, "Unexpected internal server error.");
+                return InternalServerError();
             }
         }
 
@@ -127,21 +125,13 @@ namespace SportShop.Controllers
         {
             try
             {
-                var prod = _productRepository.Products.FirstOrDefault(x => x.ProductId == id);
+                var deleteResponse = _productRepository.Delete(id);
 
-                if (prod == null)
-                    return NotFound("Product with given ID does not exist!");
-
-                var res = _productRepository.DeleteProduct(id);
-
-                if (res)
-                    return Ok();
-                else
-                    throw new Exception($"Unexpected internal server occured while trying to delete product with ID: {id}");
+                return StatusCode(deleteResponse.StatusCode);
             }
             catch (Exception e)
             {
-                return StatusCode(500, "Unexpected internal server error.");
+                return InternalServerError();
             }
         }
     }

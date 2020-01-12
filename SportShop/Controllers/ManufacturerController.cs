@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Linq;
-using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SportShop.Models;
-using SportShop.Repositories;
+using SportShop.Persistence.Entities;
+using SportShop.Persistence.Repositories;
 
 namespace SportShop.Controllers
 {
     /// <summary>
     /// Controller responsible for handling Manufacturer related requests
     /// </summary>
-    [Authorize]
-    [Microsoft.AspNetCore.Mvc.Route("admin/manufacturers")]
+    [Route("admin/manufacturers")]
     public class ManufacturerController : Controller
     {
         private readonly IManufacturerRepository _manufacturerRepository;
@@ -29,7 +28,7 @@ namespace SportShop.Controllers
         /// Main view with manufacturers list.
         /// </summary>
         /// <returns></returns>
-        [Microsoft.AspNetCore.Mvc.HttpGet]
+        [HttpGet]
         public IActionResult Index()
         {
             ViewBag.CurrentPage = "Manufacturer";
@@ -39,7 +38,7 @@ namespace SportShop.Controllers
         /// <summary>
         /// Redirect user to edit view of manufacturer with given id.
         /// </summary>
-        [Microsoft.AspNetCore.Mvc.HttpGet("edit")]
+        [HttpGet("edit")]
         public IActionResult Edit(int id)
         {
             var manufacturer = _manufacturerRepository.Manufacturers.FirstOrDefault(x => x.Id == id);
@@ -56,7 +55,7 @@ namespace SportShop.Controllers
         /// <summary>
         /// Redirects to create view.
         /// </summary>
-        [Microsoft.AspNetCore.Mvc.HttpGet("create")]
+        [HttpGet("create")]
         public IActionResult Create()
         {
             ViewBag.CurrentPage = "Create";
@@ -66,7 +65,7 @@ namespace SportShop.Controllers
         /// <summary>
         /// Saves or edits given manufacturer. 
         /// </summary>
-        [Microsoft.AspNetCore.Mvc.HttpPost("save")]
+        [HttpPost("save")]
         public IActionResult Save(Manufacturer manufacturer)
         {
             if (!ModelState.IsValid || manufacturer == null)
@@ -93,7 +92,7 @@ namespace SportShop.Controllers
         /// <summary>
         /// Deletes manufacturer with given id.
         /// </summary>
-        [Microsoft.AspNetCore.Mvc.HttpGet("delete")]
+        [HttpGet("delete")]
         public IActionResult Delete(int id)
         {
             Console.WriteLine(id);

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SportShop.Models;
+using SportShop.Models.ViewModels;
 
 namespace SportShop.Controllers
 {
@@ -36,7 +37,7 @@ namespace SportShop.Controllers
         public IActionResult Login(string returnUrl)
         {
             ViewBag.CurrentPage = "Login";
-            return View(new Login()
+            return View(new LoginViewModel()
             {
                 ReturnUrl = returnUrl
             });
@@ -48,28 +49,28 @@ namespace SportShop.Controllers
         [HttpPost("login")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(Login loginModel)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(loginModel.Name);
+                var user = await _userManager.FindByNameAsync(loginViewModel.Name);
 
                 if (user != null)
                 {
                     await _signInManager.SignOutAsync();
                     var signInResult =
-                        await _signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+                        await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
                     if (signInResult.Succeeded)
                     {
-                        return Redirect(loginModel?.ReturnUrl ?? "/admin/products");
+                        return Redirect(loginViewModel?.ReturnUrl ?? "/admin/products");
                     }
                 }
                 TempData["Message"] = "Username or password is invalid!";
-                return View(loginModel);
+                return View(loginViewModel);
             }
             else
             {
-                return View(loginModel);
+                return View(loginViewModel);
             }
 
         }

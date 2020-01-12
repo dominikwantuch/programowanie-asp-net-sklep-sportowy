@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using SportShop.Persistence.Repositories;
 using SportShop.Repositories;
 
 namespace SportShop.Controllers
@@ -24,7 +25,6 @@ namespace SportShop.Controllers
         /// <summary>
         /// Default application page. 
         /// </summary>
-        [HttpGet]
         [HttpGet("/")]
         public ViewResult Index(string name)
         {

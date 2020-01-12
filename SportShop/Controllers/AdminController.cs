@@ -7,26 +7,46 @@ using SportShop.Repositories;
 
 namespace SportShop.Controllers
 {
+    /// <summary>
+    /// Controller which manages products on admin page.
+    /// </summary>
     [Authorize]
-    [Route("admin")]
+    [Route("admin/products")]
     public class AdminController : Controller
     {
         private readonly IManufacturerRepository _manufacturerRepository;
         private readonly IProductRepository _productRepository;
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public AdminController(IManufacturerRepository manufacturerRepository, IProductRepository productRepository)
         {
             _manufacturerRepository = manufacturerRepository;
             _productRepository = productRepository;
         }
         
-        [HttpGet("index")]
-        public IActionResult Index()
+        /// <summary>
+        /// Returns products view, allows to filter by product category.
+        /// </summary>
+        [HttpGet("{name?}")]
+        public IActionResult Index(string name)
         {
-            ViewBag.CurrentPage = "Index";
-            return View(_productRepository.Products);
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                this.ViewBag.CurrentPage = "Main";
+                return View(_productRepository.Products);
+            }
+            else
+            {
+                this.ViewBag.CurrentPage = "Categories";
+                return View(_productRepository.Products.Where(x => x.Category == name));
+            }
         }
 
+        /// <summary>
+        /// Returns edit view of product with given id. 
+        /// </summary>
         [HttpGet("edit")]
         public IActionResult Edit(int id)
         {
@@ -34,11 +54,15 @@ namespace SportShop.Controllers
             if (product == null)
             {
                 TempData["Message"] = "Product with given id does not exist!";
+                return View("Index");
             }
 
             return View(product);
         }
 
+        /// <summary>
+        /// Returns view with new product form. 
+        /// </summary>
         [HttpGet("create")]
         public IActionResult Create()
         {
@@ -46,6 +70,9 @@ namespace SportShop.Controllers
             return View("Edit", new Product());
         }
 
+        /// <summary>
+        /// Saves or updates given product and redirects to index page.
+        /// </summary>
         [HttpPost("save")]
         public IActionResult Save(Product product)
         {
@@ -70,10 +97,14 @@ namespace SportShop.Controllers
             return RedirectToAction("Index", _productRepository.Products);
         }
 
+        /// <summary>
+        /// Removes product with given id from database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("delete")]
         public IActionResult Delete(int id)
         {
-            Console.WriteLine(id);
             try
             {
                 var result = _productRepository.DeleteProduct(id);

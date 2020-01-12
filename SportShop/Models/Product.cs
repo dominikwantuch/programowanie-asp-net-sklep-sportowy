@@ -8,6 +8,7 @@ namespace SportShop.Models
     {
         public int ProductId { get; set; }
         
+        [Required]
         [ForeignKey("Manufacturer")]
         public int? ManufacturerId { get; set; }
         

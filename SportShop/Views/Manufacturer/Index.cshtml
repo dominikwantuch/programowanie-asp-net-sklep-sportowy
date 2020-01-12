@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Manufacturer>
+
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var p in Model)
+        {
+            <div class="col-sm-12 col-lg-6 col-xl-4 pt-1">
+                <div class="product-tile border-radius p-3">
+                    <h4>@p.Name</h4>
+                    @p.Country
+                    <br/>
+                    <b>ID:</b> @p.Id
+                    <br/>
+                    <br/>
+
+                    <a asp-controller="Manufacturer"
+                       asp-action="Edit"
+                       asp-route-id="@p.Id">
+                        <button type="button" class="btn btn-outline-warning">Edit</button>
+                    </a>
+
+                    <a asp-controller="Manufacturer"
+                       asp-action="Delete"
+                       asp-route-id="@p.Id">
+                        <button type="button" class="btn btn-outline-danger">Delete</button>
+                    </a>
+                </div>
+            </div>
+        }
+    }
+</div>

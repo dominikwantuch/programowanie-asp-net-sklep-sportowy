@@ -1,5 +1,6 @@
-﻿<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
-    <a class="navbar-brand" asp-controller="Product"
+﻿@model IEnumerable<string>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+    <a class="navbar-brand" asp-controller="Admin"
        asp-action="Index">
         SportShop
     </a>
@@ -8,25 +9,44 @@
     </button>
     <div class="collapse navbar-collapse" id="navigationBar">
         <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link @(ViewBag.CurrentPage == "Main" ? "active" : "")" asp-controller="Product"
-               asp-action="Index">
+            <a class="nav-item nav-link @(ViewBag.CurrentPage == "Main" ? "active" : "")" asp-controller="Admin"
+               asp-action="Index" asp-route-name="">
                 Main Page
             </a>
-            <a class="nav-item nav-link @(ViewBag.CurrentPage == "Create" ? "active" : "")" asp-controller="Admin"
-               asp-action="Create">
-                New Product
-            </a>
-            <a class="nav-item nav-link @(ViewBag.CurrentPage == "Index" ? "active" : "")" asp-controller="Admin"
+            <div class="nav-item dropdown @(ViewBag.CurrentPage == "Categories" ? "active" : "")">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    @foreach (var category in @Model)
+                    {
+                        <a class="dropdown-item" asp-controller="Admin" asp-action="Index" asp-route-name="@category">@category</a>
+                    }
+                </div>
+            </div>
+
+            <a class="nav-item nav-link @(ViewBag.CurrentPage == "Manufacturer" ? "active" : "")" asp-controller="Manufacturer"
                asp-action="Index">
-                Admin Panel
+                Manufacturers
             </a>
-             @if (Context.User.Identity.IsAuthenticated)
-             {
-                 <a class="nav-item nav-link" asp-controller="Account"
-                    asp-action="Logout">
-                     Logout
-                 </a>
-             }
+
+            <div class="nav-item dropdown @(ViewBag.CurrentPage == "Create" ? "active" : "")">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Create
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" asp-controller="Admin" asp-action="Create">New Product</a>
+                    <a class="dropdown-item" asp-controller="Manufacturer" asp-action="Create">New Manufaturer</a>
+                </div>
+            </div>
+            
+            @if (Context.User.Identity.IsAuthenticated)
+            {
+                <a class="nav-item nav-link" asp-controller="Account"
+                   asp-action="Logout">
+                    Logout
+                </a>
+            }
         </div>
     </div>
 </nav>

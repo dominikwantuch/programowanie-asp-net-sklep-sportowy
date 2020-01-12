@@ -1,20 +1,16 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SportShop.Controllers;
-using SportShop.Models;
 using SportShop.Persistence.Entities;
 using SportShop.Persistence.Repositories;
-using SportShop.Repositories;
 using Xunit;
 using Xunit.Abstractions;
 
 // ReSharper disable StringLiteralTypo
 
-namespace UnitTests
+namespace DominikUnitTests
 {
     public class ProductsApiControllerTests
     {

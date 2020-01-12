@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using SportShop.Models;
+using SportShop.Persistence;
+using SportShop.Persistence.Repositories;
 using SportShop.Repositories;
 
 namespace SportShop
@@ -40,7 +42,7 @@ namespace SportShop
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SportShop API", Version = "v1" });
-                c.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}SportShop.XML");
+                c.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}SportShop.xml");
             });
             services.AddIdentity<IdentityUser, IdentityRole>(x =>
                 {

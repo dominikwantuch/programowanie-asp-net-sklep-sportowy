@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SportShop.Models;
+using SportShop.Persistence.Entities;
+using SportShop.Persistence.Repositories;
 
 // ReSharper disable All
 
@@ -23,6 +25,26 @@ namespace SportShop.Repositories
         public bool SaveProduct(Product entity)
         {
             return false;
+        }
+
+        public ResultModel<Product> GetById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ResultModel<Product> Create(Product entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ResultModel<Product> Update(Product entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ResultModel<Product> Delete(int id)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

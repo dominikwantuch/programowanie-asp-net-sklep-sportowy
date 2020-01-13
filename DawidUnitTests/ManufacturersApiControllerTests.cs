@@ -110,8 +110,8 @@ namespace DawidUnitTests
         [Fact]
         public void GetManufacturer_ManufacturerIsNotInRepo_ShouldReturnNotFoundResponse()
         {
-            _mock.Setup(c => c.GetById(It.IsAny<int>())).Returns(new ResultModel<Manufacturer>(_badManufacturer, 404));
-            var result = _controller.GetManufacturer(4);
+            _mock.Setup(c => c.GetById(It.IsAny<int>())).Returns(new ResultModel<Manufacturer>(It.IsAny<Manufacturer>(), 404));
+            var result = _controller.GetManufacturer(It.IsAny<int>());
             Assert.IsType<StatusCodeResult>(result);
             var objectResponse = (StatusCodeResult)result;
             Assert.Equal(404, objectResponse.StatusCode);
@@ -120,7 +120,7 @@ namespace DawidUnitTests
         public void GetManufacturer_ErrorWhenAccessingRepo_ShouldReturnInternalServerErrorResponse()
         {
             _mock.Setup(c => c.GetById(It.IsAny<int>())).Throws(new Exception());
-            var result = _controller.GetManufacturer(2);
+            var result = _controller.GetManufacturer(It.IsAny<int>());
             Assert.IsType<ObjectResult>(result);
             var objectResponse = (ObjectResult)result;
             Assert.Equal(500, objectResponse.StatusCode);
@@ -130,7 +130,7 @@ namespace DawidUnitTests
         public void CreateManufacturer_RepoContainsManufacturerWithThatId_ShouldReturnConflictResponse()
         {
             _mock.Setup(c => c.Create(It.IsAny<Manufacturer>()))
-                .Returns(new ResultModel<Manufacturer>(_manufacturer, 409));
+                .Returns(new ResultModel<Manufacturer>(It.IsAny<Manufacturer>(), 409));
             var result = _controller.CreateManufacturer(_createManufacturer);
             Assert.IsType<StatusCodeResult>(result);
             var objectResponse = (StatusCodeResult)result;
@@ -171,7 +171,7 @@ namespace DawidUnitTests
         public void UpdateManufacturer_ManufacturerNotFound_ShouldReturnNotFoundResult()
         {
             _mock.Setup(c => c.GetById(It.IsAny<int>()))
-                .Returns(new ResultModel<Manufacturer>(_manufacturer, (int)HttpStatusCode.NotFound));
+                .Returns(new ResultModel<Manufacturer>(It.IsAny<Manufacturer>(), (int)HttpStatusCode.NotFound));
             var result = _controller.UpdateManufacturer(_updateManufacturer);
             Assert.IsType<NotFoundResult>(result);
             var objectResponse = (NotFoundResult)result;
@@ -209,7 +209,7 @@ namespace DawidUnitTests
             _mock.Setup(c => c.GetById(It.IsAny<int>()))
                 .Throws(new Exception());
             _mock.Setup(c => c.Update(It.IsAny<Manufacturer>()))
-                .Returns(new ResultModel<Manufacturer>(_manufacturer, (int) HttpStatusCode.OK));
+                .Returns(new ResultModel<Manufacturer>(It.IsAny<Manufacturer>(), (int) HttpStatusCode.OK));
             var result = _controller.UpdateManufacturer(_updateManufacturer);
             Assert.IsType<ObjectResult>(result);
             var objectResponse = (ObjectResult)result;
@@ -220,8 +220,8 @@ namespace DawidUnitTests
         public void DeleteManufacturer_ManufacturerNotFound_ShouldReturnNotFoundResponse()
         {
             _mock.Setup(c => c.Delete(It.IsAny<int>()))
-                .Returns(new ResultModel<Manufacturer>(_manufacturer, (int) HttpStatusCode.NotFound));
-            var result = _controller.DeleteManufacturer(1);
+                .Returns(new ResultModel<Manufacturer>(It.IsAny<Manufacturer>(), (int) HttpStatusCode.NotFound));
+            var result = _controller.DeleteManufacturer(It.IsAny<int>());
             Assert.IsType<StatusCodeResult>(result);
             var objectResponse = (StatusCodeResult)result;
             Assert.Equal(404, objectResponse.StatusCode);
@@ -231,7 +231,7 @@ namespace DawidUnitTests
         {
             _mock.Setup(c => c.Delete(It.IsAny<int>()))
                 .Throws(new Exception());
-            var result = _controller.DeleteManufacturer(1);
+            var result = _controller.DeleteManufacturer(It.IsAny<int>());
             Assert.IsType<ObjectResult>(result);
             var objectResponse = (ObjectResult)result;
             Assert.Equal(500, objectResponse.StatusCode);

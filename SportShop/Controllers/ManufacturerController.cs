@@ -10,6 +10,7 @@ namespace SportShop.Controllers
     /// <summary>
     /// Controller responsible for handling Manufacturer related requests
     /// </summary>
+    [Authorize]
     [Route("admin/manufacturers")]
     public class ManufacturerController : Controller
     {

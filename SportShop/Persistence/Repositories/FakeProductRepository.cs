@@ -46,5 +46,14 @@ namespace SportShop.Repositories
         {
             throw new System.NotImplementedException();
         }
+
+        public ResultModel<IEnumerable<Product>> GetAll(string category)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+        }
     }
 }

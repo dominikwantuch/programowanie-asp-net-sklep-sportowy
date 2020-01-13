@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using SportShop.Models;
 using SportShop.Persistence.Entities;
 
@@ -19,10 +21,10 @@ namespace SportShop.Persistence.Repositories
         public bool DeleteProduct(int id)
         {
             var entity = _dbContext.Products.FirstOrDefault(x => x.ProductId == id);
-            
+
             if (entity == null)
                 return false;
-            
+
             _dbContext.Products.Remove(entity);
             _dbContext.SaveChanges();
 
@@ -37,11 +39,11 @@ namespace SportShop.Persistence.Repositories
                 _dbContext.SaveChanges();
                 return true;
             }
-            
+
             else if (entity.ProductId > 0)
             {
                 var entityToUpdate = _dbContext.Products.SingleOrDefault(x => x.ProductId == entity.ProductId);
-                
+
                 if (entityToUpdate == null)
                     return false;
 
@@ -58,23 +60,42 @@ namespace SportShop.Persistence.Repositories
 
             return false;
         }
-        
-        
+
+
         public ResultModel<Product> GetById(int id)
         {
             try
             {
                 var entity = _dbContext.Products.FirstOrDefault(x => x.ProductId == id);
-                
-                if(entity == null)
+
+                if (entity == null)
                     return new ResultModel<Product>(null, 404);
-                
+
                 return new ResultModel<Product>(entity, 200);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 return new ResultModel<Product>(null, 500);
+            }
+        }
+
+        public ResultModel<IEnumerable<Product>> GetAll(string category = null)
+        {
+            try
+            {
+                IEnumerable<Product> products;
+                if (string.IsNullOrWhiteSpace(category))
+                    products = _dbContext.Products.ToList();
+                else
+                    products = _dbContext.Products.Where(x => x.Category == category).ToList();
+
+                return new ResultModel<IEnumerable<Product>>(products, 200);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new ResultModel<IEnumerable<Product>>(null, 500);
             }
         }
 
@@ -109,8 +130,12 @@ namespace SportShop.Persistence.Repositories
                 if (getResponse == null)
                     return new ResultModel<Product>(null, 404);
 
+                _dbContext.Entry(getResponse).State = EntityState.Detached;
+                
                 var updateResponse = _dbContext.Update(entity);
+                
                 _dbContext.SaveChanges();
+                
                 return new ResultModel<Product>(entity, 200);
             }
             catch (Exception e)
@@ -140,6 +165,10 @@ namespace SportShop.Persistence.Repositories
                 return new ResultModel<Product>(null, 500);
             }
         }
-        
+
+        public void Dispose()
+        {
+            _dbContext?.Dispose();
+        }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -70,7 +70,7 @@ namespace SportShop.Controllers
         {
             if (!ModelState.IsValid || manufacturer == null)
             {
-                TempData["Message"] = "Given data is not valid!";
+                ViewData["Message"] = "Given data is not valid!";
                 return View("Index", _manufacturerRepository.Manufacturers);
             }
             else

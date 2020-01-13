@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -55,7 +56,7 @@ namespace DawidUnitTests
             }
 
             using (var context = new ApplicationDbContext(options))
-            using( var manufacturersRepository = new ManufacturerRepository(context))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
             {
                 var result = manufacturersRepository.Manufacturers;
 
@@ -76,7 +77,7 @@ namespace DawidUnitTests
             }
 
             using (var context = new ApplicationDbContext(options))
-            using( var manufacturersRepository = new ManufacturerRepository(context))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
             {
                 var result = manufacturersRepository.DeleteManufacturer(4);
 
@@ -97,7 +98,7 @@ namespace DawidUnitTests
             }
 
             using (var context = new ApplicationDbContext(options))
-            using( var manufacturersRepository = new ManufacturerRepository(context))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
             {
                 var result = manufacturersRepository.DeleteManufacturer(3);
 
@@ -120,7 +121,7 @@ namespace DawidUnitTests
             };
 
             using (var context = new ApplicationDbContext(options))
-            using( var manufacturersRepository = new ManufacturerRepository(context))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
             {
                 var result = manufacturersRepository.SaveManufacturer(manufacturer);
 
@@ -148,7 +149,7 @@ namespace DawidUnitTests
             };
 
             using (var context = new ApplicationDbContext(options))
-            using( var manufacturersRepository = new ManufacturerRepository(context))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
             {
                 var result = manufacturersRepository.SaveManufacturer(manufacturer);
 
@@ -183,7 +184,7 @@ namespace DawidUnitTests
             };
 
             using (var context = new ApplicationDbContext(options))
-            using( var manufacturersRepository = new ManufacturerRepository(context))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
             {
                 var result = manufacturersRepository.SaveManufacturer(manufacturer);
 
@@ -211,7 +212,7 @@ namespace DawidUnitTests
             };
 
             using (var context = new ApplicationDbContext(options))
-            using( var manufacturersRepository = new ManufacturerRepository(context))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
             {
                 var result = manufacturersRepository.SaveManufacturer(manufacturer);
 
@@ -230,19 +231,68 @@ namespace DawidUnitTests
                 context.AddRange(_manufacturers);
                 context.SaveChanges();
             }
-            
+
             using (var context = new ApplicationDbContext(options))
-            using( var manufacturersRepository = new ManufacturerRepository(context))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
             {
                 var result = manufacturersRepository.GetById(1);
 
                 Assert.NotNull(result);
-
-                Assert.Equal(200, result.StatusCode);
-
+                Assert.Equal((int) HttpStatusCode.OK, result.StatusCode);
                 Assert.NotNull(result.Data);
             }
         }
-        
+
+        [Fact]
+        public void GetById_IdDoesNotExistInRepo_ShouldReturnNotFoundStatusCodeAndNull()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase("50CE0FB7-45C0-4656-B6A8-C61C59157DB0").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_manufacturers);
+                context.SaveChanges();
+            }
+
+            using (var context = new ApplicationDbContext(options))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
+            {
+                var result = manufacturersRepository.GetById(4);
+
+                Assert.NotNull(result);
+                Assert.Equal((int) HttpStatusCode.NotFound, result.StatusCode);
+                Assert.Null(result.Data);
+            }
+        }
+
+        private DbSet<T> GetQueryableMockDbSet<T>() where T : class
+        {
+            var dbSet = new Mock<DbSet<T>>();
+            dbSet.As<IQueryable<T>>().Setup(m => m.Provider).Throws(new Exception());
+            dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Throws(new Exception());
+            dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Throws(new Exception());
+            dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Throws(new Exception());
+
+            return dbSet.Object;
+        }
+
+        [Fact]
+        public void GetById_Exception_ShouldReturnInternalServerErrorStatusCodeAndNull()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase("50CE0FB7-45C0-4656-B6A8-C61C59157DB0").Options;
+            Mock<ApplicationDbContext> mock =
+                new Mock<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
+            mock.Object.Manufacturers = GetQueryableMockDbSet<Manufacturer>();
+
+            using (var manufacturersRepository = new ManufacturerRepository(mock.Object))
+            {
+                var result = manufacturersRepository.GetById(4);
+
+                Assert.NotNull(result);
+                Assert.Equal((int) HttpStatusCode.InternalServerError, result.StatusCode);
+                Assert.Null(result.Data);
+            }
+        }
     }
 }

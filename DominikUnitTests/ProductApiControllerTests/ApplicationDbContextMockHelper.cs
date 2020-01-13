@@ -11,7 +11,7 @@ namespace DominikUnitTests.ProductApiControllerTests
     {
         public readonly ApplicationDbContext MockedDbContext;
         
-        List<Product> _products = new List<Product>()
+        public List<Product> _products = new List<Product>()
         {
             new Product()
             {
@@ -74,9 +74,9 @@ namespace DominikUnitTests.ProductApiControllerTests
         
         public ApplicationDbContextMockHelper()
         {
-            MockedDbContext = new ApplicationDbContext(new DbContextOptions<ApplicationDbContext>());
-            var mockedDbSet = GetQueryableMockDbSet(_products);
-            MockedDbContext.Products = mockedDbSet;
+            var mock = new Mock<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
+            mock.Object.Products = GetQueryableMockDbSet(_products);
+            MockedDbContext = mock.Object;
         }
         
         private static DbSet<T> GetQueryableMockDbSet<T>(List<T> sourceList) where T : class

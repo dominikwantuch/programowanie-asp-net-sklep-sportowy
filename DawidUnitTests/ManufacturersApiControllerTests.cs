@@ -215,5 +215,26 @@ namespace DawidUnitTests
             var objectResponse = (ObjectResult)result;
             Assert.Equal(500, objectResponse.StatusCode);
         }
+
+        [Fact]
+        public void DeleteManufacturer_ManufacturerNotFound_ShouldReturnNotFoundResponse()
+        {
+            _mock.Setup(c => c.Delete(It.IsAny<int>()))
+                .Returns(new ResultModel<Manufacturer>(_manufacturer, (int) HttpStatusCode.NotFound));
+            var result = _controller.DeleteManufacturer(1);
+            Assert.IsType<StatusCodeResult>(result);
+            var objectResponse = (StatusCodeResult)result;
+            Assert.Equal(404, objectResponse.StatusCode);
+        }
+        [Fact]
+        public void DeleteManufacturer_ExceptionWhenDeleting_ShouldReturnInternalServerErrorResponse()
+        {
+            _mock.Setup(c => c.Delete(It.IsAny<int>()))
+                .Throws(new Exception());
+            var result = _controller.DeleteManufacturer(1);
+            Assert.IsType<ObjectResult>(result);
+            var objectResponse = (ObjectResult)result;
+            Assert.Equal(500, objectResponse.StatusCode);
+        }
     }
 }

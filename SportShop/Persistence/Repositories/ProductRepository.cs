@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using SportShop.Models;
 using SportShop.Persistence.Entities;
 
@@ -129,8 +130,12 @@ namespace SportShop.Persistence.Repositories
                 if (getResponse == null)
                     return new ResultModel<Product>(null, 404);
 
+                _dbContext.Entry(getResponse).State = EntityState.Detached;
+                
                 var updateResponse = _dbContext.Update(entity);
+                
                 _dbContext.SaveChanges();
+                
                 return new ResultModel<Product>(entity, 200);
             }
             catch (Exception e)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
@@ -77,8 +77,18 @@ namespace DominikUnitTests.ProductApiControllerTests
             Mock.Setup(x => x.GetAll("throw")).Throws(new Exception());
 
             #endregion
+
+            #region GetById
+
+            Mock.Setup(x => x.GetById(1))
+                .Returns(new ResultModel<Product>(products.FirstOrDefault(x => x.ProductId == 1), 200));
+
+            Mock.Setup(x => x.GetById(5)).Returns(new ResultModel<Product>(null, 404));
             
+            Mock.Setup(x => x.GetById(7)).Throws(new Exception());
             
+            #endregion
+
             
             Mock.Setup(x => x.SaveProduct(CreateProductModel)).Returns(true);
             Mock.Setup(x => x.SaveProduct(EditBadProductModel)).Returns(false);

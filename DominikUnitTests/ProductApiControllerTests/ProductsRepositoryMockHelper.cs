@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
@@ -11,16 +11,48 @@ namespace DominikUnitTests.ProductApiControllerTests
     public class ProductsRepositoryMockHelper
     {
         public readonly Mock<IProductRepository> Mock = new Mock<IProductRepository>();
-        
-        public readonly Product CreateProductModel = new Product()
+
+        #region CreateProductModels
+
+        public readonly CreateProductModel CreateProductModel = new CreateProductModel
         {
-            ProductId = 0,
             ManufacturerId = 1,
             Name = "Okulary do pływania",
             Description = "Okulary zbudowane z karbonu.",
             Price = 44,
             Category = "Sporty Wodne"
         };
+
+        public readonly Product ReturnCreateProductEntity = new Product()
+        {
+            ProductId = 12,
+            ManufacturerId = 1,
+            Name = "Okulary do pływania",
+            Description = "Okulary zbudowane z karbonu.",
+            Price = 44,
+            Category = "Sporty Wodne"
+        };
+
+        public readonly CreateProductModel CreateExistingProductModel = new CreateProductModel()
+        {
+            ManufacturerId = 2,
+            Name = "ExistingProduct",
+            Description = "Okulary zbudowane z karbonu.",
+            Price = 44,
+            Category = "Sporty Wodne"
+        };
+
+        public readonly CreateProductModel ThrowErrorProductModel = new CreateProductModel()
+        {
+            ManufacturerId = 2,
+            Name = "Throw",
+            Description = "Okulary zbudowane z karbonu.",
+            Price = 44,
+            Category = "Sporty Wodne"
+        };
+
+        #endregion
+
 
         public readonly Product EditBadProductModel = new Product()
         {
@@ -29,7 +61,7 @@ namespace DominikUnitTests.ProductApiControllerTests
             Name = "Płetwy dla nurka",
             Description = "Płetwy w rozmiarze uniwersalnym.",
             Price = 165,
-            Category = "Sporty Wodne",  
+            Category = "Sporty Wodne",
         };
 
         public ProductsRepositoryMockHelper()

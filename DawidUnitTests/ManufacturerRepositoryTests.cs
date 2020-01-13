@@ -436,5 +436,58 @@ namespace DawidUnitTests
                 Assert.Equal((int) HttpStatusCode.InternalServerError, result.StatusCode);
             }
         }
+
+        [Fact]
+        public void Delete_EntityIsNull_ShouldReturnNotFoundStatusCode()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase("96821ACB-9710-424C-8244-AA77F3472FE8").Options;
+            using (var context = new ApplicationDbContext(options))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
+            {
+                var result = manufacturersRepository.Delete(1);
+
+                Assert.NotNull(result);
+                Assert.Equal((int) HttpStatusCode.NotFound, result.StatusCode);
+            }
+        }
+
+        [Fact]
+        public void Delete_SuccessfulDelete_ShouldReturnNoContentStatusCodeAndNull()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase("96821ACB-9710-424C-8244-AA77F3472FE8").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_manufacturers);
+                context.SaveChanges();
+            }
+
+            using (var context = new ApplicationDbContext(options))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
+            {
+                var result = manufacturersRepository.Delete(1);
+
+                Assert.NotNull(result);
+                Assert.Null(result.Data);
+                Assert.Equal((int) HttpStatusCode.NoContent, result.StatusCode);
+            }
+        }
+
+        [Fact]
+        public void Delete_ExceptionThrownByRepo_ShouldReturnInternalServerErrorAndNull()
+        {
+            Mock<ApplicationDbContext> mock =
+                new Mock<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
+            mock.Object.Manufacturers = GetQueryableMockDbSet<Manufacturer>();
+            using (var manufacturersRepository = new ManufacturerRepository(mock.Object))
+            {
+                var result = manufacturersRepository.Delete(It.IsAny<int>());
+
+                Assert.NotNull(result);
+                Assert.Null(result.Data);
+                Assert.Equal((int) HttpStatusCode.InternalServerError, result.StatusCode);
+            }
+        }
     }
 }

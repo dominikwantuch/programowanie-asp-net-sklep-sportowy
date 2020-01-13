@@ -16,6 +16,7 @@ namespace DawidUnitTests
     {
         private readonly Mock<IManufacturerRepository> _mock = new Mock<IManufacturerRepository>();
         private readonly ManufacturerController _controller;
+
         private readonly Manufacturer _manufacturer = new Manufacturer
         {
             Id = 1,
@@ -48,54 +49,57 @@ namespace DawidUnitTests
             }.AsQueryable());
             _controller = new ManufacturerController(_mock.Object);
         }
+
         [Fact]
         public void IndexActionResult_ListContains3_ShouldReturn3()
         {
-            var result = (ViewResult)_controller.Index();
+            var result = (ViewResult) _controller.Index();
             var data = (IEnumerable<Manufacturer>) result.ViewData.Model;
-            
+
             Assert.NotNull(result);
-            Assert.Equal(3,data.Count());
+            Assert.Equal(3, data.Count());
         }
 
         [Fact]
         public void EditActionResult_ManufacturerIsNotFound_ShouldReturnIndex()
         {
-            var result = (ViewResult)_controller.Edit(4);
-            
+            var result = (ViewResult) _controller.Edit(4);
+
             Assert.NotNull(result);
-            Assert.Equal("Manufacturer with given id does not exist!",result.ViewData["Message"]);
+            Assert.Equal("Manufacturer with given id does not exist!", result.ViewData["Message"]);
             Assert.True(result.ViewName == "Index");
         }
+
         [Fact]
         public void EditActionResult_ManufacturerIsFound_ShouldReturnEditViewWithManufacturer()
         {
-            var result = (ViewResult)_controller.Edit(1);
+            var result = (ViewResult) _controller.Edit(1);
             var data = (Manufacturer) result.ViewData.Model;
-            
+
             Assert.NotNull(result);
             Assert.NotNull(data);
-            Assert.Equal("Edit",result.ViewName);
+            Assert.Equal("Edit", result.ViewName);
         }
+
         [Fact]
         public void CreateActionResult_NewManufacturer_ShouldReturnEditViewWithProperModel()
         {
-            var result = (ViewResult)_controller.Create();
+            var result = (ViewResult) _controller.Create();
             var data = (Manufacturer) result.ViewData.Model;
-            
+
             Assert.NotNull(result);
             Assert.NotNull(data);
-            Assert.Equal("Edit" , result.ViewName);
+            Assert.Equal("Edit", result.ViewName);
         }
 
         [Fact]
         public void SaveActionResult_ModelStateInvalid_ShouldReturnIndexView()
         {
             _controller.ModelState.AddModelError("key", "error");
-            var result = (ViewResult)_controller.Save(_manufacturer);
-            
-            _mock.Verify( c=>c.SaveManufacturer(It.IsAny<Manufacturer>()), Times.Never);
-            Assert.Equal("Given data is not valid!",result.ViewData["Message"]);
+            var result = (ViewResult) _controller.Save(_manufacturer);
+
+            _mock.Verify(c => c.SaveManufacturer(It.IsAny<Manufacturer>()), Times.Never);
+            Assert.Equal("Given data is not valid!", result.ViewData["Message"]);
             Assert.NotNull(result);
             Assert.True(result.ViewName == "Index");
         }
@@ -103,9 +107,9 @@ namespace DawidUnitTests
         [Fact]
         public void SaveActionResult_ModelStateValid_ShouldReturnToIndexView()
         {
-            var result = (ViewResult)_controller.Save(_manufacturer);
-            
-            _mock.Verify( c=>c.SaveManufacturer(It.IsAny<Manufacturer>()), Times.Once);
+            var result = (ViewResult) _controller.Save(_manufacturer);
+
+            _mock.Verify(c => c.SaveManufacturer(It.IsAny<Manufacturer>()), Times.Once);
             Assert.NotNull(result);
             Assert.True(result.ViewName == "Index");
         }
@@ -115,16 +119,16 @@ namespace DawidUnitTests
         {
             _mock.Setup(c => c.SaveManufacturer(It.IsAny<Manufacturer>()))
                 .Throws(new Exception());
-            var result = (ViewResult)_controller.Save(_manufacturer);
-            Assert.Equal("Manufacturer could not be added to the database.",result.ViewData["Message"]);
+            var result = (ViewResult) _controller.Save(_manufacturer);
+            Assert.Equal("Manufacturer could not be added to the database.", result.ViewData["Message"]);
         }
 
         [Fact]
         public void DeleteActionResult_SuccessfulDelete_ShouldRedirectToIndexView()
         {
-            var result = (ViewResult)_controller.Delete(It.IsAny<int>());
-            _mock.Verify( c=>c.DeleteManufacturer(It.IsAny<int>()), Times.Once);
-            
+            var result = (ViewResult) _controller.Delete(It.IsAny<int>());
+            _mock.Verify(c => c.DeleteManufacturer(It.IsAny<int>()), Times.Once);
+
             Assert.NotNull(result);
             Assert.True(result.ViewName == "Index");
         }
@@ -134,7 +138,7 @@ namespace DawidUnitTests
         {
             _mock.Setup(c => c.DeleteManufacturer(It.IsAny<int>()))
                 .Throws(new Exception());
-            var result = (ViewResult)_controller.Delete(It.IsAny<int>());
+            var result = (ViewResult) _controller.Delete(It.IsAny<int>());
             Assert.NotNull(result);
             Assert.Equal("An unexpected error has occured while trying to delete product.", result.ViewData["Message"]);
         }

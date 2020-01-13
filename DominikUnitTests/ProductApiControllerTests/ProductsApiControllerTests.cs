@@ -29,7 +29,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region GetProductsTests
 
         [Fact]
-        public void ShouldReturnAllProductsAnd200StatusCode()
+        public void GetProductsShouldReturnAllProductsAnd200StatusCode()
         {
             var result = _apiController.GetProducts();
 
@@ -47,7 +47,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void ShouldReturnNoProductsAnd500StatusCode()
+        public void GetProductsShouldReturn500StatusCode()
         {
             var result = _apiController.GetProducts("throw");
 

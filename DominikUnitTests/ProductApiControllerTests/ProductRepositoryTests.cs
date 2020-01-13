@@ -21,7 +21,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region Products
 
         [Fact]
-        public void ShouldReturnQueryableCollectionOfProducts()
+        public void Products_ShouldReturnAllProducts()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("ShouldReturnQueryableCollectionOfProducts").Options;
@@ -46,7 +46,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region DeleteProduct
 
         [Fact]
-        public void DeleteProductShouldReturnTrue()
+        public void DeleteProduct_ShouldDeleteProduct_And_ReturnTrue()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("DeleteProductShouldReturnTrue").Options;
@@ -66,7 +66,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void DeleteProductShouldReturnFalse()
+        public void DeleteProduct_ShouldNotFindProduct_And_ReturnFalse()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("DeleteProductShouldReturnFalse").Options;
@@ -90,7 +90,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region SaveProduct
 
         [Fact]
-        public void SaveProductShouldAddProductAndReturnTrue()
+        public void SaveProduct_ShouldAddProduct_And_ReturnTrue()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("SaveProductShouldAddProductAndReturnTrue").Options;
@@ -106,7 +106,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void SaveProductShouldUpdateExistingProduct()
+        public void SaveProduct_ShouldUpdateExistingProduct_And_ReturnTrue()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("SaveProductShouldUpdateExistingProduct").Options;
@@ -137,7 +137,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void SaveProductShouldNotFindProductAndReturnFalse()
+        public void SaveProduct_ShouldNotFindProduct_And_ReturnFalse()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("SaveProductShouldNotFindProductAndReturnFalse").Options;
@@ -157,7 +157,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void SaveProductShouldShouldReturnFalse()
+        public void SaveProduct_ShouldDoNothing_And_ReturnFalse()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("SaveProductShouldShouldReturnFalse").Options;
@@ -181,7 +181,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region GetById
 
         [Fact]
-        public void GetByIdShouldReturnProductAnd200StatusCode()
+        public void GetById_ShouldReturnProduct_And_200StatusCode()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("GetByIdShouldReturnProductAnd200StatusCode").Options;
@@ -205,7 +205,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void GetByIdShouldReturnNoProductAnd404StatusCode()
+        public void GetById_ShouldReturnNoProduct_And_404StatusCode()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("GetByIdShouldReturnNoProductAnd404StatusCode").Options;
@@ -229,7 +229,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void GetByIdShouldReturn500StatusCode()
+        public void GetById_ShouldThrowError_And_Return500StatusCode()
         {
             using (var productsRepository = new ProductRepository(_mockHelper.ErrorMockedDbContext))
             {
@@ -246,7 +246,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region GetAll
 
         [Fact]
-        public void GetAllShouldReturnAllProductsAnd200StatusCode()
+        public void GetAll_ShouldReturnAllProducts_And_200StatusCode()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("GetAllShouldReturnAllProductsAnd200StatusCode").Options;
@@ -272,7 +272,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void GetAllShouldReturnProductFromGivenCategoryAnd200StatusCode()
+        public void GetAll_ShouldReturnProductFromGivenCategory_And_200StatusCode()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("GetAllShouldReturnProductFromGivenCategoryAnd200StatusCode").Options;
@@ -302,7 +302,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
         
         [Fact]
-        public void GetAllShouldReturn500StatusCode()
+        public void GetAll_ShouldReturn500StatusCode()
         {
             using (var productsRepository = new ProductRepository(_mockHelper.ErrorMockedDbContext))
             {
@@ -319,7 +319,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region Create
 
         [Fact]
-        public void CreateShouldAddProductAndReturn201StatusCode()
+        public void Create_ShouldAddProduct_And_Return201StatusCode()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("CreateShouldAddProductAndReturn201StatusCode").Options;
@@ -339,7 +339,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void CreateShouldReturn209StatusCode()
+        public void Create_ShouldReturn209StatusCode()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("CreateShouldReturn209StatusCode").Options;
@@ -361,7 +361,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
         
         [Fact]
-        public void CreateShouldReturn500StatusCode()
+        public void Create_ShouldReturn500StatusCode()
         {
             using (var productsRepository = new ProductRepository(_mockHelper.ErrorMockedDbContext))
             {
@@ -378,7 +378,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region Update
 
         [Fact]
-        public void UpdateShouldUpdateEntityAndReturn200StatusCode()
+        public void Update_ShouldUpdateEntity_And_Return200StatusCode()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("UpdateShouldUpdateEntityAndReturn200StatusCode").Options;
@@ -411,7 +411,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void UpdateShouldReturn404StatusCode()
+        public void Update_ShouldReturn404StatusCode()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("UpdateShouldReturn404StatusCode").Options;
@@ -427,7 +427,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
         
         [Fact]
-        public void UpdateShouldReturn500StatusCode()
+        public void Update_ShouldReturn500StatusCode()
         {
             using (var productsRepository = new ProductRepository(_mockHelper.ErrorMockedDbContext))
             {
@@ -444,7 +444,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region Delete
 
         [Fact]
-        public void DeleteShouldRemoveProductAndReturn204StatusCode()
+        public void Delete_ShouldRemoveProduct_And_Return204StatusCode()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("DeleteShouldRemoveProductAndReturn204StatusCode").Options;
@@ -465,12 +465,11 @@ namespace DominikUnitTests.ProductApiControllerTests
                 Assert.Equal(204, result.StatusCode);
 
                 Assert.Null(result.Data);
-
             }            
         }
         
         [Fact]
-        public void DeleteShouldReturn404StatusCode()
+        public void Delete_ShouldReturn404StatusCode()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("DeleteShouldReturn404StatusCode").Options;
@@ -490,7 +489,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
         
         [Fact]
-        public void DeleteShouldReturn500StatusCode()
+        public void Delete_ShouldReturn500StatusCode()
         {
             using (var productsRepository = new ProductRepository(_mockHelper.ErrorMockedDbContext))
             {

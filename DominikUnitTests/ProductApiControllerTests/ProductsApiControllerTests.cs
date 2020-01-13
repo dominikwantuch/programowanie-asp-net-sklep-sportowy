@@ -24,7 +24,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region GetProductsTests
 
         [Fact]
-        public void GetProductsShouldReturnAllProductsAnd200StatusCode()
+        public void GetProducts_ShouldReturnAllProducts_And_200StatusCode()
         {
             var result = _apiController.GetProducts();
 
@@ -42,7 +42,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void GetProductsShouldReturn500StatusCode()
+        public void GetProducts_ShouldReturn500StatusCode()
         {
             var result = _apiController.GetProducts("throw");
 
@@ -58,7 +58,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region GetProductTests
 
         [Fact]
-        public void GetProductShouldReturnProperProductAnd200StatusCode()
+        public void GetProduct_ShouldReturnProperProduct_And_200StatusCode()
         {
             var result = _apiController.GetProduct(1);
 
@@ -75,7 +75,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void GetProductShouldReturn404StatusCode()
+        public void GetProduct_ShouldReturn404StatusCode()
         {
             var result = _apiController.GetProduct(5);
 
@@ -87,7 +87,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void GetProductShouldReturn500StatusCode()
+        public void GetProduct_ShouldReturn500StatusCode()
         {
             var result = _apiController.GetProduct(7);
 
@@ -103,7 +103,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region CreateProductTests
 
         [Fact]
-        public void CreateProductShouldReturnCreatedProductModelAnd201StatusCode()
+        public void CreateProduct_ShouldReturnCreatedProductModel_And_201StatusCode()
         {
             var result = _apiController.CreateProduct(_mockHelper.CreateProductModel);
 
@@ -119,7 +119,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void CreateProductShouldReturn409StatusCode()
+        public void CreateProduct_ShouldReturn409StatusCode()
         {
             var result = _apiController.CreateProduct(_mockHelper.CreateExistingProductModel);
 
@@ -131,7 +131,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void CreateProductShouldReturn500StatusCode()
+        public void CreateProduct_ShouldReturn500StatusCode()
         {
             var result = _apiController.CreateProduct(_mockHelper.ThrowErrorProductModel);
 
@@ -147,7 +147,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region UpdateProductTests
 
         [Fact]
-        public void UpdateProductShouldUpdateEntityAndReturn200StatusCode()
+        public void UpdateProduct_ShouldUpdateEntity_And_Return200StatusCode()
         {
             var result = _apiController.UpdateProduct(_mockHelper.UpdateProductModel);
             
@@ -163,7 +163,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void UpdateProductShouldReturnNotFoundResult()
+        public void UpdateProduct_ShouldReturnNotFoundResult()
         {
             var result = _apiController.UpdateProduct(_mockHelper.NotFoundUpdateProductModel);
 
@@ -171,7 +171,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void UpdateProductShouldReturn400StatusCode()
+        public void UpdateProduct_ShouldReturn400StatusCode()
         {
             var result = _apiController.UpdateProduct(_mockHelper.BadRequestUpdateProductModel);
             
@@ -183,7 +183,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void UpdateProductShouldReturn500StatusCode()
+        public void UpdateProduct_ShouldReturn500StatusCode()
         {
             var result = _apiController.UpdateProduct(_mockHelper.ThrowErrorUpdateProductModel);
 
@@ -199,7 +199,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         #region DeleteProductTests
 
         [Fact]
-        public void DeleteProductShouldReturn204StatusCode()
+        public void DeleteProduct_ShouldReturn204StatusCode()
         {
             var result = _apiController.DeleteProduct(5);
             
@@ -211,7 +211,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
 
         [Fact]
-        public void DeleteProductShouldReturn500StatusCode()
+        public void DeleteProduct_ShouldReturn500StatusCode()
         {
             var result = _apiController.DeleteProduct(10);
             

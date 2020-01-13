@@ -110,8 +110,7 @@ namespace DawidUnitTests
         public void SaveManufacturer_EntityIdIs0_ShouldReturnTrue()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("61DCFC11-0727-47D6-8FBA-E5FB567104B9").Options;
-            using (var context = new ApplicationDbContext(options)) ;
+                .UseInMemoryDatabase("FFF54147-2816-4733-A98B-EC95ECC36CDD").Options;
 
             var manufacturer = new Manufacturer
             {
@@ -131,7 +130,7 @@ namespace DawidUnitTests
         }
 
         [Fact]
-        public void SaveManufacturer_EntityIdIsGreaterThan0_ShouldReturnTrue()
+        public void SaveManufacturer_UpdateExistingEntity_ShouldReturnTrue()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("74072F25-F283-4B11-AC92-AE27096F79A7").Options;
@@ -155,6 +154,13 @@ namespace DawidUnitTests
 
                 Assert.True(result);
                 Assert.Equal(3, manufacturersRepository.Object.Manufacturers.Count());
+
+                var modified = manufacturersRepository.Object.Manufacturers
+                    .FirstOrDefault(c => c.Id == manufacturer.Id);
+                Assert.NotNull(modified);
+                Assert.Equal(manufacturer.Id, modified.Id);
+                Assert.Equal(manufacturer.Name, modified.Name);
+                Assert.Equal(manufacturer.Country, modified.Country);
             }
         }
 

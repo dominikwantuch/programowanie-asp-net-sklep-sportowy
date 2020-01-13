@@ -81,13 +81,21 @@ namespace SportShop.Persistence.Repositories
 
         public ResultModel<IEnumerable<Product>> GetAll(string category)
         {
-            IEnumerable<Product> products;
-            if (string.IsNullOrWhiteSpace(category))
-                products = _dbContext.Products.ToList();
-            else
-                products = _dbContext.Products.Where(x => x.Category == category).ToList();
+            try
+            {
+                IEnumerable<Product> products;
+                if (string.IsNullOrWhiteSpace(category))
+                    products = _dbContext.Products.ToList();
+                else
+                    products = _dbContext.Products.Where(x => x.Category == category).ToList();
 
-            return new ResultModel<IEnumerable<Product>>(products, 200);
+                return new ResultModel<IEnumerable<Product>>(products, 200);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new ResultModel<IEnumerable<Product>>(null, 500);
+            }
         }
 
         public ResultModel<Product> Create(Product entity)

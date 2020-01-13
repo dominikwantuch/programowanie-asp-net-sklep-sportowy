@@ -18,7 +18,6 @@ namespace DominikUnitTests.ProductApiControllerTests
         private readonly ProductsRepositoryMockHelper _mockHelper;
 
         private readonly ProductsApiController _apiController;
-        //ProductsApiController _controller = new ProductsApiController(_mock.Object);
 
         public ProductsApiControllerTests()
         {
@@ -117,7 +116,9 @@ namespace DominikUnitTests.ProductApiControllerTests
             var resultContent = (ObjectResult) result;
 
             Assert.Equal(201, resultContent.StatusCode);
+            
             Assert.IsType<ProductModel>(resultContent.Value);
+            
             Assert.NotNull(resultContent.Value);
         }
 
@@ -198,53 +199,5 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
         
         #endregion
-        // [Theory]
-        // [InlineData("Sporty Wodne")]
-        // [InlineData("Gry planszowe")]
-        // public void ShouldReturnProductsFromProperCategoryAnd200StatusCode(string category)
-        // {
-        //     var result = _apiController.GetProducts(category);
-        //     
-        //     Assert.IsType<ObjectResult>(result);
-        //     
-        //     var contentResult = (ObjectResult) result;
-        //     
-        //     Assert.Equal(200, contentResult.StatusCode);
-        //     
-        //     Assert.NotNull(contentResult.Value);
-        //
-        //     var returnedProducts = (IEnumerable<ProductModel>) contentResult.Value;
-        //     
-        //     foreach (var product in returnedProducts)
-        //     {
-        //         Assert.Equal(category, product.Category);
-        //     }
-        // }
-
-
-        // [Fact]
-        // public void ShouldReturnNotFoundResponse()
-        // {
-        //     var result = _apiController.GetProduct(10);
-        //
-        //     Assert.IsType<NotFoundObjectResult>(result);
-        // }
-
-        //
-        // [Fact]
-        // public void ShouldReturnBadRequestResponse()
-        // {
-        //     var result = _apiController.UpdateProduct(_editBadProductModel);
-        //     
-        //     Assert.IsType<BadRequestResult>(result);
-        // }
-        //
-        // [Fact]
-        // public void ShouldReturnCreatedAtActionResponse()
-        // {
-        //     var result = _apiController.CreateProduct(_createProductModel);
-        //     
-        //     Assert.IsType<CreatedAtActionResult>(result);
-        // }
     }
 }

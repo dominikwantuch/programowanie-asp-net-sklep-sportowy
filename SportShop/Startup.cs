@@ -62,6 +62,8 @@ namespace SportShop
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             SeedData.EnsurePopulated(app);
+            IdentitySeedData.EnsurePopulated(app.ApplicationServices.GetService<UserManager<IdentityUser>>()).Wait();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

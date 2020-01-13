@@ -19,9 +19,9 @@ Dominik Wantuch:
 ---
 
 Dawid Burnat:
--ManufacturerApiController - Moq + xUnit - pokrycie 100%
--ManufacturerController - Moq + xUnit - pokrycie 100%
--ManufacturerRepository - Moq + xUnit + InMemoryDatabase - pokrycie 100%
+- ManufacturerApiController - Moq + xUnit - pokrycie 100%
+- ManufacturerController - Moq + xUnit - pokrycie 100%
+- ManufacturerRepository - Moq + xUnit + InMemoryDatabase - pokrycie 100%
 
 (wszystkie testy przechodzą poprawnie)
 Szymon Domalik:

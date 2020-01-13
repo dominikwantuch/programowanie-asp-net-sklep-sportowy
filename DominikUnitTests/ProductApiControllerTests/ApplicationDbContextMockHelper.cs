@@ -43,7 +43,7 @@ namespace DominikUnitTests.ProductApiControllerTests
             }
         };
 
-        public readonly Product SaveProductEntity = new Product()
+        public readonly Product CreateProductEntity = new Product()
         {
             ProductId = 0,
             ManufacturerId = 1,
@@ -53,7 +53,7 @@ namespace DominikUnitTests.ProductApiControllerTests
             Category = "ProductCategory"
         };
 
-        public readonly Product SaveProductUpdateEntity = new Product()
+        public readonly Product UpdateProductEntity = new Product()
         {
             ProductId = 1,
             ManufacturerId = 1,
@@ -63,15 +63,21 @@ namespace DominikUnitTests.ProductApiControllerTests
             Category = "ProductCategory"
         };
 
-        public readonly Product SaveProductNotExistingEntity = new Product()
+        public readonly Product AlreadyExistingEntity = new Product()
+        {
+            ProductId = 1
+        };
+            
+        public readonly Product NotExistingEntity = new Product()
         {
             ProductId = 5
         };
 
-        public readonly Product SaveProductOutOfRangeIdEntity = new Product()
+        public readonly Product OutOfRangeIdEntity = new Product()
         {
             ProductId = -1
         };
+        
         
         public ApplicationDbContextMockHelper()
         {

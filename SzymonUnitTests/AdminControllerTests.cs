@@ -111,7 +111,17 @@ namespace SzymonUnitTests
         }
 
         [Fact]
-        public void SaveActionResult_ProductIsGiven_ShouldReturnViewIndexWithAllProducts()
+        public void SaveActionResult_AccessingRepositoryException_SholudReturnErrorMessage()
+        {
+            _mock.Setup(m => m.SaveProduct(It.IsAny<Product>())).Throws(new Exception());
+            var result = (ViewResult)_controller.Save(_product);
+
+            Assert.Equal("Product could not be added to the database.", result.ViewData["Message"]);
+        }
+
+
+        [Fact]
+        public void SaveActionResult_ModelIsValid_ShouldReturnViewIndexWithAllProducts()
         {
             var result = (ViewResult)_controller.Save(_product);
             var data = (IEnumerable<Product>)result.ViewData.Model;

@@ -1,4 +1,4 @@
-﻿namespace UnitTests
+﻿namespace DawidUnitTests
 {
     public class ManufacturerControllerTests
     {

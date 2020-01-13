@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportShop", "SportShop\SportShop.csproj", "{11609D7C-94EF-4226-867C-837ADCB1CA75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{DDA2D7F8-487C-4FB1-92BD-6C77048F912C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawidUnitTests", "DawidUnitTests\DawidUnitTests.csproj", "{B7465B09-EE87-41E3-B07C-50AF7EB2E280}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +14,9 @@ Global
 		{11609D7C-94EF-4226-867C-837ADCB1CA75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11609D7C-94EF-4226-867C-837ADCB1CA75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11609D7C-94EF-4226-867C-837ADCB1CA75}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDA2D7F8-487C-4FB1-92BD-6C77048F912C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDA2D7F8-487C-4FB1-92BD-6C77048F912C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDA2D7F8-487C-4FB1-92BD-6C77048F912C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDA2D7F8-487C-4FB1-92BD-6C77048F912C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7465B09-EE87-41E3-B07C-50AF7EB2E280}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7465B09-EE87-41E3-B07C-50AF7EB2E280}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7465B09-EE87-41E3-B07C-50AF7EB2E280}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7465B09-EE87-41E3-B07C-50AF7EB2E280}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

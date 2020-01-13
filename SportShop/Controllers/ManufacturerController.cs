@@ -45,11 +45,11 @@ namespace SportShop.Controllers
             
             if (manufacturer == null)
             {
-                TempData["Message"] = "Manufacturer with given id does not exist!";
+                ViewData["Message"] = "Manufacturer with given id does not exist!";
                 return View("Index");
             }
             
-            return View(manufacturer);
+            return View("Edit",manufacturer);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace SportShop.Controllers
         {
             if (!ModelState.IsValid || manufacturer == null)
             {
-                TempData["Message"] = "Given data is not valid!";
+                ViewData["Message"] = "Given data is not valid!";
                 return View("Index", _manufacturerRepository.Manufacturers);
             }
             else
@@ -82,11 +82,11 @@ namespace SportShop.Controllers
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    TempData["Message"] = "Manufacturer could not be added to the database.";
+                    ViewData["Message"] = "Manufacturer could not be added to the database.";
                 }
             }
 
-            return RedirectToAction("Index", _manufacturerRepository.Manufacturers);
+            return View("Index", _manufacturerRepository.Manufacturers);
         }
         
         /// <summary>
@@ -103,10 +103,10 @@ namespace SportShop.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                TempData["Message"] = "An unexpected error has occured while trying to delete product.";
+                ViewData["Message"] = "An unexpected error has occured while trying to delete product.";
             }
 
-            return RedirectToAction("Index", _manufacturerRepository.Manufacturers);
+            return View("Index", _manufacturerRepository.Manufacturers);
         }
     }
 }

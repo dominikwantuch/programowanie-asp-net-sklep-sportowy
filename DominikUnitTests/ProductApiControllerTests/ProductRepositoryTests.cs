@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using SportShop.Persistence.Repositories;
 using Xunit;
 
@@ -15,7 +15,7 @@ namespace DominikUnitTests.ProductApiControllerTests
             _productRepository = new ProductRepository(_mockHelper.MockedDbContext);
         }
 
-        #region products
+        #region Products
         
         [Fact]
         public void ShouldReturnQueryableCollectionOfProducts()

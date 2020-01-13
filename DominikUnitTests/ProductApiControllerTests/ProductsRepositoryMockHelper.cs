@@ -53,6 +53,59 @@ namespace DominikUnitTests.ProductApiControllerTests
 
         #endregion
 
+        #region UpdateProductModels
+
+        public readonly UpdateProductModel UpdateProductModel = new UpdateProductModel()
+        {
+            ProductId = 10,
+            ManufacturerId = 1,
+            Name = "UpdateProductName-Updated",
+            Description = "UpdateProductDescription",
+            Price = 10,
+            Category = "UpdateProductCategory"
+        };
+
+        public readonly Product ToUpdateProductEntity = new Product()
+        {
+            ProductId = 10,
+            ManufacturerId = 1,
+            Name = "UpdateProductName",
+            Description = "UpdateProductDescription",
+            Price = 10,
+            Category = "UpdateProductCategory"
+        };
+
+        public readonly Product UpdatedProductEntity = new Product()
+        {
+            ProductId = 10,
+            ManufacturerId = 1,
+            Name = "UpdateProductNameUpdated-Updated",
+            Description = "UpdateProductDescription",
+            Price = 10,
+            Category = "UpdateProductCategory"
+        };
+
+        public readonly UpdateProductModel NotFoundUpdateProductModel = new UpdateProductModel()
+        {
+            ProductId = 15
+        };
+
+        public readonly UpdateProductModel BadRequestUpdateProductModel = new UpdateProductModel()
+        {
+            ProductId = 20
+        };
+
+        public readonly Product BadRequestUpdateProduct = new Product()
+        {
+            ProductId = 20
+        };
+
+        public readonly UpdateProductModel ThrowErrorUpdateProductModel = new UpdateProductModel()
+        {
+            ProductId = 25
+        };
+
+        #endregion
 
         public readonly Product EditBadProductModel = new Product()
         {

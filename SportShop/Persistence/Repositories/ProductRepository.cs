@@ -79,7 +79,7 @@ namespace SportShop.Persistence.Repositories
             }
         }
 
-        public ResultModel<IEnumerable<Product>> GetAll(string category)
+        public ResultModel<IEnumerable<Product>> GetAll(string category = null)
         {
             try
             {

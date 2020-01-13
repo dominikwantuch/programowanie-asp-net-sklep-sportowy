@@ -147,6 +147,57 @@ namespace DominikUnitTests.ProductApiControllerTests
 
         #endregion
 
+        #region UpdateProductTests
+
+        [Fact]
+        public void UpdateProductShouldUpdateEntityAndReturn200StatusCode()
+        {
+            var result = _apiController.UpdateProduct(_mockHelper.UpdateProductModel);
+            
+            Assert.IsType<ObjectResult>(result);
+
+            var resultContent = (ObjectResult) result;
+
+            Assert.Equal(200, resultContent.StatusCode);
+            
+            Assert.IsType<ProductModel>(resultContent.Value);
+            
+            Assert.NotNull(resultContent.Value);
+        }
+
+        [Fact]
+        public void UpdateProductShouldReturnNotFoundResult()
+        {
+            var result = _apiController.UpdateProduct(_mockHelper.NotFoundUpdateProductModel);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public void UpdateProductShouldReturn400StatusCode()
+        {
+            var result = _apiController.UpdateProduct(_mockHelper.BadRequestUpdateProductModel);
+            
+            Assert.IsType<StatusCodeResult>(result);
+
+            var resultContent = (StatusCodeResult) result;
+
+            Assert.Equal(400, resultContent.StatusCode);
+        }
+
+        [Fact]
+        public void UpdateProductShouldReturn500StatusCode()
+        {
+            var result = _apiController.UpdateProduct(_mockHelper.ThrowErrorUpdateProductModel);
+
+            Assert.IsType<ObjectResult>(result);
+
+            var resultContent = (ObjectResult) result;
+
+            Assert.Equal(500, resultContent.StatusCode);                
+        }
+        
+        #endregion
         // [Theory]
         // [InlineData("Sporty Wodne")]
         // [InlineData("Gry planszowe")]

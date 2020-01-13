@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
@@ -100,11 +100,11 @@ namespace DominikUnitTests.ProductApiControllerTests
 
             //    NOTE FOR TEACHER
             //    IN SOME CASES I MOCKED METHODS TO THROW EXCEPTIONS EVEN IF THEY USE TRY-CATCH BLOCKS JUST TO HIT 100% COVERAGE ON CONTROLLER!
-            
+
             #region GetAll
 
-            Mock.Setup(x=> x.GetAll(null)).Returns(new ResultModel<IEnumerable<Product>>(products, 200));
-            
+            Mock.Setup(x => x.GetAll(null)).Returns(new ResultModel<IEnumerable<Product>>(products, 200));
+
             // GetAll shouldn't throw and exception because it's using try catch block but I added it for sake of testing controller.
             Mock.Setup(x => x.GetAll("throw")).Throws(new Exception());
 
@@ -116,15 +116,30 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .Returns(new ResultModel<Product>(products.FirstOrDefault(x => x.ProductId == 1), 200));
 
             Mock.Setup(x => x.GetById(5)).Returns(new ResultModel<Product>(null, 404));
-            
+
             Mock.Setup(x => x.GetById(7)).Throws(new Exception());
-            
+
             #endregion
 
-            
-            Mock.Setup(x => x.SaveProduct(CreateProductModel)).Returns(true);
+            #region CreateProduct
+
+            Mock.Setup(x => x.Create(It.Is<Product>(createProduct => createProduct.ProductId == 0)))
+                .Returns(new ResultModel<Product>(ReturnCreateProductEntity, 201));
+
+            Mock.Setup(x => x.Create(It.Is<Product>(createExistingProduct =>
+                    createExistingProduct.Name == CreateExistingProductModel.Name)))
+                .Returns(new ResultModel<Product>(null, 409));
+
+            Mock.Setup(x =>
+                    x.Create(It.Is<Product>(throwErrorProduct =>
+                        throwErrorProduct.Name == ThrowErrorProductModel.Name)))
+                .Throws(new Exception());
+
+            #endregion
+
+            //Mock.Setup(x => x.SaveProduct(CreateProductModel)).Returns(true);
             Mock.Setup(x => x.SaveProduct(EditBadProductModel)).Returns(false);
-            
+
             Mock.Setup(x => x.DeleteProduct(1)).Returns(true);
             Mock.Setup(x => x.DeleteProduct(10)).Returns(false);
         }

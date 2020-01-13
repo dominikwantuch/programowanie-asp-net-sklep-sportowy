@@ -69,6 +69,17 @@ namespace SzymonUnitTests
             Assert.Equal("Index", result.ViewName);
         }
 
+        [Fact]
+        public void CreateActionResult_NewProduct_ShouldReturnEditViewWithModel()
+        {
+            var result = (ViewResult)_controller.Create();
+            var data = (Product)result.ViewData.Model;
+
+            Assert.NotNull(result);
+            Assert.Equal("Edit", result.ViewName);
+            Assert.NotNull(data);
+        }
+
 
     }
 }

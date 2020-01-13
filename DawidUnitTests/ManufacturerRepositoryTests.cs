@@ -238,8 +238,8 @@ namespace DawidUnitTests
                 var result = manufacturersRepository.GetById(1);
 
                 Assert.NotNull(result);
-                Assert.Equal((int) HttpStatusCode.OK, result.StatusCode);
                 Assert.NotNull(result.Data);
+                Assert.Equal((int) HttpStatusCode.OK, result.StatusCode);
             }
         }
 
@@ -260,8 +260,8 @@ namespace DawidUnitTests
                 var result = manufacturersRepository.GetById(4);
 
                 Assert.NotNull(result);
-                Assert.Equal((int) HttpStatusCode.NotFound, result.StatusCode);
                 Assert.Null(result.Data);
+                Assert.Equal((int) HttpStatusCode.NotFound, result.StatusCode);
             }
         }
 
@@ -279,8 +279,6 @@ namespace DawidUnitTests
         [Fact]
         public void GetById_Exception_ShouldReturnInternalServerErrorStatusCodeAndNull()
         {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("50CE0FB7-45C0-4656-B6A8-C61C59157DB0").Options;
             Mock<ApplicationDbContext> mock =
                 new Mock<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
             mock.Object.Manufacturers = GetQueryableMockDbSet<Manufacturer>();
@@ -290,8 +288,58 @@ namespace DawidUnitTests
                 var result = manufacturersRepository.GetById(4);
 
                 Assert.NotNull(result);
-                Assert.Equal((int) HttpStatusCode.InternalServerError, result.StatusCode);
                 Assert.Null(result.Data);
+                Assert.Equal((int) HttpStatusCode.InternalServerError, result.StatusCode);
+            }
+        }
+
+        [Fact]
+        public void Create_SuccessfullyCreated_ShouldReturnCreatedStatusCodeAndManufacturer()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase("756EC067-CA25-4852-A780-BA5967904A0A").Options;
+            var manufacturer = new Manufacturer
+            {
+                Id = 3,
+                Name = "Razer",
+                Country = "USA",
+            };
+            
+            using(var context = new ApplicationDbContext(options))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
+            {
+                var result = manufacturersRepository.Create(manufacturer);
+                
+                Assert.NotNull(result);
+                Assert.NotNull(result.Data);
+                Assert.Equal((int)HttpStatusCode.Created, result.StatusCode);
+            }
+        }
+        [Fact]
+        public void Create_Conflict_ShouldReturnConflictStatusCode()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase("E6E6BD6F-5A17-40EF-9E57-BFB76005C75E").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_manufacturers);
+                context.SaveChanges();
+            }
+            var manufacturer = new Manufacturer
+            {
+                Id = 3,
+                Name = "Razer",
+                Country = "USA",
+            };
+            
+            using(var context = new ApplicationDbContext(options))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
+            {
+                var result = manufacturersRepository.Create(manufacturer);
+                
+                Assert.NotNull(result);
+                Assert.NotNull(result.Data);
+                Assert.Equal((int)HttpStatusCode.Conflict, result.StatusCode);
             }
         }
     }

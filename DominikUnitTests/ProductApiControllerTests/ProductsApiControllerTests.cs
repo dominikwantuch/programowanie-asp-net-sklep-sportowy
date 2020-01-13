@@ -58,6 +58,53 @@ namespace DominikUnitTests.ProductApiControllerTests
             Assert.Equal(500, contentResult.StatusCode);
         }
 
+        #endregion
+
+        #region GetProductTests
+
+        [Fact]
+        public void GetProductShouldReturnProperProductAnd200StatusCode()
+        {
+            var result = _apiController.GetProduct(1);
+
+            Assert.IsType<ObjectResult>(result);
+
+            var contentResult = (ObjectResult) result;
+
+            Assert.Equal(200, contentResult.StatusCode);
+            Assert.NotNull(contentResult.Value);
+
+            var returnedProduct = (ProductModel) contentResult.Value;
+
+            Assert.Equal(1, returnedProduct.ProductId);
+        }
+
+        [Fact]
+        public void GetProductShouldReturn404StatusCode()
+        {
+            var result = _apiController.GetProduct(5);
+
+            Assert.IsType<StatusCodeResult>(result);
+
+            var contentResult = (StatusCodeResult) result;
+            
+            Assert.Equal(404, contentResult.StatusCode);
+        }
+        
+        [Fact]
+        public void GetProductShouldReturn500StatusCode()
+        {
+            var result = _apiController.GetProduct(7);
+
+            Assert.IsType<ObjectResult>(result);
+
+            var contentResult = (ObjectResult) result;
+            
+            Assert.Equal(500, contentResult.StatusCode);
+        }
+
+        #endregion
+
         // [Theory]
         // [InlineData("Sporty Wodne")]
         // [InlineData("Gry planszowe")]

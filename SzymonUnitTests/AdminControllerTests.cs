@@ -15,6 +15,12 @@ namespace SzymonUnitTests
     {
         private readonly Mock<IProductRepository> _mock = new Mock<IProductRepository>();
         private readonly AdminController _controller;
+        private readonly Product _product = new Product
+        {
+            ProductId = 1,
+            Name = "Prod1",
+            Category = "Cat1"
+        };
 
         public AdminControllerTests()
         {
@@ -80,6 +86,42 @@ namespace SzymonUnitTests
             Assert.NotNull(data);
         }
 
+        [Fact]
+        public void SaveActionResult_ProductIsNotGiven_ShouldReturnViewIndexWithAllProducts()
+        {
+            var result = (ViewResult)_controller.Save(null);
+            var data = (IEnumerable<Product>)result.ViewData.Model;
+
+            Assert.NotNull(result);
+            Assert.Equal(3, data.Count());
+            Assert.Equal("Index", result.ViewName);
+            Assert.Equal("Given data is not valid!", result.ViewData["Message"]);
+        }
+        [Fact]
+        public void SaveActionResult_ModelStateIsInvalid_ShouldReturnViewIndexWithAllProducts()
+        {
+            _controller.ModelState.AddModelError("key", "error");
+            var result = (ViewResult)_controller.Save(_product);
+            var data = (IEnumerable<Product>)result.ViewData.Model;
+
+            Assert.NotNull(result);
+            Assert.Equal(3, data.Count());
+            Assert.Equal("Index", result.ViewName);
+            Assert.Equal("Given data is not valid!", result.ViewData["Message"]);
+        }
+
+        [Fact]
+        public void SaveActionResult_ProductIsGiven_ShouldReturnViewIndexWithAllProducts()
+        {
+            var result = (ViewResult)_controller.Save(_product);
+            var data = (IEnumerable<Product>)result.ViewData.Model;
+
+
+            Assert.NotNull(result);
+            Assert.Equal(3, data.Count());
+            Assert.Equal("Index", result.ViewName);
+        }
+    
 
     }
 }

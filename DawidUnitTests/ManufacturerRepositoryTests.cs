@@ -16,7 +16,7 @@ namespace DawidUnitTests
     {
         private readonly Manufacturer _manufacturer = new Manufacturer
         {
-            Id = 0,
+            Id = 1,
             Name = "Razer",
             Country = "USA",
         };
@@ -361,6 +361,75 @@ namespace DawidUnitTests
             using (var manufacturersRepository = new ManufacturerRepository(mock.Object))
             {
                 var result = manufacturersRepository.Create(manufacturer);
+
+                Assert.NotNull(result);
+                Assert.Null(result.Data);
+                Assert.Equal((int) HttpStatusCode.InternalServerError, result.StatusCode);
+            }
+        }
+
+        [Fact]
+        public void Update_ResponseIsNull_ShouldReturnNotFoundStatusCode()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase("3AD50E90-3A9F-49DB-8810-978CF71D8EE9").Options;
+            using (var context = new ApplicationDbContext(options))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
+            {
+                var result = manufacturersRepository.Update(_manufacturer);
+
+                Assert.NotNull(result);
+                Assert.Equal((int) HttpStatusCode.NotFound, result.StatusCode);
+            }
+        }
+
+        [Fact]
+        public void Update_SuccessfulUpdate_ShouldReturnOkStatusCodeAndManufacturer()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase("5E588408-AD61-4884-9BF7-12987F622785")
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking).Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_manufacturers);
+                context.SaveChanges();
+            }
+
+            var manufacturer = new Manufacturer
+            {
+                Id = 3,
+                Name = "Razer",
+                Country = "USA",
+            };
+
+            using (var context = new ApplicationDbContext(options))
+            using (var manufacturersRepository = new ManufacturerRepository(context))
+            {
+                var result = manufacturersRepository.Update(manufacturer);
+
+                Assert.NotNull(result);
+                Assert.NotNull(result.Data);
+                Assert.Equal(3, manufacturersRepository.Manufacturers.Count());
+                Assert.Equal((int) HttpStatusCode.OK, result.StatusCode);
+
+                var modified = manufacturersRepository.Manufacturers
+                    .FirstOrDefault(c => c.Id == manufacturer.Id);
+                Assert.NotNull(modified);
+                Assert.Equal(manufacturer.Id, modified.Id);
+                Assert.Equal(manufacturer.Name, modified.Name);
+                Assert.Equal(manufacturer.Country, modified.Country);
+            }
+        }
+
+        [Fact]
+        public void Update_ExceptionThrownByRepo_ShouldReturnInternalServerErrorStatusCode()
+        {
+            Mock<ApplicationDbContext> mock =
+                new Mock<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
+            mock.Object.Manufacturers = GetQueryableMockDbSet<Manufacturer>();
+            using (var manufacturersRepository = new ManufacturerRepository(mock.Object))
+            {
+                var result = manufacturersRepository.Update(_manufacturer);
 
                 Assert.NotNull(result);
                 Assert.Null(result.Data);

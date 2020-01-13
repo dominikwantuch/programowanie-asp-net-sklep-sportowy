@@ -10,7 +10,7 @@ Aby poprawnie uruchomić aplikację wymagane jest wpisanie poprawnego connection
 
 Dominik Wantuch:
 - ProductApiController- Moq + xUnit - pokrycie 100%
-- ManufacturerRepository- InMemoryDatabase + Moq + xUnit - pokrycie 100%
+- ProductRepository- InMemoryDatabase + Moq + xUnit - pokrycie 100%
 - CreateProductModel- xUnit - pokrycie 100%
 - ProductModel - xUnit - pokrycie 100%
 
@@ -19,9 +19,11 @@ Dominik Wantuch:
 ---
 
 Dawid Burnat:
+-ManufacturerApiController - Moq + xUnit - pokrycie 100%
+-ManufacturerController - Moq + xUnit - pokrycie 100%
+-ManufacturerRepository - Moq + xUnit + InMemoryDatabase - pokrycie 100%
 
----
-
+(wszystkie testy przechodzą poprawnie)
 Szymon Domalik:
 
 ---

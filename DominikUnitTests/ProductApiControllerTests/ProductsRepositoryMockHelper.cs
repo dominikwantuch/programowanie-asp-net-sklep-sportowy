@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
@@ -66,6 +66,9 @@ namespace DominikUnitTests.ProductApiControllerTests
             };
             Mock.Setup(x => x.Products).Returns(products.AsQueryable());
 
+            //    NOTE FOR TEACHER
+            //    IN SOME CASES I MOCKED METHODS TO THROW EXCEPTIONS EVEN IF THEY USE TRY-CATCH BLOCKS JUST TO HIT 100% COVERAGE ON CONTROLLER!
+            
             #region GetAll
 
             Mock.Setup(x=> x.GetAll(null)).Returns(new ResultModel<IEnumerable<Product>>(products, 200));

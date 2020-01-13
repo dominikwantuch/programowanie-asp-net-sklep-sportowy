@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +45,7 @@ namespace SportShop.Controllers
             
             if (manufacturer == null)
             {
-                TempData["Message"] = "Manufacturer with given id does not exist!";
+                ViewData["Message"] = "Manufacturer with given id does not exist!";
                 return View("Index");
             }
             
@@ -82,7 +82,7 @@ namespace SportShop.Controllers
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    TempData["Message"] = "Manufacturer could not be added to the database.";
+                    ViewData["Message"] = "Manufacturer could not be added to the database.";
                 }
             }
 
@@ -103,7 +103,7 @@ namespace SportShop.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                TempData["Message"] = "An unexpected error has occured while trying to delete product.";
+                ViewData["Message"] = "An unexpected error has occured while trying to delete product.";
             }
 
             return RedirectToAction("Index", _manufacturerRepository.Manufacturers);

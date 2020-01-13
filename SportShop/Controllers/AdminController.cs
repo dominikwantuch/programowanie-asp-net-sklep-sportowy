@@ -112,7 +112,7 @@ namespace SportShop.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                TempData["Message"] = "An unexpected error has occured while trying to delete product.";
+                ViewData["Message"] = "An unexpected error has occured while trying to delete product.";
             }
 
             return View("Index", _productRepository.Products);

@@ -113,7 +113,7 @@ namespace SzymonUnitTests
         [Fact]
         public void SaveActionResult_AccessingRepositoryException_SholudReturnErrorMessage()
         {
-            _mock.Setup(m => m.SaveProduct(It.IsAny<Product>())).Throws(new Exception());
+            _mock.Setup(m => m.SaveProduct(_product)).Throws(new Exception());
             var result = (ViewResult)_controller.Save(_product);
 
             Assert.Equal("Product could not be added to the database.", result.ViewData["Message"]);
@@ -131,7 +131,32 @@ namespace SzymonUnitTests
             Assert.Equal(3, data.Count());
             Assert.Equal("Index", result.ViewName);
         }
-    
+
+        [Fact]
+        public void DeleteActionResult_DeleteProduct_ShouldReturnErrorMessage()
+        {
+            var result = (ViewResult)_controller.Delete(_mock.Object.Products.ElementAt(0).ProductId);
+
+            _mock.Verify(m => m.Delete(_mock.Object.Products.ElementAt(1).ProductId), Times.Once);
+
+
+            Assert.NotNull(result);
+            Assert.Equal("Index", result.ViewName);
+        }
+
+        [Fact]
+        public void DeleteActionResult_ExceptionWhenSavingToRepository_ShouldReturnErrorMessage()
+        {
+            _mock.Setup(m => m.Delete(_mock.Object.Products.ElementAt(0).ProductId)).Throws(new Exception());
+            var result = (ViewResult)_controller.Delete(_mock.Object.Products.ElementAt(0).ProductId);
+
+            Assert.NotNull(result);
+            Assert.Equal("An unexpected error has occured while trying to delete product.", result.ViewData["Message"]);
+
+        }
+
+
+
 
     }
 }

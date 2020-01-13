@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using SportShop.Persistence.Entities;
 using SportShop.Persistence.Repositories;
+// ReSharper disable StringLiteralTypo
 
 namespace DominikUnitTests.ProductApiControllerTests
 {

@@ -1,13 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 using SportShop.Controllers;
 using SportShop.Models;
-using SportShop.Persistence.Entities;
-using SportShop.Persistence.Repositories;
 using Xunit;
-using Xunit.Abstractions;
 
 // ReSharper disable StringLiteralTypo
 

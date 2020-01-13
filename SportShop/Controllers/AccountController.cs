@@ -26,6 +26,9 @@ namespace SportShop.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
+
+            //TODO IdentitySeedData.EnsurePopulated(userManager);
+            //TODO LocalDbConnection in appsettings.Development.json
         }
 
         /// <summary>

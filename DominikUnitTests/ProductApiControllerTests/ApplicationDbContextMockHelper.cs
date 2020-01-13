@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -88,7 +88,8 @@ namespace DominikUnitTests.ProductApiControllerTests
             dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
             dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
             dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-            dbSet.Setup(d => d.Add(It.IsAny<T>())).Callback<T>((s) => sourceList.Add(s));
+            dbSet.Setup(d => d.Add(It.IsAny<T>())).Callback<T>(sourceList.Add);
+            dbSet.Setup(d => d.Remove(It.IsAny<T>())).Callback<T>(s => sourceList.Remove(s));
 
             return dbSet.Object;
         }

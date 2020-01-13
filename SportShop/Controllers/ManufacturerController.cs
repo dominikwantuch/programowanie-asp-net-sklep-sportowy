@@ -49,7 +49,7 @@ namespace SportShop.Controllers
                 return View("Index");
             }
             
-            return View(manufacturer);
+            return View("Edit",manufacturer);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace SportShop.Controllers
                 }
             }
 
-            return RedirectToAction("Index", _manufacturerRepository.Manufacturers);
+            return View("Index", _manufacturerRepository.Manufacturers);
         }
         
         /// <summary>
@@ -106,7 +106,7 @@ namespace SportShop.Controllers
                 ViewData["Message"] = "An unexpected error has occured while trying to delete product.";
             }
 
-            return RedirectToAction("Index", _manufacturerRepository.Manufacturers);
+            return View("Index", _manufacturerRepository.Manufacturers);
         }
     }
 }

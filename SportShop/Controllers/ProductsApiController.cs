@@ -33,10 +33,9 @@ namespace SportShop.Controllers
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(category))
-                    return StatusCode(200, _productRepository.Products.Where(x => x.Category == category).ToList().Select(ProductModel.ToModel));
-                else
-                    return StatusCode(200, _productRepository.Products.ToList().Select(ProductModel.ToModel));
+                var productsResponse = _productRepository.GetAll(category);
+
+                return StatusCode(200, productsResponse.Data.Select(ProductModel.ToModel));
             }
             catch (Exception e)
             {

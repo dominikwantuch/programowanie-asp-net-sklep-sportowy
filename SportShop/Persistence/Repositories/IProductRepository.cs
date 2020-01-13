@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using SportShop.Models;
 using SportShop.Persistence.Entities;
 
 namespace SportShop.Persistence.Repositories
 {
-    public interface IProductRepository
+    public interface IProductRepository : IDisposable
     {
         IQueryable<Product> Products { get; }
         bool DeleteProduct(int id);
@@ -13,5 +15,6 @@ namespace SportShop.Persistence.Repositories
         ResultModel<Product> Create(Product entity);
         ResultModel<Product> Update(Product entity);
         ResultModel<Product> Delete(int id);
+        ResultModel<IEnumerable<Product>> GetAll(string category);
     }
 }

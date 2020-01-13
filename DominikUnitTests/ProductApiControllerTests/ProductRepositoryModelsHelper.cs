@@ -8,11 +8,9 @@ using SportShop.Persistence.Repositories;
 
 namespace DominikUnitTests.ProductApiControllerTests
 {
-    public class ApplicationDbContextMockHelper
+    public class ProductRepositoryModelsHelper
     {
-        public readonly ApplicationDbContext MockedDbContext;
-        
-        public List<Product> _products = new List<Product>()
+        public readonly List<Product> Products = new List<Product>()
         {
             new Product()
             {
@@ -38,6 +36,24 @@ namespace DominikUnitTests.ProductApiControllerTests
                 ManufacturerId = 2,
                 Name = "Gra o tron",
                 Description = "Pionki, karty, mapy",
+                Price = 255,
+                Category = "Gry planszowe",
+            },
+            new Product()
+            {
+                ProductId = 4,
+                ManufacturerId = 2,
+                Name = "Władca pierścieni",
+                Description = "Pionki, karty, mapy i inne takie",
+                Price = 255,
+                Category = "Gry planszowe",
+            },
+            new Product()
+            {
+                ProductId = 5,
+                ManufacturerId = 2,
+                Name = "Nemesis",
+                Description = "20 dużych figuer oraz plansza",
                 Price = 255,
                 Category = "Gry planszowe",
             }
@@ -70,35 +86,12 @@ namespace DominikUnitTests.ProductApiControllerTests
             
         public readonly Product NotExistingEntity = new Product()
         {
-            ProductId = 5
+            ProductId = 10
         };
 
         public readonly Product OutOfRangeIdEntity = new Product()
         {
             ProductId = -1
         };
-        
-        
-        public ApplicationDbContextMockHelper()
-        {
-            var mock = new Mock<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
-            mock.Object.Products = GetQueryableMockDbSet(_products);
-            MockedDbContext = mock.Object;
-        }
-        
-        private static DbSet<T> GetQueryableMockDbSet<T>(List<T> sourceList) where T : class
-        {
-            var queryable = sourceList.AsQueryable();
-
-            var dbSet = new Mock<DbSet<T>>();
-            dbSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-            dbSet.Setup(d => d.Add(It.IsAny<T>())).Callback<T>(sourceList.Add);
-            dbSet.Setup(d => d.Remove(It.IsAny<T>())).Callback<T>(s => sourceList.Remove(s));
-
-            return dbSet.Object;
-        }
     }
 }

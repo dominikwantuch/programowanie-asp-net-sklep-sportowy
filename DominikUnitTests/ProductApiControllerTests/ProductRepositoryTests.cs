@@ -1,29 +1,43 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using SportShop.Persistence.Repositories;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace DominikUnitTests.ProductApiControllerTests
 {
     public class ProductRepositoryTests
     {
-        private readonly ApplicationDbContextMockHelper _mockHelper;
-        private readonly ProductRepository _productRepository;
+        private readonly ProductRepositoryModelsHelper _modelsHelper;
+        private readonly ITestOutputHelper _testOutputHelper;
 
-        public ProductRepositoryTests()
+        public ProductRepositoryTests(ITestOutputHelper testOutputHelper)
         {
-            _mockHelper = new ApplicationDbContextMockHelper();
-            _productRepository = new ProductRepository(_mockHelper.MockedDbContext);
+            _modelsHelper = new ProductRepositoryModelsHelper();
+            _testOutputHelper = testOutputHelper;
         }
-
+        
         #region Products
         
         [Fact]
         public void ShouldReturnQueryableCollectionOfProducts()
         {
-            var result = _productRepository.Products;
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("ShouldReturnQueryableCollectionOfProducts").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_modelsHelper.Products);
+                context.SaveChanges();
+            }
             
-            Assert.NotNull(result);
-            Assert.Equal(3, result.Count());
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var result = productsRepository.Products;
+            
+                Assert.NotNull(result);
+                Assert.Equal(5, result.Count());
+            }
         }
         
         #endregion
@@ -33,17 +47,39 @@ namespace DominikUnitTests.ProductApiControllerTests
         [Fact]
         public void DeleteProductShouldReturnTrue()
         {
-            var result = _productRepository.DeleteProduct(1);
-            Assert.True(result);
-            Assert.Equal(2, _productRepository.Products.Count());
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("DeleteProductShouldReturnTrue").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_modelsHelper.Products);
+                context.SaveChanges();
+            }
+            
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var result = productsRepository.DeleteProduct(1);
+                Assert.True(result);
+                Assert.Equal(4, productsRepository.Products.Count());
+            }
         }
         
         [Fact]
         public void DeleteProductShouldReturnFalse()
         {
-            var result = _productRepository.DeleteProduct(5);
-            Assert.False(result);
-            Assert.Equal(3, _productRepository.Products.Count());
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("DeleteProductShouldReturnFalse").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_modelsHelper.Products);
+                context.SaveChanges();
+            }
+            
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var result = productsRepository.DeleteProduct(_modelsHelper.NotExistingEntity.ProductId);
+                Assert.False(result);
+                Assert.Equal(5, productsRepository.Products.Count());
+            }
         }
         
         #endregion
@@ -53,45 +89,85 @@ namespace DominikUnitTests.ProductApiControllerTests
         [Fact]
         public void SaveProductShouldAddProductAndReturnTrue()
         {
-            var result = _productRepository.SaveProduct(_mockHelper.CreateProductEntity);
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("SaveProductShouldAddProductAndReturnTrue").Options;
+
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var result = productsRepository.SaveProduct(_modelsHelper.CreateProductEntity);
             
-            Assert.True(result);
-            Assert.Equal(4, _productRepository.Products.Count());
+                Assert.True(result);
+                Assert.Equal(1, productsRepository.Products.Count());
+            }
         }
 
         [Fact]
         public void SaveProductShouldUpdateExistingProduct()
         {
-            var result = _productRepository.SaveProduct(_mockHelper.UpdateProductEntity);
-            Assert.True(result);
-            Assert.Equal(3, _productRepository.Products.Count());
-
-            var shouldBeModified =
-                _productRepository.Products.FirstOrDefault(x =>
-                    x.ProductId == _mockHelper.UpdateProductEntity.ProductId);
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("SaveProductShouldUpdateExistingProduct").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_modelsHelper.Products);
+                context.SaveChanges();
+            }
             
-            Assert.NotNull(shouldBeModified);
-            Assert.Equal(_mockHelper.UpdateProductEntity.ManufacturerId, shouldBeModified.ManufacturerId);
-            Assert.Equal(_mockHelper.UpdateProductEntity.Name, shouldBeModified.Name);
-            Assert.Equal(_mockHelper.UpdateProductEntity.Description, shouldBeModified.Description);
-            Assert.Equal(_mockHelper.UpdateProductEntity.Price, shouldBeModified.Price);
-            Assert.Equal(_mockHelper.UpdateProductEntity.Category, shouldBeModified.Category);
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var result = productsRepository.SaveProduct(_modelsHelper.UpdateProductEntity);
+                Assert.True(result);
+                Assert.Equal(5, productsRepository.Products.Count());
+
+                var shouldBeModified =
+                    productsRepository.Products.FirstOrDefault(x =>
+                        x.ProductId == _modelsHelper.UpdateProductEntity.ProductId);
+            
+                Assert.NotNull(shouldBeModified);
+                Assert.Equal(_modelsHelper.UpdateProductEntity.ManufacturerId, shouldBeModified.ManufacturerId);
+                Assert.Equal(_modelsHelper.UpdateProductEntity.Name, shouldBeModified.Name);
+                Assert.Equal(_modelsHelper.UpdateProductEntity.Description, shouldBeModified.Description);
+                Assert.Equal(_modelsHelper.UpdateProductEntity.Price, shouldBeModified.Price);
+                Assert.Equal(_modelsHelper.UpdateProductEntity.Category, shouldBeModified.Category);
+            }
+
         }
 
         [Fact]
         public void SaveProductShouldNotFindProductAndReturnFalse()
         {
-            var result = _productRepository.SaveProduct(_mockHelper.NotExistingEntity);
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("SaveProductShouldNotFindProductAndReturnFalse").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_modelsHelper.Products);
+                context.SaveChanges();
+            }
             
-            Assert.False(result);
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var result = productsRepository.SaveProduct(_modelsHelper.NotExistingEntity);
+            
+                Assert.False(result);
+            }
         }
 
         [Fact]
         public void SaveProductShouldShouldReturnFalse()
         {
-            var result = _productRepository.SaveProduct(_mockHelper.OutOfRangeIdEntity);
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("SaveProductShouldShouldReturnFalse").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_modelsHelper.Products);
+                context.SaveChanges();
+            }
             
-            Assert.False(result);
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var result = productsRepository.SaveProduct(_modelsHelper.OutOfRangeIdEntity);
+            
+                Assert.False(result);
+            }
         }
         
         #endregion
@@ -101,25 +177,47 @@ namespace DominikUnitTests.ProductApiControllerTests
         [Fact]
         public void GetByIdShouldReturnProductAnd200StatusCode()
         {
-            var result = _productRepository.GetById(1);
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("GetByIdShouldReturnProductAnd200StatusCode").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_modelsHelper.Products);
+                context.SaveChanges();
+            }
             
-            Assert.NotNull(result);
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var result = productsRepository.GetById(1);
             
-            Assert.Equal(200, result.StatusCode);
+                Assert.NotNull(result);
             
-            Assert.NotNull(result.Data);
+                Assert.Equal(200, result.StatusCode);
+            
+                Assert.NotNull(result.Data);
+            }
         }
 
         [Fact]
         public void GetByIdShouldReturnNoProductAnd404StatusCode()
         {
-            var result = _productRepository.GetById(5);
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("GetByIdShouldReturnNoProductAnd404StatusCode").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_modelsHelper.Products);
+                context.SaveChanges();
+            }
             
-            Assert.NotNull(result);
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var result = productsRepository.GetById(_modelsHelper.NotExistingEntity.ProductId);
             
-            Assert.Equal(404, result.StatusCode);
+                Assert.NotNull(result);
             
-            Assert.Null(result.Data);
+                Assert.Equal(404, result.StatusCode);
+            
+                Assert.Null(result.Data);
+            }
         }
 
         #endregion
@@ -129,32 +227,54 @@ namespace DominikUnitTests.ProductApiControllerTests
         [Fact]
         public void GetAllShouldReturnAllProductsAnd200StatusCode()
         {
-            var result = _productRepository.GetAll();
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("GetAllShouldReturnAllProductsAnd200StatusCode").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_modelsHelper.Products);
+                context.SaveChanges();
+            }
             
-            Assert.NotNull(result);
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var result = productsRepository.GetAll();
             
-            Assert.Equal(200, result.StatusCode);
+                Assert.NotNull(result);
             
-            Assert.NotNull(result.Data);
+                Assert.Equal(200, result.StatusCode);
             
-            Assert.Equal(3, result.Data.Count());
+                Assert.NotNull(result.Data);
+            
+                Assert.Equal(5, result.Data.Count());
+            }
         }
 
         [Fact]
         public void GetAllShouldReturnProductFromGivenCategoryAnd200StatusCode()
         {
-            var category = "Sporty Wodne";
-            var result = _productRepository.GetAll(category);
-            
-            Assert.NotNull(result);
-            
-            Assert.Equal(200, result.StatusCode);
-            
-            Assert.NotNull(result.Data);
-
-            foreach (var product in result.Data)
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("GetAllShouldReturnProductFromGivenCategoryAnd200StatusCode").Options;
+            using (var context = new ApplicationDbContext(options))
             {
-                Assert.Equal(category, product.Category);
+                context.AddRange(_modelsHelper.Products);
+                context.SaveChanges();
+            }
+            
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var category = "Sporty Wodne";
+                var result = productsRepository.GetAll(category);
+            
+                Assert.NotNull(result);
+            
+                Assert.Equal(200, result.StatusCode);
+            
+                Assert.NotNull(result.Data);
+
+                foreach (var product in result.Data)
+                {
+                    Assert.Equal(category, product.Category);
+                }
             }
         }
         
@@ -165,23 +285,41 @@ namespace DominikUnitTests.ProductApiControllerTests
         [Fact]
         public void CreateShouldAddProductAndReturn201StatusCode()
         {
-            var result = _productRepository.Create(_mockHelper.CreateProductEntity);
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("CreateShouldAddProductAndReturn201StatusCode").Options;
+
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                _testOutputHelper.WriteLine(JsonConvert.SerializeObject(context.Products));
+                var result = productsRepository.Create(_modelsHelper.CreateProductEntity);
             
-            Assert.NotNull(result);
+                Assert.NotNull(result);
             
-            Assert.Equal(201, result.StatusCode);
+                Assert.Equal(201, result.StatusCode);
             
-            Assert.NotNull(result.Data);
+                Assert.NotNull(result.Data);
+            }
         }
 
         [Fact]
         public void CreateShouldReturn209StatusCode()
         {
-            var result = _productRepository.Create(_mockHelper.AlreadyExistingEntity);
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase("CreateShouldReturn209StatusCode").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_modelsHelper.Products);
+                context.SaveChanges();
+            }
             
-            Assert.NotNull(result);
+            using (var context = new ApplicationDbContext(options))
+            using (var productsRepository = new ProductRepository(context))
+            {
+                var result = productsRepository.Create(_modelsHelper.AlreadyExistingEntity);
+            
+                Assert.NotNull(result);
 
-            Assert.Equal(409, result.StatusCode);
+                Assert.Equal(409, result.StatusCode);
+            }
         }
 
 

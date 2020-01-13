@@ -53,7 +53,7 @@ namespace SportShop.Controllers
             var product = _productRepository.Products.FirstOrDefault(x => x.ProductId == id);
             if (product == null)
             {
-                TempData["Message"] = "Product with given id does not exist!";
+                ViewData["Message"] = "Product with given id does not exist!";
                 return View("Index");
             }
 

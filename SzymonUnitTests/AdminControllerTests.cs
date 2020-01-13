@@ -48,6 +48,26 @@ namespace SzymonUnitTests
             Assert.Equal(3, data.Count());
         }
 
+        [Fact]
+        public void EditActionResult_ProductIsFound_ShouldReturnViewWithOneProduct()
+        {
+            var result = (ViewResult)_controller.Edit(1);
+            var data = (Product)result.ViewData.Model;
+
+            Assert.NotNull(result);
+            Assert.Equal("Prod1", data.Name);
+        }
+
+        [Fact]
+        public void EditActionResult_ProductIsNotFound_ShouldReturnIndex()
+        {
+            var result = (ViewResult)_controller.Edit(4);
+            var data = (Product)result.ViewData.Model;
+
+            Assert.Null(data);
+            Assert.NotNull(result);
+            Assert.Equal("Index", result.ViewName);
+        }
 
 
     }

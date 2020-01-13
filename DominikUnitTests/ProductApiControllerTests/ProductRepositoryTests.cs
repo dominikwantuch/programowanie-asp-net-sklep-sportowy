@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using SportShop.Persistence.Repositories;
 using Xunit;
 
@@ -122,6 +122,42 @@ namespace DominikUnitTests.ProductApiControllerTests
             Assert.Null(result.Data);
         }
 
+        #endregion
+        
+        #region GetAll
+
+        [Fact]
+        public void GetAllShouldReturnAllProductsAnd200StatusCode()
+        {
+            var result = _productRepository.GetAll();
+            
+            Assert.NotNull(result);
+            
+            Assert.Equal(200, result.StatusCode);
+            
+            Assert.NotNull(result.Data);
+            
+            Assert.Equal(3, result.Data.Count());
+        }
+
+        [Fact]
+        public void GetAllShouldReturnProductFromGivenCategoryAnd200StatusCode()
+        {
+            var category = "Sporty Wodne";
+            var result = _productRepository.GetAll(category);
+            
+            Assert.NotNull(result);
+            
+            Assert.Equal(200, result.StatusCode);
+            
+            Assert.NotNull(result.Data);
+
+            foreach (var product in result.Data)
+            {
+                Assert.Equal(category, product.Category);
+            }
+        }
+        
         #endregion
         
     }

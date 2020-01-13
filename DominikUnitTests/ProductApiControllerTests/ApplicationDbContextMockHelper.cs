@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -41,6 +41,37 @@ namespace DominikUnitTests.ProductApiControllerTests
                 Category = "Gry planszowe",
             }
         };
+
+        public readonly Product SaveProductEntity = new Product()
+        {
+            ProductId = 0,
+            ManufacturerId = 1,
+            Name = "ProductName",
+            Description = "ProductDescription",
+            Price = 10,
+            Category = "ProductCategory"
+        };
+
+        public readonly Product SaveProductUpdateEntity = new Product()
+        {
+            ProductId = 1,
+            ManufacturerId = 1,
+            Name = "ProductName",
+            Description = "ProductDescription",
+            Price = 10,
+            Category = "ProductCategory"
+        };
+
+        public readonly Product SaveProductNotExistingEntity = new Product()
+        {
+            ProductId = 5
+        };
+
+        public readonly Product SaveProductOutOfRangeIdEntity = new Product()
+        {
+            ProductId = -1
+        };
+        
         public ApplicationDbContextMockHelper()
         {
             MockedDbContext = new ApplicationDbContext(new DbContextOptions<ApplicationDbContext>());

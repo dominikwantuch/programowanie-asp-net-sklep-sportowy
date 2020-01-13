@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -85,7 +86,6 @@ namespace SportShop.Persistence.Repositories
                 return new ResultModel<Manufacturer>(null, 500);
             }
         }
-
         public ResultModel<Manufacturer> Create(Manufacturer entity)
         {
             try
@@ -119,7 +119,7 @@ namespace SportShop.Persistence.Repositories
 
                 var updateResponse = _dbContext.Update(entity);
                 _dbContext.SaveChanges();
-                return new ResultModel<Manufacturer>(entity, 200);
+                return new ResultModel<Manufacturer>(updateResponse.Entity, 200);
             }
             catch (Exception e)
             {

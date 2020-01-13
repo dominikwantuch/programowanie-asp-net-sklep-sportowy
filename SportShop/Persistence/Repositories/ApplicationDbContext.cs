@@ -5,8 +5,15 @@ using SportShop.Persistence.Entities;
 
 namespace SportShop.Persistence.Repositories
 {
+    /// <summary>
+    /// Application database context class
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="options"><see cref="DbContextOptions"/></param>
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }

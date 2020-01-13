@@ -53,7 +53,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         [Fact]
         public void SaveProductShouldAddProductAndReturnTrue()
         {
-            var result = _productRepository.SaveProduct(_mockHelper.SaveProductEntity);
+            var result = _productRepository.SaveProduct(_mockHelper.CreateProductEntity);
             
             Assert.True(result);
             Assert.Equal(4, _productRepository.Products.Count());
@@ -62,26 +62,26 @@ namespace DominikUnitTests.ProductApiControllerTests
         [Fact]
         public void SaveProductShouldUpdateExistingProduct()
         {
-            var result = _productRepository.SaveProduct(_mockHelper.SaveProductUpdateEntity);
+            var result = _productRepository.SaveProduct(_mockHelper.UpdateProductEntity);
             Assert.True(result);
             Assert.Equal(3, _productRepository.Products.Count());
 
             var shouldBeModified =
                 _productRepository.Products.FirstOrDefault(x =>
-                    x.ProductId == _mockHelper.SaveProductUpdateEntity.ProductId);
+                    x.ProductId == _mockHelper.UpdateProductEntity.ProductId);
             
             Assert.NotNull(shouldBeModified);
-            Assert.Equal(_mockHelper.SaveProductUpdateEntity.ManufacturerId, shouldBeModified.ManufacturerId);
-            Assert.Equal(_mockHelper.SaveProductUpdateEntity.Name, shouldBeModified.Name);
-            Assert.Equal(_mockHelper.SaveProductUpdateEntity.Description, shouldBeModified.Description);
-            Assert.Equal(_mockHelper.SaveProductUpdateEntity.Price, shouldBeModified.Price);
-            Assert.Equal(_mockHelper.SaveProductUpdateEntity.Category, shouldBeModified.Category);
+            Assert.Equal(_mockHelper.UpdateProductEntity.ManufacturerId, shouldBeModified.ManufacturerId);
+            Assert.Equal(_mockHelper.UpdateProductEntity.Name, shouldBeModified.Name);
+            Assert.Equal(_mockHelper.UpdateProductEntity.Description, shouldBeModified.Description);
+            Assert.Equal(_mockHelper.UpdateProductEntity.Price, shouldBeModified.Price);
+            Assert.Equal(_mockHelper.UpdateProductEntity.Category, shouldBeModified.Category);
         }
 
         [Fact]
         public void SaveProductShouldNotFindProductAndReturnFalse()
         {
-            var result = _productRepository.SaveProduct(_mockHelper.SaveProductNotExistingEntity);
+            var result = _productRepository.SaveProduct(_mockHelper.NotExistingEntity);
             
             Assert.False(result);
         }
@@ -89,7 +89,7 @@ namespace DominikUnitTests.ProductApiControllerTests
         [Fact]
         public void SaveProductShouldShouldReturnFalse()
         {
-            var result = _productRepository.SaveProduct(_mockHelper.SaveProductOutOfRangeIdEntity);
+            var result = _productRepository.SaveProduct(_mockHelper.OutOfRangeIdEntity);
             
             Assert.False(result);
         }
@@ -159,6 +159,33 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
         
         #endregion
-        
+
+        #region Create
+
+        [Fact]
+        public void CreateShouldAddProductAndReturn201StatusCode()
+        {
+            var result = _productRepository.Create(_mockHelper.CreateProductEntity);
+            
+            Assert.NotNull(result);
+            
+            Assert.Equal(201, result.StatusCode);
+            
+            Assert.NotNull(result.Data);
+        }
+
+        [Fact]
+        public void CreateShouldReturn209StatusCode()
+        {
+            var result = _productRepository.Create(_mockHelper.AlreadyExistingEntity);
+            
+            Assert.NotNull(result);
+
+            Assert.Equal(409, result.StatusCode);
+        }
+
+
+        #endregion
+
     }
 }

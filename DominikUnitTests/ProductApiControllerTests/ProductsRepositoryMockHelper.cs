@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
@@ -189,6 +189,31 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .Throws(new Exception());
 
             #endregion
+
+            #region UpdateProduct
+
+            // Proper create
+            Mock.Setup(x => x.GetById(UpdateProductModel.ProductId))
+                .Returns(new ResultModel<Product>(ToUpdateProductEntity, 200));
+            Mock.Setup(x => x.Update(It.Is<Product>(p => p.Name == UpdateProductModel.Name)))
+                .Returns(new ResultModel<Product>(UpdatedProductEntity, 200));
+
+            // Not found
+            Mock.Setup(x => x.GetById(NotFoundUpdateProductModel.ProductId))
+                .Returns(new ResultModel<Product>(null, 404));
+
+            // Update returns 400
+            Mock.Setup(x => x.GetById(BadRequestUpdateProductModel.ProductId))
+                .Returns(new ResultModel<Product>(BadRequestUpdateProduct, 200));
+
+            Mock.Setup(x => x.Update(It.Is<Product>(p => p.ProductId == BadRequestUpdateProduct.ProductId)))
+                .Returns(new ResultModel<Product>(null, 400));
+            
+            //Update returns 500
+            Mock.Setup(x => x.GetById(ThrowErrorUpdateProductModel.ProductId)).Throws(new Exception());
+
+            #endregion
+
 
             //Mock.Setup(x => x.SaveProduct(CreateProductModel)).Returns(true);
             Mock.Setup(x => x.SaveProduct(EditBadProductModel)).Returns(false);

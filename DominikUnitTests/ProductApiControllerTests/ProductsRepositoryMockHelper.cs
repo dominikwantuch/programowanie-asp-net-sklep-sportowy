@@ -66,16 +66,16 @@ namespace DominikUnitTests.ProductApiControllerTests
             };
             Mock.Setup(x => x.Products).Returns(products.AsQueryable());
 
+            #region GetAll
+
             Mock.Setup(x=> x.GetAll(null)).Returns(new ResultModel<IEnumerable<Product>>(products, 200));
             
-            Mock.Setup(x => x.GetAll("Sporty Wodne"))
-                .Returns(new ResultModel<IEnumerable<Product>>(products.Where(x => x.Category == "Sporty Wodne"), 200));
-            
-            Mock.Setup(x => x.GetAll("Gry planszowe"))
-                .Returns(new ResultModel<IEnumerable<Product>>(products.Where(x => x.Category == "Gry planszowe"), 200));
-
             // GetAll shouldn't throw and exception because it's using try catch block but I added it for sake of testing controller.
             Mock.Setup(x => x.GetAll("throw")).Throws(new Exception());
+
+            #endregion
+            
+            
             
             Mock.Setup(x => x.SaveProduct(CreateProductModel)).Returns(true);
             Mock.Setup(x => x.SaveProduct(EditBadProductModel)).Returns(false);

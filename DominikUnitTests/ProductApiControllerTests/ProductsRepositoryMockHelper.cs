@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
@@ -25,7 +25,7 @@ namespace DominikUnitTests.ProductApiControllerTests
 
         public readonly Product ReturnCreateProductEntity = new Product()
         {
-            ProductId = 12,
+            ProductId = 5,
             ManufacturerId = 1,
             Name = "Okulary do pływania",
             Description = "Okulary zbudowane z karbonu.",

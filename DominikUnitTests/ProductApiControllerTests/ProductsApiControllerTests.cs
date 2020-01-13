@@ -87,10 +87,10 @@ namespace DominikUnitTests.ProductApiControllerTests
             Assert.IsType<StatusCodeResult>(result);
 
             var contentResult = (StatusCodeResult) result;
-            
+
             Assert.Equal(404, contentResult.StatusCode);
         }
-        
+
         [Fact]
         public void GetProductShouldReturn500StatusCode()
         {
@@ -99,8 +99,50 @@ namespace DominikUnitTests.ProductApiControllerTests
             Assert.IsType<ObjectResult>(result);
 
             var contentResult = (ObjectResult) result;
-            
+
             Assert.Equal(500, contentResult.StatusCode);
+        }
+
+        #endregion
+
+        #region CreateProductTests
+
+        [Fact]
+        public void CreateProductShouldReturnCreatedProductModelAnd201StatusCode()
+        {
+            var result = _apiController.CreateProduct(_mockHelper.CreateProductModel);
+
+            Assert.IsType<ObjectResult>(result);
+
+            var resultContent = (ObjectResult) result;
+
+            Assert.Equal(201, resultContent.StatusCode);
+            Assert.IsType<ProductModel>(resultContent.Value);
+            Assert.NotNull(resultContent.Value);
+        }
+
+        [Fact]
+        public void CreateProductShouldReturn409StatusCode()
+        {
+            var result = _apiController.CreateProduct(_mockHelper.CreateExistingProductModel);
+
+            Assert.IsType<StatusCodeResult>(result);
+
+            var resultContent = (StatusCodeResult) result;
+
+            Assert.Equal(409, resultContent.StatusCode);
+        }
+
+        [Fact]
+        public void CreateProductShouldReturn500StatusCode()
+        {
+            var result = _apiController.CreateProduct(_mockHelper.ThrowErrorProductModel);
+
+            Assert.IsType<ObjectResult>(result);
+
+            var resultContent = (ObjectResult) result;
+
+            Assert.Equal(500, resultContent.StatusCode);
         }
 
         #endregion
@@ -128,32 +170,15 @@ namespace DominikUnitTests.ProductApiControllerTests
         //     }
         // }
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public void ShouldReturnProperProductAndResponse(int id)
-        {
-            var result = _apiController.GetProduct(id);
-            
-            Assert.IsType<ObjectResult>(result);
-            
-            var contentResult = (ObjectResult) result;
-            
-            Assert.NotNull(contentResult.Value);
-            
-            var returnedProduct = (Product) contentResult.Value;
-            
-            Assert.Equal(id, returnedProduct.ProductId);
-        }
 
-        [Fact]
-        public void ShouldReturnNotFoundResponse()
-        {
-            var result = _apiController.GetProduct(10);
-            
-            Assert.IsType<NotFoundObjectResult>(result);
-        }
+        // [Fact]
+        // public void ShouldReturnNotFoundResponse()
+        // {
+        //     var result = _apiController.GetProduct(10);
+        //
+        //     Assert.IsType<NotFoundObjectResult>(result);
+        // }
+
         //
         // [Fact]
         // public void ShouldReturnBadRequestResponse()
@@ -170,6 +195,5 @@ namespace DominikUnitTests.ProductApiControllerTests
         //     
         //     Assert.IsType<CreatedAtActionResult>(result);
         // }
-        
     }
 }

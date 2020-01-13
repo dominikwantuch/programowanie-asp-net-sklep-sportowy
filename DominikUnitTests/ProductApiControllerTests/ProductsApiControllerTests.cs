@@ -195,5 +195,33 @@ namespace DominikUnitTests.ProductApiControllerTests
         }
         
         #endregion
+
+        #region DeleteProductTests
+
+        [Fact]
+        public void DeleteProductShouldReturn204StatusCode()
+        {
+            var result = _apiController.DeleteProduct(5);
+            
+            Assert.IsType<StatusCodeResult>(result);
+
+            var resultContent = (StatusCodeResult) result;
+            
+            Assert.Equal(204, resultContent.StatusCode);
+        }
+
+        [Fact]
+        public void DeleteProductShouldReturn500StatusCode()
+        {
+            var result = _apiController.DeleteProduct(10);
+            
+            Assert.IsType<ObjectResult>(result);
+
+            var resultContent = (ObjectResult) result;
+            
+            Assert.Equal(500, resultContent.StatusCode);            
+        }
+
+        #endregion
     }
 }

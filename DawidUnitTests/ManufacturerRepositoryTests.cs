@@ -304,17 +304,18 @@ namespace DawidUnitTests
                 Name = "Razer",
                 Country = "USA",
             };
-            
-            using(var context = new ApplicationDbContext(options))
+
+            using (var context = new ApplicationDbContext(options))
             using (var manufacturersRepository = new ManufacturerRepository(context))
             {
                 var result = manufacturersRepository.Create(manufacturer);
-                
+
                 Assert.NotNull(result);
                 Assert.NotNull(result.Data);
-                Assert.Equal((int)HttpStatusCode.Created, result.StatusCode);
+                Assert.Equal((int) HttpStatusCode.Created, result.StatusCode);
             }
         }
+
         [Fact]
         public void Create_Conflict_ShouldReturnConflictStatusCode()
         {
@@ -325,21 +326,45 @@ namespace DawidUnitTests
                 context.AddRange(_manufacturers);
                 context.SaveChanges();
             }
+
             var manufacturer = new Manufacturer
             {
                 Id = 3,
                 Name = "Razer",
                 Country = "USA",
             };
-            
-            using(var context = new ApplicationDbContext(options))
+
+            using (var context = new ApplicationDbContext(options))
             using (var manufacturersRepository = new ManufacturerRepository(context))
             {
                 var result = manufacturersRepository.Create(manufacturer);
-                
+
                 Assert.NotNull(result);
                 Assert.NotNull(result.Data);
-                Assert.Equal((int)HttpStatusCode.Conflict, result.StatusCode);
+                Assert.Equal((int) HttpStatusCode.Conflict, result.StatusCode);
+            }
+        }
+
+        [Fact]
+        public void Create_ExceptionThrownByRepo_ShouldReturnInternalServerError()
+        {
+            Mock<ApplicationDbContext> mock =
+                new Mock<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
+            mock.Object.Manufacturers = GetQueryableMockDbSet<Manufacturer>();
+
+            var manufacturer = new Manufacturer
+            {
+                Id = 3,
+                Name = "Razer",
+                Country = "USA",
+            };
+            using (var manufacturersRepository = new ManufacturerRepository(mock.Object))
+            {
+                var result = manufacturersRepository.Create(manufacturer);
+
+                Assert.NotNull(result);
+                Assert.Null(result.Data);
+                Assert.Equal((int) HttpStatusCode.InternalServerError, result.StatusCode);
             }
         }
     }

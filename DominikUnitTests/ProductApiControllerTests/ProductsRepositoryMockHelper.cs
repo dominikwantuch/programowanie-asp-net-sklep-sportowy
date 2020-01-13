@@ -107,16 +107,6 @@ namespace DominikUnitTests.ProductApiControllerTests
 
         #endregion
 
-        public readonly Product EditBadProductModel = new Product()
-        {
-            ProductId = 3,
-            ManufacturerId = 1,
-            Name = "Płetwy dla nurka",
-            Description = "Płetwy w rozmiarze uniwersalnym.",
-            Price = 165,
-            Category = "Sporty Wodne",
-        };
-
         public ProductsRepositoryMockHelper()
         {
             var products = new List<Product>()
@@ -221,12 +211,6 @@ namespace DominikUnitTests.ProductApiControllerTests
             Mock.Setup(x => x.Delete(10)).Throws(new Exception());
 
             #endregion
-
-            //Mock.Setup(x => x.SaveProduct(CreateProductModel)).Returns(true);
-            Mock.Setup(x => x.SaveProduct(EditBadProductModel)).Returns(false);
-
-            Mock.Setup(x => x.DeleteProduct(1)).Returns(true);
-            Mock.Setup(x => x.DeleteProduct(10)).Returns(false);
         }
     }
 }

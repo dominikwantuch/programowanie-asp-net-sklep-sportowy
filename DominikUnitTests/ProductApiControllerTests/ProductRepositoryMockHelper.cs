@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -8,8 +9,9 @@ using SportShop.Persistence.Repositories;
 
 namespace DominikUnitTests.ProductApiControllerTests
 {
-    public class ProductRepositoryModelsHelper
+    public class ProductRepositoryMockHelper
     {
+        public readonly ApplicationDbContext ErrorMockedDbContext;
         public readonly List<Product> Products = new List<Product>()
         {
             new Product()
@@ -93,5 +95,24 @@ namespace DominikUnitTests.ProductApiControllerTests
         {
             ProductId = -1
         };
+
+        public ProductRepositoryMockHelper()
+        {
+            Mock<ApplicationDbContext> mock = new Mock<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
+            mock.Object.Products = GetQueryableMockDbSet<Product>();
+            ErrorMockedDbContext = mock.Object;
+
+        }
+        
+        private static DbSet<T> GetQueryableMockDbSet<T>() where T : class
+        {
+            var dbSet = new Mock<DbSet<T>>();
+            dbSet.As<IQueryable<T>>().Setup(m => m.Provider).Throws(new Exception());
+            dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Throws(new Exception());
+            dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Throws(new Exception());
+            dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Throws(new Exception());
+            
+            return dbSet.Object;
+        }
     }
 }

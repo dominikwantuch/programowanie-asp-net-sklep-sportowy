@@ -214,6 +214,13 @@ namespace DominikUnitTests.ProductApiControllerTests
 
             #endregion
 
+            #region DeleteProduct
+
+            Mock.Setup(x => x.Delete(5)).Returns(new ResultModel<Product>(null, 204));
+
+            Mock.Setup(x => x.Delete(10)).Throws(new Exception());
+
+            #endregion
 
             //Mock.Setup(x => x.SaveProduct(CreateProductModel)).Returns(true);
             Mock.Setup(x => x.SaveProduct(EditBadProductModel)).Returns(false);

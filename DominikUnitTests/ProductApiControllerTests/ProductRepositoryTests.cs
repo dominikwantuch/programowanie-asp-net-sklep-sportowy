@@ -9,12 +9,12 @@ namespace DominikUnitTests.ProductApiControllerTests
 {
     public class ProductRepositoryTests
     {
-        private readonly ProductRepositoryModelsHelper _modelsHelper;
+        private readonly ProductRepositoryMockHelper _mockHelper;
         private readonly ITestOutputHelper _testOutputHelper;
 
         public ProductRepositoryTests(ITestOutputHelper testOutputHelper)
         {
-            _modelsHelper = new ProductRepositoryModelsHelper();
+            _mockHelper = new ProductRepositoryMockHelper();
             _testOutputHelper = testOutputHelper;
         }
 
@@ -27,7 +27,7 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .UseInMemoryDatabase("ShouldReturnQueryableCollectionOfProducts").Options;
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
@@ -52,7 +52,7 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .UseInMemoryDatabase("DeleteProductShouldReturnTrue").Options;
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
@@ -72,14 +72,14 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .UseInMemoryDatabase("DeleteProductShouldReturnFalse").Options;
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
             using (var context = new ApplicationDbContext(options))
             using (var productsRepository = new ProductRepository(context))
             {
-                var result = productsRepository.DeleteProduct(_modelsHelper.NotExistingEntity.ProductId);
+                var result = productsRepository.DeleteProduct(_mockHelper.NotExistingEntity.ProductId);
                 Assert.False(result);
                 Assert.Equal(5, productsRepository.Products.Count());
             }
@@ -98,7 +98,7 @@ namespace DominikUnitTests.ProductApiControllerTests
             using (var context = new ApplicationDbContext(options))
             using (var productsRepository = new ProductRepository(context))
             {
-                var result = productsRepository.SaveProduct(_modelsHelper.CreateProductEntity);
+                var result = productsRepository.SaveProduct(_mockHelper.CreateProductEntity);
 
                 Assert.True(result);
                 Assert.Equal(1, productsRepository.Products.Count());
@@ -112,27 +112,27 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .UseInMemoryDatabase("SaveProductShouldUpdateExistingProduct").Options;
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
             using (var context = new ApplicationDbContext(options))
             using (var productsRepository = new ProductRepository(context))
             {
-                var result = productsRepository.SaveProduct(_modelsHelper.UpdateProductEntity);
+                var result = productsRepository.SaveProduct(_mockHelper.UpdateProductEntity);
                 Assert.True(result);
                 Assert.Equal(5, productsRepository.Products.Count());
 
                 var shouldBeModified =
                     productsRepository.Products.FirstOrDefault(x =>
-                        x.ProductId == _modelsHelper.UpdateProductEntity.ProductId);
+                        x.ProductId == _mockHelper.UpdateProductEntity.ProductId);
 
                 Assert.NotNull(shouldBeModified);
-                Assert.Equal(_modelsHelper.UpdateProductEntity.ManufacturerId, shouldBeModified.ManufacturerId);
-                Assert.Equal(_modelsHelper.UpdateProductEntity.Name, shouldBeModified.Name);
-                Assert.Equal(_modelsHelper.UpdateProductEntity.Description, shouldBeModified.Description);
-                Assert.Equal(_modelsHelper.UpdateProductEntity.Price, shouldBeModified.Price);
-                Assert.Equal(_modelsHelper.UpdateProductEntity.Category, shouldBeModified.Category);
+                Assert.Equal(_mockHelper.UpdateProductEntity.ManufacturerId, shouldBeModified.ManufacturerId);
+                Assert.Equal(_mockHelper.UpdateProductEntity.Name, shouldBeModified.Name);
+                Assert.Equal(_mockHelper.UpdateProductEntity.Description, shouldBeModified.Description);
+                Assert.Equal(_mockHelper.UpdateProductEntity.Price, shouldBeModified.Price);
+                Assert.Equal(_mockHelper.UpdateProductEntity.Category, shouldBeModified.Category);
             }
         }
 
@@ -143,14 +143,14 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .UseInMemoryDatabase("SaveProductShouldNotFindProductAndReturnFalse").Options;
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
             using (var context = new ApplicationDbContext(options))
             using (var productsRepository = new ProductRepository(context))
             {
-                var result = productsRepository.SaveProduct(_modelsHelper.NotExistingEntity);
+                var result = productsRepository.SaveProduct(_mockHelper.NotExistingEntity);
 
                 Assert.False(result);
             }
@@ -163,14 +163,14 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .UseInMemoryDatabase("SaveProductShouldShouldReturnFalse").Options;
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
             using (var context = new ApplicationDbContext(options))
             using (var productsRepository = new ProductRepository(context))
             {
-                var result = productsRepository.SaveProduct(_modelsHelper.OutOfRangeIdEntity);
+                var result = productsRepository.SaveProduct(_mockHelper.OutOfRangeIdEntity);
 
                 Assert.False(result);
             }
@@ -187,7 +187,7 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .UseInMemoryDatabase("GetByIdShouldReturnProductAnd200StatusCode").Options;
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
@@ -211,14 +211,14 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .UseInMemoryDatabase("GetByIdShouldReturnNoProductAnd404StatusCode").Options;
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
             using (var context = new ApplicationDbContext(options))
             using (var productsRepository = new ProductRepository(context))
             {
-                var result = productsRepository.GetById(_modelsHelper.NotExistingEntity.ProductId);
+                var result = productsRepository.GetById(_mockHelper.NotExistingEntity.ProductId);
 
                 Assert.NotNull(result);
 
@@ -228,6 +228,19 @@ namespace DominikUnitTests.ProductApiControllerTests
             }
         }
 
+        [Fact]
+        public void GetByIdShouldReturn500StatusCode()
+        {
+            using (var productsRepository = new ProductRepository(_mockHelper.ErrorMockedDbContext))
+            {
+                var result = productsRepository.GetById(1);
+                
+                Assert.NotNull(result);
+                
+                Assert.Equal(500, result.StatusCode);
+            }
+        }
+        
         #endregion
 
         #region GetAll
@@ -239,7 +252,7 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .UseInMemoryDatabase("GetAllShouldReturnAllProductsAnd200StatusCode").Options;
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
@@ -265,7 +278,7 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .UseInMemoryDatabase("GetAllShouldReturnProductFromGivenCategoryAnd200StatusCode").Options;
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
@@ -287,6 +300,19 @@ namespace DominikUnitTests.ProductApiControllerTests
                 }
             }
         }
+        
+        [Fact]
+        public void GetAllShouldReturn500StatusCode()
+        {
+            using (var productsRepository = new ProductRepository(_mockHelper.ErrorMockedDbContext))
+            {
+                var result = productsRepository.GetAll();
+                
+                Assert.NotNull(result);
+                
+                Assert.Equal(500, result.StatusCode);
+            }
+        }
 
         #endregion
 
@@ -302,7 +328,7 @@ namespace DominikUnitTests.ProductApiControllerTests
             using (var productsRepository = new ProductRepository(context))
             {
                 _testOutputHelper.WriteLine(JsonConvert.SerializeObject(context.Products));
-                var result = productsRepository.Create(_modelsHelper.CreateProductEntity);
+                var result = productsRepository.Create(_mockHelper.CreateProductEntity);
 
                 Assert.NotNull(result);
 
@@ -319,14 +345,14 @@ namespace DominikUnitTests.ProductApiControllerTests
                 .UseInMemoryDatabase("CreateShouldReturn209StatusCode").Options;
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
             using (var context = new ApplicationDbContext(options))
             using (var productsRepository = new ProductRepository(context))
             {
-                var result = productsRepository.Create(_modelsHelper.AlreadyExistingEntity);
+                var result = productsRepository.Create(_mockHelper.AlreadyExistingEntity);
 
                 Assert.NotNull(result);
 
@@ -334,14 +360,22 @@ namespace DominikUnitTests.ProductApiControllerTests
             }
         }
         
+        [Fact]
+        public void CreateShouldReturn500StatusCode()
+        {
+            using (var productsRepository = new ProductRepository(_mockHelper.ErrorMockedDbContext))
+            {
+                var result = productsRepository.Create(_mockHelper.CreateProductEntity);
+                
+                Assert.NotNull(result);
+                
+                Assert.Equal(500, result.StatusCode);
+            }
+        }
+        
         #endregion
 
         #region Update
-
-        
-        
-        
-
 
         [Fact]
         public void UpdateShouldUpdateEntityAndReturn200StatusCode()
@@ -351,14 +385,14 @@ namespace DominikUnitTests.ProductApiControllerTests
             
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
             using (var context = new ApplicationDbContext(options))
             using (var productsRepository = new ProductRepository(context))
             {
-                var updateProductEntity = _modelsHelper.UpdateProductEntity;
+                var updateProductEntity = _mockHelper.UpdateProductEntity;
                 var result = productsRepository.Update(updateProductEntity);
 
                 Assert.NotNull(result);
@@ -384,11 +418,24 @@ namespace DominikUnitTests.ProductApiControllerTests
             using (var context = new ApplicationDbContext(options))
             using (var productsRepository = new ProductRepository(context))
             {
-                var result = productsRepository.Update(_modelsHelper.NotExistingEntity);
+                var result = productsRepository.Update(_mockHelper.NotExistingEntity);
 
                 Assert.NotNull(result);
 
                 Assert.Equal(404, result.StatusCode);
+            }
+        }
+        
+        [Fact]
+        public void UpdateShouldReturn500StatusCode()
+        {
+            using (var productsRepository = new ProductRepository(_mockHelper.ErrorMockedDbContext))
+            {
+                var result = productsRepository.Update(_mockHelper.UpdateProductEntity);
+                
+                Assert.NotNull(result);
+                
+                Assert.Equal(500, result.StatusCode);
             }
         }
 
@@ -404,7 +451,7 @@ namespace DominikUnitTests.ProductApiControllerTests
             
             using (var context = new ApplicationDbContext(options))
             {
-                context.AddRange(_modelsHelper.Products);
+                context.AddRange(_mockHelper.Products);
                 context.SaveChanges();
             }
 
@@ -440,6 +487,19 @@ namespace DominikUnitTests.ProductApiControllerTests
                 Assert.Null(result.Data);
 
             }            
+        }
+        
+        [Fact]
+        public void DeleteShouldReturn500StatusCode()
+        {
+            using (var productsRepository = new ProductRepository(_mockHelper.ErrorMockedDbContext))
+            {
+                var result = productsRepository.Delete(1);
+                
+                Assert.NotNull(result);
+                
+                Assert.Equal(500, result.StatusCode);
+            }
         }
         
         #endregion

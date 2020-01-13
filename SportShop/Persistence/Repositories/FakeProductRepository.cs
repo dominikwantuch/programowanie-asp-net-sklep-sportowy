@@ -51,5 +51,9 @@ namespace SportShop.Repositories
         {
             throw new System.NotImplementedException();
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

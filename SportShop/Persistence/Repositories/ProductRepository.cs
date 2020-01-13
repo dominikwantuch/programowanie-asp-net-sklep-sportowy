@@ -160,5 +160,10 @@ namespace SportShop.Persistence.Repositories
                 return new ResultModel<Product>(null, 500);
             }
         }
+
+        public void Dispose()
+        {
+            _dbContext?.Dispose();
+        }
     }
 }

@@ -6,7 +6,7 @@ using SportShop.Persistence.Entities;
 
 namespace SportShop.Persistence.Repositories
 {
-    public interface IProductRepository
+    public interface IProductRepository : IDisposable
     {
         IQueryable<Product> Products { get; }
         bool DeleteProduct(int id);

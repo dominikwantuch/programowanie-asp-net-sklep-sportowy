@@ -24,6 +24,11 @@ Dawid Burnat:
 - ManufacturerRepository - Moq + xUnit + InMemoryDatabase - pokrycie 100%
 
 (wszystkie testy przechodzą poprawnie)
-Szymon Domalik:
 
+---
+
+
+Szymon Domalik:
+- AdminController - Moq + xUnit - pokrycie 100%
+- 
 ---

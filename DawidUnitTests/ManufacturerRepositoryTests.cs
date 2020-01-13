@@ -55,9 +55,9 @@ namespace DawidUnitTests
             }
 
             using (var context = new ApplicationDbContext(options))
+            using( var manufacturersRepository = new ManufacturerRepository(context))
             {
-                var manufacturersRepository = new Mock<ManufacturerRepository>(context);
-                var result = manufacturersRepository.Object.Manufacturers;
+                var result = manufacturersRepository.Manufacturers;
 
                 Assert.NotNull(result);
                 Assert.Equal(3, result.Count());
@@ -76,12 +76,12 @@ namespace DawidUnitTests
             }
 
             using (var context = new ApplicationDbContext(options))
+            using( var manufacturersRepository = new ManufacturerRepository(context))
             {
-                var manufacturersRepository = new Mock<ManufacturerRepository>(context);
-                var result = manufacturersRepository.Object.DeleteManufacturer(4);
+                var result = manufacturersRepository.DeleteManufacturer(4);
 
                 Assert.False(result);
-                Assert.Equal(3, manufacturersRepository.Object.Manufacturers.Count());
+                Assert.Equal(3, manufacturersRepository.Manufacturers.Count());
             }
         }
 
@@ -97,12 +97,12 @@ namespace DawidUnitTests
             }
 
             using (var context = new ApplicationDbContext(options))
+            using( var manufacturersRepository = new ManufacturerRepository(context))
             {
-                var manufacturersRepository = new Mock<ManufacturerRepository>(context);
-                var result = manufacturersRepository.Object.DeleteManufacturer(3);
+                var result = manufacturersRepository.DeleteManufacturer(3);
 
                 Assert.True(result);
-                Assert.Equal(2, manufacturersRepository.Object.Manufacturers.Count());
+                Assert.Equal(2, manufacturersRepository.Manufacturers.Count());
             }
         }
 
@@ -120,12 +120,12 @@ namespace DawidUnitTests
             };
 
             using (var context = new ApplicationDbContext(options))
+            using( var manufacturersRepository = new ManufacturerRepository(context))
             {
-                var manufacturersRepository = new Mock<ManufacturerRepository>(context);
-                var result = manufacturersRepository.Object.SaveManufacturer(manufacturer);
+                var result = manufacturersRepository.SaveManufacturer(manufacturer);
 
                 Assert.True(result);
-                Assert.Equal(1, manufacturersRepository.Object.Manufacturers.Count());
+                Assert.Equal(1, manufacturersRepository.Manufacturers.Count());
             }
         }
 
@@ -148,14 +148,14 @@ namespace DawidUnitTests
             };
 
             using (var context = new ApplicationDbContext(options))
+            using( var manufacturersRepository = new ManufacturerRepository(context))
             {
-                var manufacturersRepository = new Mock<ManufacturerRepository>(context);
-                var result = manufacturersRepository.Object.SaveManufacturer(manufacturer);
+                var result = manufacturersRepository.SaveManufacturer(manufacturer);
 
                 Assert.True(result);
-                Assert.Equal(3, manufacturersRepository.Object.Manufacturers.Count());
+                Assert.Equal(3, manufacturersRepository.Manufacturers.Count());
 
-                var modified = manufacturersRepository.Object.Manufacturers
+                var modified = manufacturersRepository.Manufacturers
                     .FirstOrDefault(c => c.Id == manufacturer.Id);
                 Assert.NotNull(modified);
                 Assert.Equal(manufacturer.Id, modified.Id);
@@ -183,12 +183,12 @@ namespace DawidUnitTests
             };
 
             using (var context = new ApplicationDbContext(options))
+            using( var manufacturersRepository = new ManufacturerRepository(context))
             {
-                var manufacturersRepository = new Mock<ManufacturerRepository>(context);
-                var result = manufacturersRepository.Object.SaveManufacturer(manufacturer);
+                var result = manufacturersRepository.SaveManufacturer(manufacturer);
 
                 Assert.False(result);
-                Assert.Equal(3, manufacturersRepository.Object.Manufacturers.Count());
+                Assert.Equal(3, manufacturersRepository.Manufacturers.Count());
             }
         }
 
@@ -211,13 +211,38 @@ namespace DawidUnitTests
             };
 
             using (var context = new ApplicationDbContext(options))
+            using( var manufacturersRepository = new ManufacturerRepository(context))
             {
-                var manufacturersRepository = new Mock<ManufacturerRepository>(context);
-                var result = manufacturersRepository.Object.SaveManufacturer(manufacturer);
+                var result = manufacturersRepository.SaveManufacturer(manufacturer);
 
                 Assert.False(result);
-                Assert.Equal(3, manufacturersRepository.Object.Manufacturers.Count());
+                Assert.Equal(3, manufacturersRepository.Manufacturers.Count());
             }
         }
+
+        [Fact]
+        public void GetById_IdExistsInRepo_ShouldReturnOkStatusCodeAndManufacturer()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase("25D51D2B-3A99-4A41-8D90-0EBBA7CDEF76").Options;
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.AddRange(_manufacturers);
+                context.SaveChanges();
+            }
+            
+            using (var context = new ApplicationDbContext(options))
+            using( var manufacturersRepository = new ManufacturerRepository(context))
+            {
+                var result = manufacturersRepository.GetById(1);
+
+                Assert.NotNull(result);
+
+                Assert.Equal(200, result.StatusCode);
+
+                Assert.NotNull(result.Data);
+            }
+        }
+        
     }
 }

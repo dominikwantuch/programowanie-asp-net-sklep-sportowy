@@ -8,7 +8,7 @@ using SportShop.Persistence.Entities;
 
 namespace SportShop.Persistence.Repositories
 {
-    public class ManufacturerRepository : IManufacturerRepository
+    public class ManufacturerRepository : IManufacturerRepository, IDisposable
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -147,6 +147,11 @@ namespace SportShop.Persistence.Repositories
                 Console.WriteLine(e);
                 return new ResultModel<Manufacturer>(null, 500);
             }
+        }
+
+        public void Dispose()
+        {
+            _dbContext?.Dispose();
         }
     }
 }

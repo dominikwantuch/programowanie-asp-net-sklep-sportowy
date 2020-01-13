@@ -15,44 +15,46 @@ namespace DominikUnitTests.ProductApiControllerTests
 {
     public class ProductsApiControllerTests
     {
-
         private readonly ProductsRepositoryMockHelper _mockHelper;
+
         private readonly ProductsApiController _apiController;
         //ProductsApiController _controller = new ProductsApiController(_mock.Object);
-        
+
         public ProductsApiControllerTests()
         {
             _mockHelper = new ProductsRepositoryMockHelper();
             _apiController = new ProductsApiController(_mockHelper.Mock.Object);
         }
-        
+
+        #region GetProductsTests
+
         [Fact]
         public void ShouldReturnAllProductsAnd200StatusCode()
         {
             var result = _apiController.GetProducts();
-            
+
             Assert.IsType<ObjectResult>(result);
 
             var contentResult = (ObjectResult) result;
-            
+
             Assert.Equal(200, contentResult.StatusCode);
-            
+
             Assert.NotNull(contentResult.Value);
-            
+
             var returnedProducts = (IEnumerable<ProductModel>) contentResult.Value;
-            
+
             Assert.Equal(3, returnedProducts.Count());
         }
-        
+
         [Fact]
         public void ShouldReturnNoProductsAnd500StatusCode()
         {
             var result = _apiController.GetProducts("throw");
-            
+
             Assert.IsType<ObjectResult>(result);
 
             var contentResult = (ObjectResult) result;
-            
+
             Assert.Equal(500, contentResult.StatusCode);
         }
 

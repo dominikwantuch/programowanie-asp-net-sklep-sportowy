@@ -9,7 +9,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navigationBar">
         <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link @(ViewBag.CurrentPage == "Main" ? "active" : "")" asp-controller="Admin"
+            <a id="mainPage" class="nav-item nav-link @(ViewBag.CurrentPage == "Main" ? "active" : "")" asp-controller="Admin"
                asp-action="Index" asp-route-name="">
                 Main Page
             </a>
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <a class="nav-item nav-link @(ViewBag.CurrentPage == "Manufacturer" ? "active" : "")" asp-controller="Manufacturer"
+            <a id="manufacturers" class="nav-item nav-link @(ViewBag.CurrentPage == "Manufacturer" ? "active" : "")" asp-controller="Manufacturer"
                asp-action="Index">
                 Manufacturers
             </a>
@@ -35,14 +35,14 @@
                     Create
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" asp-controller="Admin" asp-action="Create">New Product</a>
-                    <a class="dropdown-item" asp-controller="Manufacturer" asp-action="Create">New Manufaturer</a>
+                    <a id="createProduct" class="dropdown-item" asp-controller="Admin" asp-action="Create">New Product</a>
+                    <a id="createManufacturer" class="dropdown-item" asp-controller="Manufacturer" asp-action="Create">New Manufaturer</a>
                 </div>
             </div>
             
             @if (Context.User.Identity.IsAuthenticated)
             {
-                <a class="nav-item nav-link" asp-controller="Account"
+                <a id="logout" class="nav-item nav-link" asp-controller="Account"
                    asp-action="Logout">
                     Logout
                 </a>

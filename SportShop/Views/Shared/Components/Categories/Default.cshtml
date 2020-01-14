@@ -32,7 +32,7 @@
             }
             @if (Context.User.Identity.IsAuthenticated)
             {
-                <a class="nav-item nav-link" asp-controller="Account"
+                <a id="logout" class="nav-item nav-link" asp-controller="Account"
                    asp-action="Logout">
                     Logout
                 </a>

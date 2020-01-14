@@ -33,13 +33,13 @@ namespace DawidSeleniumTests.PageModels
 
         public void FillDescriptionTextField(string text)
         {
-            NameTextField.Clear();
+            DescriptionTextField.Clear();
             DescriptionTextField.SendKeys(text);
         }
 
         public void FillPriceTextField(string text)
         {
-            NameTextField.Clear();
+            PriceTextField.Clear();
             PriceTextField.SendKeys(text);
         }
 

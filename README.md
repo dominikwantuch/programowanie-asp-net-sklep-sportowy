@@ -57,6 +57,9 @@ Szymon Domalik:
 - **ManufacturerModel** - xUnit - pokrycie 100%
 - **UpdateManufacturerModel** - xUnit - pokrycie 100%
 
+**Testy Selenium** (10 przypadków testowych):
+- testy formularza tworzenia produktu- xUnit + Selenium
+
 (wszystkie testy przechodzą z wynikiem pozytywnym)
 
 ---

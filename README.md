@@ -19,9 +19,9 @@
 
 **Testy Selenium znajdują się w projektak o nazwie w formacie [Imie]SeleniumTests**
 
-### Pokrycie testami:
-
 ---
+
+### Pokrycie testami:
 
 **Dominik Wantuch** (numer indeksu- 11190):
 

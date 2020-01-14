@@ -1,6 +1,8 @@
 # Przypadki testowe formularza logowania
 
-## Dominik Wantuch
+### Dominik Wantuch
+
+---
 
 **ID 1**
 
@@ -24,6 +26,8 @@
 
 **Wartości wejściowe**: Prawidłowy login, prawidłowe hasło.
 
+---
+
 **ID 2**
 
 **Tytuł:** Brak podanego loginu
@@ -43,6 +47,8 @@
 **Warunki końcowe:** Niezalogowany użytkownik. Widoczny ekran logowania wraz z prośbą o podanie loginu.
 
 **Wartości wejściowe**: Dowolny ciąg znaków podany jako hasło.
+
+---
 
 **ID 3**
 
@@ -64,6 +70,8 @@
 
 **Wartości wejściowe**: Dowolny ciąg znaków podany jako login.
 
+---
+
 **ID 4**
 
 **Tytuł:** Brak podanego loginu i hasła
@@ -81,6 +89,8 @@
 **Warunki końcowe:** Niezalogowany użytkownik. Widoczny ekran logowania wraz z prośbą o podanie loginu i hasła.
 
 **Wartości wejściowe**: Brak
+
+---
 
 **ID 5**
 

@@ -32,4 +32,6 @@ Szymon Domalik:
 - AdminController - Moq + xUnit - pokrycie 100%
 - ManufacturerModel - xUnit - pokrycie 100%
 - UpdateManufacturerModel - xUnit - pokrycie 100%
+
+(wszystkie testy przechądzą poprawnie)
 ---

@@ -23,7 +23,7 @@
 
 ### Pokrycie testami:
 
-**Dominik Wantuch** (numer indeksu- 11190):
+**Dominik Wantuch:** 
 
 **Unit testy** (38 przypadków testowych):
 - **ProductApiController**- Moq + xUnit - pokrycie 100%
@@ -38,19 +38,22 @@
 
 ---
 
-Dawid Burnat:
+**Dawid Burnat:**
 
 **Unit testy** (43 przypadki testowe)
 - **ManufacturerApiController** - Moq + xUnit - pokrycie 100%
 - **ManufacturerController** - Moq + xUnit - pokrycie 100%
 - **ManufacturerRepository** - Moq + xUnit + InMemoryDatabase - pokrycie 100%
 
+**Testy Selenium** (6 przypadków testowych):
+- testy panelu edycji programu - xUnit + Selenium
+
 (wszystkie testy przechodzą z wynikiem pozytywnym)
 
 ---
 
 
-**Szymon Domalik:** (numer indeksu-11298)
+**Szymon Domalik:** 
 
 **UnitTesty** (14 przypdaków testowych):
 - **AdminController** - Moq + xUnit - pokrycie 100%

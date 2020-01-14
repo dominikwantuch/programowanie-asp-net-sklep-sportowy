@@ -9,7 +9,7 @@ namespace DominikSeleniumTests
     /// </summary>
     public class LoginFormTests : TestBase
     {
-        private string _baseUrl;
+        private readonly string _baseUrl;
         public LoginFormTests() : base()
         {
             _baseUrl = "http://localhost:5000";

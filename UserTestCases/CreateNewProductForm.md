@@ -113,7 +113,7 @@ poprawny opis, poprawna cena (liczba większa od 0), poprawna kategoria
 
 -Kliknięcie przycisku "submit"
 
-**czekiwany wynik:** wyświtlenie komunikatu nad polem id producenta, nazwy, opisu, ceny i kategorii
+**Oczekiwany wynik:** wyświtlenie komunikatu nad polem id producenta, nazwy, opisu, ceny i kategorii
 
 **Warunki końcowe:** Pozostanie na tej samej stronie. Widoczne komunikaty nad każdym polem.
 

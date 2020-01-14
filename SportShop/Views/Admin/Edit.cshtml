@@ -8,45 +8,40 @@
             <form asp-action="Save" method="post" enctype="application/x-www-form-urlencoded">
 
                 <div class="form-group" style="display: none">
-                    <label for="ProductId">
+                    <label asp-for="ProductId">
                         Product ID
                     </label>
                     <input id="ProductId" class="form-control" name="ProductId" type="text" value="@Model.ProductId"/>
                 </div>
 
                 <div class="form-group">
-                    <label for="ManufacturerId">
-                        Manufacturer ID
-                    </label>
-                    <input id="ManufacturerId" class="form-control" name="ManufacturerId" type="text" value="@Model.ManufacturerId"/>
+                    <label asp-for="ManufacturerId">Manufacturer ID</label>
+                    <div><span asp-validation-for="ManufacturerId" class="text-danger"></span></div>
+                    <input asp-for="ManufacturerId" id="ManufacturerId" class="form-control" name="ManufacturerId" type="text" value="@Model.ManufacturerId" />
                 </div>
 
                 <div class="form-group">
-                    <label>
-                        Name
-                    </label>
-                    <input name="Name" class="form-control" type="text" value="@Model.Name"/>
+                    <label asp-for="Name">Name</label>
+                    <div><span asp-validation-for="Name" class="text-danger"></span></div>
+                    <input asp-for="Name" name="Name" class="form-control" type="text" value="@Model.Name" />
                 </div>
 
                 <div class="form-group">
-                    <label>
-                        Description
-                    </label>
-                    <input name="Description" class="form-control" type="text" value="@Model.Description"/>
+                    <label asp-for="Description">Description</label>
+                    <div><span asp-validation-for="Description" class="text-danger"></span></div>
+                    <input asp-for="Description" name="Description" class="form-control" type="text" value="@Model.Description" />
                 </div>
 
                 <div class="form-group">
-                    <label>
-                        Price
-                    </label>
-                    <input name="Price" class="form-control" type="text" value="@Model.Price"/>
+                    <label asp-for="Price">Price</label>
+                    <div><span asp-validation-for="Price" class="text-danger"></span></div>
+                    <input asp-for="Price" name="Price" class="form-control" type="text" value="@Model.Price" />
                 </div>
 
                 <div class="form-group">
-                    <label>
-                        Category
-                    </label>
-                    <input name="Category" class="form-control" type="text" value="@Model.Category"/>
+                    <label asp-for="Category">Category</label>
+                    <div><span asp-validation-for="Category" class="text-danger"></span></div>
+                    <input asp-for="Category"  name="Category" class="form-control" type="text" value="@Model.Category" />
                 </div>
 
                 <div>

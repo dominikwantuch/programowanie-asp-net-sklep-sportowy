@@ -1,6 +1,8 @@
-## Programowanie ASP.Net sklep sportowy
+## Programowanie ASP.NET sklep sportowy
 
 ### Uwaga!
+
+**Projekt utworzony został przy użyciu frameworka _.NET Core 2.2_**
 
 **Aby poprawnie uruchomić aplikację wymagane jest wpisanie poprawnego connection stringa do servera sql w pliku appsettings.Development.json lub appsettings.json (w zależności od uruchamianej wersji).**
 

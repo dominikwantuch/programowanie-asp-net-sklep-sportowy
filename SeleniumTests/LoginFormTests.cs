@@ -4,6 +4,9 @@ using Xunit;
 
 namespace DominikSeleniumTests
 {
+    /// <summary>
+    /// Login form test cases
+    /// </summary>
     public class LoginFormTests : TestBase
     {
         private string _baseUrl;
@@ -12,6 +15,9 @@ namespace DominikSeleniumTests
             _baseUrl = "http://localhost:5000";
         }
 
+        /// <summary>
+        /// User case ID 1
+        /// </summary>
         [Fact]
         public void ShouldProperlyLogin()
         {
@@ -33,6 +39,9 @@ namespace DominikSeleniumTests
             Assert.Equal(_baseUrl + "/admin/products", Driver.Url);
         }
 
+        /// <summary>
+        /// User case ID 2
+        /// </summary>
         [Fact]
         public void ShouldShowLoginRequiredValidationError()
         {
@@ -55,6 +64,9 @@ namespace DominikSeleniumTests
             Assert.False(passwordRequiredElement.Displayed);
         }
 
+        /// <summary>
+        /// User case ID 3
+        /// </summary>
         [Fact]
         public void ShouldShowPasswordRequiredValidationError()
         {
@@ -78,6 +90,9 @@ namespace DominikSeleniumTests
         }
         
         
+        /// <summary>
+        /// User case ID 4
+        /// </summary>
         [Fact]
         public void ShouldShowLoginAndPasswordRequiredValidationError()
         {
@@ -101,6 +116,9 @@ namespace DominikSeleniumTests
             Assert.Equal(_baseUrl + "/account/login", Driver.Url);
         }
 
+        /// <summary>
+        /// User case ID 5
+        /// </summary>
         [Fact]
         public void ShouldDisplayWrongLoginOrPasswordNotification()
         {

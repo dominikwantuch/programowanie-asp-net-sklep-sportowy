@@ -1,5 +1,10 @@
 ## Programowanie ASP.NET sklep sportowy
 
+### Testy do projektu napisali:
+- Dominik Wantuch
+- Dawid Burnat
+- Szymon Domalik
+
 ### Uwaga!
 
 **Projekt utworzony został przy użyciu frameworka _.NET Core 2.2_**

@@ -137,7 +137,7 @@ namespace SzymonUnitTests
         {
             var result = (ViewResult)_controller.Delete(_mock.Object.Products.ElementAt(0).ProductId);
 
-            _mock.Verify(m => m.Delete(_mock.Object.Products.ElementAt(1).ProductId), Times.Once);
+            _mock.Verify(m => m.DeleteProduct(_mock.Object.Products.ElementAt(0).ProductId), Times.Once);
 
 
             Assert.NotNull(result);
@@ -145,10 +145,10 @@ namespace SzymonUnitTests
         }
 
         [Fact]
-        public void DeleteActionResult_ExceptionWhenSavingToRepository_ShouldReturnErrorMessage()
+        public void DeleteActionResult_ExceptionWhenDeletingFromRepository_ShouldReturnErrorMessage()
         {
-            _mock.Setup(m => m.Delete(_mock.Object.Products.ElementAt(0).ProductId)).Throws(new Exception());
-            var result = (ViewResult)_controller.Delete(_mock.Object.Products.ElementAt(0).ProductId);
+            _mock.Setup(m => m.DeleteProduct(It.IsAny<int>())).Throws(new Exception());
+            var result = (ViewResult)_controller.Delete(It.IsAny<int>());
 
             Assert.NotNull(result);
             Assert.Equal("An unexpected error has occured while trying to delete product.", result.ViewData["Message"]);

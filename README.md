@@ -6,6 +6,10 @@
 
 **Uruchomienie testów selenium wymaga włączonej aplikacj!**
 
+**Opisy przypadków znajdują się w folderze _UserTestCases_ na gałęzi _master_.**
+
+---
+
 ### Pokrycie testami:
 
 ---

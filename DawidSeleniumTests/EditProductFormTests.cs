@@ -30,6 +30,27 @@ namespace DawidSeleniumTests
             Assert.Equal(_url + "/admin/products/edit?id=1", Driver.Url);
         }
 
+        [Fact]
+        public void EditProductName_FromKajakToKajakEdit_ShouldReturnProductWithKajakEditName()
+        {
+            Driver.Navigate().GoToUrl(_url);
+            var helper = new LoginHelper(Driver);
+            helper.LoginToSystem();
 
+            var firstEditButton =
+                Driver.FindElements(By.CssSelector("a button")).First();
+            firstEditButton.Click();
+
+            var editName = "KajakEdit";
+            
+            var editPage = new EditProductPage(Driver);
+            editPage.FillNameTextField(editName);
+            editPage.ClickSubmitButton();
+            
+            var firstProductName = 
+                Driver.FindElements(By.TagName("h4")).First();
+            Assert.Contains(editName, firstProductName.Text);
+            Assert.Equal(_url + "/admin/products/save", Driver.Url);
+        }
     }
 }

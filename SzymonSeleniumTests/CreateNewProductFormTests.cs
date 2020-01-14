@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Xunit;
 
@@ -13,7 +14,7 @@ namespace SzymonSeleniumTests
 
         public CreateNewProductFormTests()
         {
-            _driver = new ChromeDriver();
+            _driver = new ChromeDriver(Directory.GetCurrentDirectory());
 
             _driver.Navigate().GoToUrl("http://localhost:5000/admin/products/create");
 

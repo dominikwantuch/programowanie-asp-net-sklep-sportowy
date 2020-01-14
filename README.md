@@ -33,5 +33,6 @@ Szymon Domalik:
 - ManufacturerModel - xUnit - pokrycie 100%
 - UpdateManufacturerModel - xUnit - pokrycie 100%
 
-(wszystkie testy przechądzą poprawnie)
+(wszystkie testy przechodzą z wynikiem pozytywnym)
+
 ---

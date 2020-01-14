@@ -14,24 +14,24 @@ namespace SeleniumTests
         }
 
         [Fact]
-        public void LoginFormTest()
+        public void ShouldProperlyLogin()
         {
-            Driver.Navigate().GoToUrl("http://localhost:5000");
+            Driver.Navigate().GoToUrl(_baseUrl);
+            
             var homePage = new HomePage(Driver);
             homePage.NavigateToLogin();
             
             var loginPage = new LoginPage(Driver);
+            
             loginPage.FillLoginTextField("admin");
             loginPage.FillPasswordField("test123");
             loginPage.ClickSubmitButton();
+
+            var logOutButton = Driver.FindElement(By.Id("logout"));
             
-            Thread.Sleep(3000);
-            // var text = "Selenium test";
-            // Driver.Navigate().GoToUrl("https://google.pl");
-            // var searchTextBox = Driver.FindElement(By.Name("q"));
-            // searchTextBox.SendKeys(text + Keys.Enter);
-            //
-            // Assert.StartsWith("https://www.google.pl/search?", Driver.Url);
+            Assert.True(logOutButton.Displayed);
+            
+            Assert.Equal(_baseUrl + "/admin/products", Driver.Url);
         }
 
         [Fact]

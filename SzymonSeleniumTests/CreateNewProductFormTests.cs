@@ -15,7 +15,7 @@ namespace SzymonSeleniumTests
         {
             _driver = new ChromeDriver();
 
-            _driver.Navigate().GoToUrl("https://localhost:5001/admin/products/create");
+            _driver.Navigate().GoToUrl("http://localhost:5000/admin/products/create");
 
             _driver.FindElement(By.Id("Name"))
                 .SendKeys("admin");
@@ -339,7 +339,7 @@ namespace SzymonSeleniumTests
 
             Assert.True(editButton.Displayed);
             Assert.True(deleteButton.Displayed);
-            Assert.Equal("https://localhost:5001/admin/products/save", _driver.Url);
+            Assert.Equal("http://localhost:5000/admin/products/save", _driver.Url);
 
 
             _driver.Dispose();

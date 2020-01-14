@@ -1,11 +1,8 @@
-using System;
-using System.Threading;
+using DominikSeleniumTests.PageModels;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using SeleniumTests.PageModels;
 using Xunit;
 
-namespace SeleniumTests
+namespace DominikSeleniumTests
 {
     public class LoginFormTests : TestBase
     {

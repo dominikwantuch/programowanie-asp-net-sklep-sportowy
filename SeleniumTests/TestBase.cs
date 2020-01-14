@@ -2,10 +2,10 @@
 using System.IO;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
+
 // ReSharper disable CommentTypo
 
-namespace SeleniumTests
+namespace DominikSeleniumTests
 {
     public class TestBase : IDisposable
     {

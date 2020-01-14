@@ -50,7 +50,7 @@ Dawid Burnat:
 ---
 
 
-Szymon Domalik:
+**Szymon Domalik:** (numer indeksu-11298)
 
 **UnitTesty** (14 przypdaków testowych):
 - **AdminController** - Moq + xUnit - pokrycie 100%

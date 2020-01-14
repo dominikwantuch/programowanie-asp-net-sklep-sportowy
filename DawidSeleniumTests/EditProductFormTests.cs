@@ -77,6 +77,28 @@ namespace DawidSeleniumTests
         }
 
         [Fact]
+        public void EditProductDescription_Empty_ShouldReturnErrorMessage()
+        {
+            Driver.Navigate().GoToUrl(_url);
+            var helper = new LoginHelper(Driver);
+            helper.LoginToSystem();
+
+            var firstEditButton =
+                Driver.FindElements(By.CssSelector("a button")).First();
+            firstEditButton.Click();
+            
+            var editName = "";
+
+            var editPage = new EditProductPage(Driver);
+            
+            editPage.FillDescriptionTextField(editName);
+            editPage.ClickSubmitButton();
+
+            var errorMessage = Driver.FindElement(By.Id("Description-error")).Text;
+            Assert.Contains("Description is required" , errorMessage);
+        }
+
+        [Fact]
         public void EditProductPrice_Price300_ShouldReturnProductWithChangedPrice()
         {
             Driver.Navigate().GoToUrl(_url);

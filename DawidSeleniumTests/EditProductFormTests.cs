@@ -77,6 +77,28 @@ namespace DawidSeleniumTests
         }
 
         [Fact]
+        public void EditProductDescription_Empty_ShouldReturnErrorMessage()
+        {
+            Driver.Navigate().GoToUrl(_url);
+            var helper = new LoginHelper(Driver);
+            helper.LoginToSystem();
+
+            var firstEditButton =
+                Driver.FindElements(By.CssSelector("a button")).First();
+            firstEditButton.Click();
+            
+            var editName = "";
+
+            var editPage = new EditProductPage(Driver);
+            
+            editPage.FillDescriptionTextField(editName);
+            editPage.ClickSubmitButton();
+
+            var errorMessage = Driver.FindElement(By.Id("Description-error")).Text;
+            Assert.Contains("Description is required" , errorMessage);
+        }
+
+        [Fact]
         public void EditProductPrice_Price300_ShouldReturnProductWithChangedPrice()
         {
             Driver.Navigate().GoToUrl(_url);
@@ -100,7 +122,7 @@ namespace DawidSeleniumTests
         }
 
         [Fact]
-        public void EditProductPrice_PriceIsText_ShouldReturnSamePriceAsBefore()
+        public void EditProductPrice_PriceIsText_ShouldReturnErrorMessage()
         {
             Driver.Navigate().GoToUrl(_url);
             var helper = new LoginHelper(Driver);
@@ -113,14 +135,12 @@ namespace DawidSeleniumTests
             var editName = "abcds";
 
             var editPage = new EditProductPage(Driver);
-            var actualPrice = editPage.PriceTextField.Text;
+            
             editPage.FillPriceTextField(editName);
             editPage.ClickSubmitButton();
 
-            var firstProductPrice =
-                Driver.FindElements(By.TagName("h5")).First();
-            Assert.Contains(actualPrice, firstProductPrice.Text);
-            Assert.Equal(_url + "/admin/products/save", Driver.Url);
+            var errorMessage = Driver.FindElement(By.Id("Price-error")).Text;
+            Assert.Contains($"The value '{editName}' is not valid for Price." , errorMessage);
         }
     }
 }

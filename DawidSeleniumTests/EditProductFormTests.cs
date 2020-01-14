@@ -100,7 +100,7 @@ namespace DawidSeleniumTests
         }
 
         [Fact]
-        public void EditProductPrice_PriceIsText_ShouldReturnSamePriceAsBefore()
+        public void EditProductPrice_PriceIsText_ShouldReturnErrorMessage()
         {
             Driver.Navigate().GoToUrl(_url);
             var helper = new LoginHelper(Driver);
@@ -113,14 +113,12 @@ namespace DawidSeleniumTests
             var editName = "abcds";
 
             var editPage = new EditProductPage(Driver);
-            var actualPrice = editPage.PriceTextField.Text;
+            
             editPage.FillPriceTextField(editName);
             editPage.ClickSubmitButton();
 
-            var firstProductPrice =
-                Driver.FindElements(By.TagName("h5")).First();
-            Assert.Contains(actualPrice, firstProductPrice.Text);
-            Assert.Equal(_url + "/admin/products/save", Driver.Url);
+            var errorMessage = Driver.FindElement(By.Id("Price-error")).Text;
+            Assert.Contains($"The value '{editName}' is not valid for Price." , errorMessage);
         }
     }
 }

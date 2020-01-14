@@ -9,7 +9,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navigationBar">
         <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link @(ViewBag.CurrentPage == "Main" ? "active" : "")" asp-controller="Product" asp-route-name=""
+            <a id="mainPage" class="nav-item nav-link @(ViewBag.CurrentPage == "Main" ? "active" : "")" asp-controller="Product" asp-route-name=""
                asp-action="Index">
                 Main Page
             </a>
@@ -26,13 +26,13 @@
             </div>
             @if (!Context.User.Identity.IsAuthenticated)
             {
-                <a class="nav-item nav-link @(ViewBag.CurrentPage == "Login" ? "active" : "")" asp-controller="Account" asp-action="Login" asp-route-returnUrl="">
+                <a id="login" class="nav-item nav-link @(ViewBag.CurrentPage == "Login" ? "active" : "")" asp-controller="Account" asp-action="Login" asp-route-returnUrl="">
                     Login
                 </a>
             }
             @if (Context.User.Identity.IsAuthenticated)
             {
-                <a class="nav-item nav-link" asp-controller="Account"
+                <a id="logout" class="nav-item nav-link" asp-controller="Account"
                    asp-action="Logout">
                     Logout
                 </a>

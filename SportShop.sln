@@ -4,6 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportShop", "SportShop\Spor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawidUnitTests", "DawidUnitTests\DawidUnitTests.csproj", "{B7465B09-EE87-41E3-B07C-50AF7EB2E280}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DominikUnitTests", "DominikUnitTests\DominikUnitTests.csproj", "{DDA2D7F8-487C-4FB1-92BD-6C77048F912C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DominikSeleniumTests", "SeleniumTests\DominikSeleniumTests.csproj", "{8726D47E-5CEC-427D-8CBC-E429F0170E61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

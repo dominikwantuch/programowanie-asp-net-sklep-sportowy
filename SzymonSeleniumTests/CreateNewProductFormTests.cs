@@ -64,6 +64,36 @@ namespace SzymonSeleniumTests
             _driver.Dispose();
 
         }
+        [Fact]
+        public void ProductManufacturerIdIsString_ShouldReturnErrorMessage()
+        {
+            _driver.FindElement(By.Id("ManufacturerId"))
+                .SendKeys("Test");
+
+            _driver.FindElement(By.Id("Name"))
+                .SendKeys("Test product");
+
+            _driver.FindElement(By.Id("Description"))
+                .SendKeys(" Test product description");
+
+            _driver.FindElement(By.Id("Price"))
+                .Clear();
+            _driver.FindElement(By.Id("Price"))
+                .SendKeys("40");
+
+            _driver.FindElement(By.Id("Category"))
+                .SendKeys("Test product category");
+
+            _driver.FindElement(By.Id("submit"))
+                .Click();
+
+            var errorMessage = _driver.FindElement(By.Id("ManufacturerId-error")).Text;
+
+            Assert.Equal("The value 'Test' is not valid for ManufacturerId.", errorMessage);
+
+            _driver.Dispose();
+
+        }
 
         [Fact]
         public void ProductNameNotGiven_ShouldReturnErrorMessage()

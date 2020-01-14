@@ -16,25 +16,25 @@
 
                 <div class="form-group">
                     <label asp-for="ManufacturerId">Manufacturer ID</label>
-                    <div><span asp-validation-for="ManufacturerId" class="text-danger"></span></div>
+                    <div><span id="ManufacturerId-error" asp-validation-for="ManufacturerId" class="text-danger"></span></div>
                     <input asp-for="ManufacturerId" id="ManufacturerId" class="form-control" name="ManufacturerId" type="text" value="@Model.ManufacturerId" />
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Name">Name</label>
-                    <div><span asp-validation-for="Name" class="text-danger"></span></div>
+                    <div><span id="Name-error" asp-validation-for="Name" class="text-danger"></span></div>
                     <input asp-for="Name" name="Name" class="form-control" type="text" value="@Model.Name" />
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Description">Description</label>
-                    <div><span asp-validation-for="Description" class="text-danger"></span></div>
+                    <div><span id="Description-error" asp-validation-for="Description" class="text-danger"></span></div>
                     <input asp-for="Description" name="Description" class="form-control" type="text" value="@Model.Description" />
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Price">Price</label>
-                    <div><span asp-validation-for="Price" class="text-danger"></span></div>
+                    <div><span id="Price-error" asp-validation-for="Price" class="text-danger"></span></div>
                     <input asp-for="Price" name="Price" class="form-control" type="text" value="@Model.Price" />
                 </div>
 

@@ -32,7 +32,7 @@ namespace DominikSeleniumTests
         /// </summary>
         public void Dispose()
         {
-            Driver.Close();
+            Driver.Quit();
         }
     }
 }

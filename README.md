@@ -14,8 +14,6 @@
 
 **Testy Selenium znajdują się w projektak o nazwie w formacie [Imie]SeleniumTests**
 
----
-
 ### Pokrycie testami:
 
 ---

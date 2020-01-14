@@ -40,12 +40,12 @@
 
                 <div class="form-group">
                     <label asp-for="Category">Category</label>
-                    <div><span asp-validation-for="Category" class="text-danger"></span></div>
+                    <div><span id="Category-error" asp-validation-for="Category" class="text-danger"></span></div>
                     <input asp-for="Category"  name="Category" class="form-control" type="text" value="@Model.Category" />
                 </div>
 
                 <div>
-                    <button type="submit" class="btn btn-primary" value="submit">submit</button>
+                    <button id="submit" type="submit" class="btn btn-primary" value="submit">submit</button>
                 </div>
             </form>
         </div>

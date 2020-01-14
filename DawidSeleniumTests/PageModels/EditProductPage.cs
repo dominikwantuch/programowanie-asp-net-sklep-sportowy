@@ -23,16 +23,19 @@ namespace DawidSeleniumTests.PageModels
 
         public void FillNameTextField(string text)
         {
+            NameTextField.Clear();
             NameTextField.SendKeys(text);
         }
 
         public void FillDescriptionTextField(string text)
         {
+            NameTextField.Clear();
             DescriptionTextField.SendKeys(text);
         }
 
         public void FillPriceTextField(string text)
         {
+            NameTextField.Clear();
             PriceTextField.SendKeys(text);
         }
 

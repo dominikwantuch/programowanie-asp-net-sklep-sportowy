@@ -12,13 +12,17 @@ namespace DawidSeleniumTests.PageModels
             _driver = driver;
             PageFactory.InitElements(driver, this);
         }
+
         [FindsBy(How = How.Name, Using = "Name")]
         public IWebElement NameTextField { get; set; }
+
         [FindsBy(How = How.Name, Using = "Description")]
         public IWebElement DescriptionTextField { get; set; }
+
         [FindsBy(How = How.Name, Using = "Price")]
         public IWebElement PriceTextField { get; set; }
-        [FindsBy(How = How.ClassName,Using= "btn")]
+
+        [FindsBy(How = How.ClassName, Using = "btn")]
         public IWebElement SubmitButton { get; set; }
 
         public void FillNameTextField(string text)

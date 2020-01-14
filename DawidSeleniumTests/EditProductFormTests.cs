@@ -42,12 +42,12 @@ namespace DawidSeleniumTests
             firstEditButton.Click();
 
             var editName = "KajakEdit";
-            
+
             var editPage = new EditProductPage(Driver);
             editPage.FillNameTextField(editName);
             editPage.ClickSubmitButton();
-            
-            var firstProductName = 
+
+            var firstProductName =
                 Driver.FindElements(By.TagName("h4")).First();
             Assert.Contains(editName, firstProductName.Text);
             Assert.Equal(_url + "/admin/products/save", Driver.Url);

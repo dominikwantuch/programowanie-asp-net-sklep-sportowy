@@ -14,7 +14,7 @@ namespace DawidSeleniumTests
 
         public EditProductFormTests()
         {
-            _url = "https://localhost:5001";
+            _url = "http://localhost:5000";
         }
 
         [Fact]

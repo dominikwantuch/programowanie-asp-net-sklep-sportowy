@@ -10,7 +10,7 @@
 
 ---
 
-Dominik Wantuch:
+**Dominik Wantuch** (numer indeksu- 11190):
 
 **Unit testy** (38 przypadków testowych):
 - **ProductApiController**- Moq + xUnit - pokrycie 100%
@@ -26,6 +26,7 @@ Dominik Wantuch:
 ---
 
 Dawid Burnat:
+
 **Unit testy** (43 przypadki testowe)
 - **ManufacturerApiController** - Moq + xUnit - pokrycie 100%
 - **ManufacturerController** - Moq + xUnit - pokrycie 100%

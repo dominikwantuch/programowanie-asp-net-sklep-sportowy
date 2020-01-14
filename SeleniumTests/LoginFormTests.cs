@@ -9,8 +9,10 @@ namespace SeleniumTests
 {
     public class LoginFormTests : TestBase
     {
+        private string _baseUrl;
         public LoginFormTests() : base()
         {
+            _baseUrl = "http://localhost:5000";
         }
 
         [Fact]

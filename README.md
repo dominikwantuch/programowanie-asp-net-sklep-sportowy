@@ -6,7 +6,11 @@
 
 **Uruchomienie testów selenium wymaga włączonej aplikacj!**
 
-**Opisy przypadków znajdują się w folderze _UserTestCases_ na gałęzi _master_.**
+**Opisy przypadków testowych znajdują się w folderze _UserTestCases_ na gałęzi _master_.**
+
+**UnitTesty znajdują się w projektach o nazwie w formacie [Imie]UnitTests**
+
+**Testy Selenium znajdują się w projektak o nazwie w formacie [Imie]SeleniumTests**
 
 ---
 

@@ -53,7 +53,7 @@ namespace SeleniumTests
             var passwordRequiredElement = Driver.FindElement(By.CssSelector("span[data-valmsg-for='Password']"));
             
             Assert.True(nameRequiredElement.Displayed);
-            Assert.Equal("The Name field is required.", nameRequiredElement.Text);
+            Assert.Contains("The Name field is required.", nameRequiredElement.Text);
             Assert.Equal(_baseUrl + "/account/login", Driver.Url);
             Assert.False(passwordRequiredElement.Displayed);
         }
@@ -75,9 +75,53 @@ namespace SeleniumTests
             var passwordRequiredElement = Driver.FindElement(By.CssSelector("span[data-valmsg-for='Password']"));
             
             Assert.True(passwordRequiredElement.Displayed);
-            Assert.Equal("The Password field is required.", passwordRequiredElement.Text);
+            Assert.Contains("The Password field is required.", passwordRequiredElement.Text);
             Assert.Equal(_baseUrl + "/account/login", Driver.Url);
             Assert.False(nameRequiredElement.Displayed);            
+        }
+        
+        
+        [Fact]
+        public void ShouldShowLoginAndPasswordRequiredValidationError()
+        {
+            Driver.Navigate().GoToUrl(_baseUrl);
+            
+            var homePage = new HomePage(Driver);
+            homePage.NavigateToLogin();
+            
+            var loginPage = new LoginPage(Driver);
+            
+            loginPage.ClickSubmitButton();
+
+            var nameRequiredElement = Driver.FindElement(By.CssSelector("span[data-valmsg-for='Name']"));
+            var passwordRequiredElement = Driver.FindElement(By.CssSelector("span[data-valmsg-for='Password']"));
+            
+            Assert.True(passwordRequiredElement.Displayed);
+            Assert.True(nameRequiredElement.Displayed);
+            
+            Assert.Contains("The Name field is required.", nameRequiredElement.Text);
+            Assert.Contains("The Password field is required.", passwordRequiredElement.Text);
+            Assert.Equal(_baseUrl + "/account/login", Driver.Url);
+        }
+
+        [Fact]
+        public void ShouldDisplayWrongLoginOrPasswordNotification()
+        {
+            Driver.Navigate().GoToUrl(_baseUrl);
+            
+            var homePage = new HomePage(Driver);
+            homePage.NavigateToLogin();
+            
+            var loginPage = new LoginPage(Driver);
+            loginPage.FillLoginTextField("wrongLogin");
+            loginPage.FillPasswordField("wrongPassword");
+            loginPage.ClickSubmitButton();
+
+            var validationErrorNotification = Driver.FindElement(By.CssSelector("div[class='alert alert-warning']"));
+            
+            Assert.True(validationErrorNotification.Displayed);
+            Assert.Contains("Username or password is invalid!", validationErrorNotification.Text);
+            Assert.Equal(_baseUrl + "/account/login", Driver.Url);            
         }
 
     }

@@ -23,10 +23,6 @@ namespace DawidSeleniumTests
             Driver.Navigate().GoToUrl(_url);
             var helper = new LoginHelper(Driver);
             helper.LoginToSystem();
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(2));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("div[class=container-fluid]")));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("a button")));
-            
             var firstEditButton =
                 Driver.FindElements(By.CssSelector("a button")).First();
             firstEditButton.Click();

@@ -1,9 +1,9 @@
-Przypadki testowe formularza dodawania nowego produktu
+#Przypadki testowe formularza dodawania nowego produktu
 
-Szymon Domalik
+##Szymon Domalik
 
 
-ID 1
+**ID 1**
 Tytuł: Poprawne dodanie nowego produktu
 Warunek wstępny: Zalogowany użytkownik, posiadający uprawnienia administratora
 Kroki:

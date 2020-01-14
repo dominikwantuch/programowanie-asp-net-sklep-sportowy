@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using SeleniumTests.PageModels;
 using Xunit;
 
 namespace SeleniumTests

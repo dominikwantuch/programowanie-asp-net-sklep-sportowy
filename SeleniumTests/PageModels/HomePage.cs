@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 
-namespace SeleniumTests
+namespace SeleniumTests.PageModels
 {
     public class HomePage
     {

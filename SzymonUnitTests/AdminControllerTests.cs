@@ -19,16 +19,18 @@ namespace SzymonUnitTests
         {
             ProductId = 1,
             Name = "Prod1",
-            Category = "Cat1"
+            Category = "Cat1",
+            Description = "Desc1",
+            Price = 10
         };
 
         public AdminControllerTests()
         {
             _mock.Setup(c => c.Products).Returns(new Product[]
             {
-                new Product {ProductId = 1, Name = "Prod1", Category = "Cat1"},
-                new Product {ProductId = 2, Name = "Prod2", Category = "Cat1"},
-                new Product {ProductId = 3, Name = "Prod3", Category = "Cat3"}
+                new Product {ProductId = 1, Name = "Prod1", Category = "Cat1", Description="Desc1", Price=10},
+                new Product {ProductId = 2, Name = "Prod2", Category = "Cat1", Description="Desc2", Price=20},
+                new Product {ProductId = 3, Name = "Prod3", Category = "Cat3", Description="Desc3", Price=30}
             }.AsQueryable<Product>());
 
             _controller = new AdminController(_mock.Object);
@@ -93,8 +95,7 @@ namespace SzymonUnitTests
             var data = (IEnumerable<Product>)result.ViewData.Model;
 
             Assert.NotNull(result);
-            Assert.Equal(3, data.Count());
-            Assert.Equal("Index", result.ViewName);
+            Assert.Equal("Edit", result.ViewName);
             Assert.Equal("Given data is not valid!", result.ViewData["Message"]);
         }
         [Fact]
@@ -102,11 +103,9 @@ namespace SzymonUnitTests
         {
             _controller.ModelState.AddModelError("key", "error");
             var result = (ViewResult)_controller.Save(_product);
-            var data = (IEnumerable<Product>)result.ViewData.Model;
 
             Assert.NotNull(result);
-            Assert.Equal(3, data.Count());
-            Assert.Equal("Index", result.ViewName);
+            Assert.Equal("Edit", result.ViewName);
             Assert.Equal("Given data is not valid!", result.ViewData["Message"]);
         }
 

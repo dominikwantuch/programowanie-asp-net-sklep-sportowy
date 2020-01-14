@@ -28,4 +28,6 @@
       <_ContentIncludedByDefault Remove="Views\Manufacturer\List.cshtml" />
     </ItemGroup>
 
+    <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

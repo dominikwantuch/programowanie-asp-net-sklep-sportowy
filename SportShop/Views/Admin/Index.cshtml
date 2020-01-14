@@ -22,13 +22,13 @@
                     <a asp-controller="Admin"
                        asp-action="Edit"
                        asp-route-id="@p.ProductId">
-                        <button type="button" class="btn btn-outline-warning">Edit</button>
+                        <button type="button" id="editButton" class="btn btn-outline-warning">Edit</button>
                     </a>
 
                     <a asp-controller="Admin"
                        asp-action="Delete"
                        asp-route-id="@p.ProductId">
-                        <button type="button" class="btn btn-outline-danger">Delete</button>
+                        <button type="button" id="deleteButton" class="btn btn-outline-danger">Delete</button>
                     </a>
 
                 </div>

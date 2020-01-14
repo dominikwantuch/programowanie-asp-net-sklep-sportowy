@@ -79,7 +79,7 @@ namespace SportShop.Controllers
             if (!ModelState.IsValid || product == null)
             {
                 ViewData["Message"] = "Given data is not valid!";
-                return View("Index", _productRepository.Products);
+                return View("Edit", product);
             }
             else
             {

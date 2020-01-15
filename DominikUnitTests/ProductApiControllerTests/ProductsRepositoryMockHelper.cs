@@ -12,6 +12,36 @@ namespace DominikUnitTests.ProductApiControllerTests
     {
         public readonly Mock<IProductRepository> Mock = new Mock<IProductRepository>();
 
+        public readonly List<Product> Products= new List<Product>()
+        {
+            new Product()
+            {
+                ProductId = 1,
+                ManufacturerId = 1,
+                Name = "Piłka plażowa",
+                Description = "Tania piłka do sportów plażowych",
+                Price = 55,
+                Category = "Sporty Wodne",
+            },
+            new Product()
+            {
+                ProductId = 2,
+                ManufacturerId = 1,
+                Name = "Płetwy dla nurka",
+                Description = "Płetwy w rozmiarze uniwersalnym.",
+                Price = 158,
+                Category = "Sporty Wodne",
+            },
+            new Product()
+            {
+                ProductId = 3,
+                ManufacturerId = 2,
+                Name = "Gra o tron",
+                Description = "Pionki, karty, mapy",
+                Price = 255,
+                Category = "Gry planszowe",
+            }
+        };
         #region CreateProductModels
 
         public readonly CreateProductModel CreateProductModel = new CreateProductModel
@@ -109,108 +139,6 @@ namespace DominikUnitTests.ProductApiControllerTests
 
         public ProductsRepositoryMockHelper()
         {
-            var products = new List<Product>()
-            {
-                new Product()
-                {
-                    ProductId = 1,
-                    ManufacturerId = 1,
-                    Name = "Piłka plażowa",
-                    Description = "Tania piłka do sportów plażowych",
-                    Price = 55,
-                    Category = "Sporty Wodne",
-                },
-                new Product()
-                {
-                    ProductId = 2,
-                    ManufacturerId = 1,
-                    Name = "Płetwy dla nurka",
-                    Description = "Płetwy w rozmiarze uniwersalnym.",
-                    Price = 158,
-                    Category = "Sporty Wodne",
-                },
-                new Product()
-                {
-                    ProductId = 3,
-                    ManufacturerId = 2,
-                    Name = "Gra o tron",
-                    Description = "Pionki, karty, mapy",
-                    Price = 255,
-                    Category = "Gry planszowe",
-                }
-            };
-            Mock.Setup(x => x.Products).Returns(products.AsQueryable());
-
-            //    NOTE FOR TEACHER
-            //    IN SOME CASES I MOCKED METHODS TO THROW EXCEPTIONS EVEN IF THEY USE TRY-CATCH BLOCKS JUST TO HIT 100% COVERAGE ON CONTROLLER!
-
-            #region GetAll
-
-            Mock.Setup(x => x.GetAll(null)).Returns(new ResultModel<IEnumerable<Product>>(products, 200));
-
-            // GetAll shouldn't throw and exception because it's using try catch block but I added it for sake of testing controller.
-            Mock.Setup(x => x.GetAll("throw")).Throws(new Exception());
-
-            #endregion
-
-            #region GetById
-
-            Mock.Setup(x => x.GetById(1))
-                .Returns(new ResultModel<Product>(products.FirstOrDefault(x => x.ProductId == 1), 200));
-
-            Mock.Setup(x => x.GetById(5)).Returns(new ResultModel<Product>(null, 404));
-
-            Mock.Setup(x => x.GetById(7)).Throws(new Exception());
-
-            #endregion
-
-            #region CreateProduct
-
-            Mock.Setup(x => x.Create(It.Is<Product>(createProduct => createProduct.ProductId == 0)))
-                .Returns(new ResultModel<Product>(ReturnCreateProductEntity, 201));
-
-            Mock.Setup(x => x.Create(It.Is<Product>(createExistingProduct =>
-                    createExistingProduct.Name == CreateExistingProductModel.Name)))
-                .Returns(new ResultModel<Product>(null, 409));
-
-            Mock.Setup(x =>
-                    x.Create(It.Is<Product>(throwErrorProduct =>
-                        throwErrorProduct.Name == ThrowErrorProductModel.Name)))
-                .Throws(new Exception());
-
-            #endregion
-
-            #region UpdateProduct
-
-            // Proper create
-            Mock.Setup(x => x.GetById(UpdateProductModel.ProductId))
-                .Returns(new ResultModel<Product>(ToUpdateProductEntity, 200));
-            Mock.Setup(x => x.Update(It.Is<Product>(p => p.Name == UpdateProductModel.Name)))
-                .Returns(new ResultModel<Product>(UpdatedProductEntity, 200));
-
-            // Not found
-            Mock.Setup(x => x.GetById(NotFoundUpdateProductModel.ProductId))
-                .Returns(new ResultModel<Product>(null, 404));
-
-            // Update returns 400
-            Mock.Setup(x => x.GetById(BadRequestUpdateProductModel.ProductId))
-                .Returns(new ResultModel<Product>(BadRequestUpdateProduct, 200));
-
-            Mock.Setup(x => x.Update(It.Is<Product>(p => p.ProductId == BadRequestUpdateProduct.ProductId)))
-                .Returns(new ResultModel<Product>(null, 400));
-            
-            //Update returns 500
-            Mock.Setup(x => x.GetById(ThrowErrorUpdateProductModel.ProductId)).Throws(new Exception());
-
-            #endregion
-
-            #region DeleteProduct
-
-            Mock.Setup(x => x.Delete(5)).Returns(new ResultModel<Product>(null, 204));
-
-            Mock.Setup(x => x.Delete(10)).Throws(new Exception());
-
-            #endregion
         }
     }
 }

@@ -8,7 +8,7 @@ using SportShop.Persistence.Repositories;
 
 namespace DominikUnitTests.ProductApiControllerTests
 {
-    public class ProductsRepositoryMockHelper
+    public class ProductsApiMockHelper
     {
         public readonly Mock<IProductRepository> Mock = new Mock<IProductRepository>();
 
@@ -137,7 +137,7 @@ namespace DominikUnitTests.ProductApiControllerTests
 
         #endregion
 
-        public ProductsRepositoryMockHelper()
+        public ProductsApiMockHelper()
         {
         }
     }

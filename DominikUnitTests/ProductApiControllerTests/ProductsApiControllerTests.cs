@@ -15,13 +15,13 @@ namespace DominikUnitTests.ProductApiControllerTests
 {
     public class ProductsApiControllerTests
     {
-        private readonly ProductsRepositoryMockHelper _mockHelper;
+        private readonly ProductsApiMockHelper _mockHelper;
 
         private readonly ProductsApiController _apiController;
 
         public ProductsApiControllerTests()
         {
-            _mockHelper = new ProductsRepositoryMockHelper();
+            _mockHelper = new ProductsApiMockHelper();
             _apiController = new ProductsApiController(_mockHelper.Mock.Object);
         }
 
